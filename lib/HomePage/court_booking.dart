@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
+import 'package:india_club/Notification/notification_page.dart';
 import 'package:india_club/Widget/custom_button.dart';
 import 'package:intl/intl.dart';
 
@@ -61,7 +62,48 @@ class _CourtBookingState extends State<CourtBooking> {
     String formattedDate = DateFormat('dd MMM yyyy').format(selectedDate);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: getAppBar(context),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Text("Booking", style: GoogleFonts.poppins(
+            color: Colors.black
+        ),),
+        leading: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              IconlyLight.arrow_left_2,
+              color: Colors.black,
+            )),
+        actions: [
+          InkWell(
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationPage()));
+            },
+            child: Icon(
+              IconlyLight.notification,
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(
+            width: 20.w,
+          ),
+          InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                  context: context, builder: (ctx) => LogoutDialog());
+            },
+            child: Icon(
+              IconlyLight.logout,
+              color: Colors.red,
+            ),
+          ),
+          SizedBox(
+            width: 10.w,
+          ),
+        ],
+      ),
       body: Stack(
         children: [
           Image.asset(

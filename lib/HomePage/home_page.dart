@@ -6,6 +6,8 @@ import 'package:india_club/Helpers/utils.dart';
 import 'package:india_club/HomePage/court_booking.dart';
 import 'package:india_club/HomePage/member_profile.dart';
 
+import '../Notification/notification_page.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -18,7 +20,40 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: getHomeAppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Text("Home", style: GoogleFonts.poppins(
+          color: Colors.black
+        ),),
+        actions: [
+          InkWell(
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationPage()));
+            },
+            child: Icon(
+              IconlyLight.notification,
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(
+            width: 20.w,
+          ),
+          InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                  context: context, builder: (ctx) => LogoutDialog());
+            },
+            child: Icon(
+              IconlyLight.logout,
+              color: Colors.red,
+            ),
+          ),
+          SizedBox(
+            width: 10.w,
+          ),
+        ],
+      ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 10.w),
         child: ListView(

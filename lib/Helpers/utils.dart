@@ -12,68 +12,7 @@ getHeight(BuildContext context) {
   return MediaQuery.of(context).size.height;
 }
 
-getHomeAppBar() {
-  return AppBar(
-    backgroundColor: Colors.white,
-    elevation: 0,
-    actions: [
-      Icon(
-        IconlyLight.notification,
-        color: Colors.black,
-      ),
-      SizedBox(
-        width: 20.w,
-      ),
-      InkWell(
-        onTap: () {},
-        child: Icon(
-          IconlyLight.logout,
-          color: Colors.red,
-        ),
-      ),
-      SizedBox(
-        width: 10.w,
-      ),
-    ],
-  );
-}
 
-getAppBar(BuildContext context) {
-  return AppBar(
-    backgroundColor: Colors.white,
-    elevation: 0,
-    leading: GestureDetector(
-        onTap: () {
-          Navigator.pop(context);
-        },
-        child: Icon(
-          IconlyLight.arrow_left_2,
-          color: Colors.black,
-        )),
-    actions: [
-      Icon(
-        IconlyLight.notification,
-        color: Colors.black,
-      ),
-      SizedBox(
-        width: 20.w,
-      ),
-      InkWell(
-        onTap: () {
-          showModalBottomSheet(
-              context: context, builder: (ctx) => LogoutDialog());
-        },
-        child: Icon(
-          IconlyLight.logout,
-          color: Colors.red,
-        ),
-      ),
-      SizedBox(
-        width: 10.w,
-      ),
-    ],
-  );
-}
 
 class LogoutDialog extends StatelessWidget {
   @override
@@ -92,7 +31,7 @@ class LogoutDialog extends StatelessWidget {
                 CustomButton(
                   button_text: "Logout",
                   onTap: (){
-                    Navigator.pop(context);
+                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
                   },
                 ),
               ),
@@ -101,7 +40,7 @@ class LogoutDialog extends StatelessWidget {
                 child:
                 InkWell(
                   onTap: (){
-                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+                    Navigator.pop(context);
                   },
                   child: Container(
                     height: 35.h,
