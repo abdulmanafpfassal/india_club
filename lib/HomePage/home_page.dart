@@ -6,6 +6,7 @@ import 'package:india_club/Helpers/colors.dart';
 import 'package:india_club/Helpers/utils.dart';
 import 'package:india_club/HomePage/court_booking.dart';
 import 'package:india_club/HomePage/member_profile.dart';
+import 'package:india_club/Widget/custom_button.dart';
 
 import '../Notification/notification_page.dart';
 
@@ -24,13 +25,15 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text("India Club", style: GoogleFonts.poppins(
-          color: Colors.black
-        ),),
+        title: Text(
+          "India Club",
+          style: GoogleFonts.poppins(color: Colors.black),
+        ),
         actions: [
           InkWell(
-            onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationPage()));
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => NotificationPage()));
             },
             child: Icon(
               IconlyLight.notification,
@@ -59,23 +62,29 @@ class _HomePageState extends State<HomePage> {
         margin: EdgeInsets.symmetric(horizontal: 10.w),
         child: ListView(
           children: [
-            SizedBox(height: 10.h,),
+            SizedBox(
+              height: 10.h,
+            ),
             Container(
               width: getWidth(context),
               padding: EdgeInsets.all(10.0),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.r),
-                color: ColorPellets.orange.withOpacity(0.07)
-              ),
+                  borderRadius: BorderRadius.circular(10.r),
+                  color: ColorPellets.orange.withOpacity(0.07)),
               child: Column(
                 children: [
                   Row(
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(200.r),
-                        child: Image.asset("assets/images/dummy.jpg", height: 60.h,),
+                        child: Image.asset(
+                          "assets/images/dummy.jpg",
+                          height: 60.h,
+                        ),
                       ),
-                      SizedBox(width: 10.w,),
+                      SizedBox(
+                        width: 10.w,
+                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -112,68 +121,281 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   Center(
-                    child: Text("View more >", style: GoogleFonts.poppins(
-                      color: Colors.orange
-                    ),),
+                    child: Text(
+                      "View more >",
+                      style: GoogleFonts.poppins(color: Colors.orange),
+                    ),
                   )
                 ],
               ),
             ),
-
             SizedBox(
-              height: 70.h,
+              height: 10.h,
             ),
-            Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "India Club",
-                    style: GoogleFonts.poppins(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  InkWell(
-                    onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => MemberProfile()));
-                    },
-                    child: Container(
-                      width: getWidth(context),
-                      height: 30.h,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(10.r)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Court Booking",
+                  style: GoogleFonts.poppins(
+                      fontSize: 12.sp, fontWeight: FontWeight.w500),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: BouncingScrollPhysics(),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 150.w,
+                        height: 40.h,
+                        decoration: BoxDecoration(
+                            border:
+                                Border.all(color: ColorPellets.orange),
+                            borderRadius: BorderRadius.circular(10.r)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: 70,
+                              decoration: BoxDecoration(
+                                  color: Colors.greenAccent.withOpacity(0.4),
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10.r),
+                                      bottomLeft: Radius.circular(10.r))),
+                              child: Center(
+                                child: Image.asset(
+                                  "assets/images/football.png",
+                                  height: 25.h,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              "Football",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 11.sp, fontWeight: FontWeight.w500),
+                            ),
+                            SizedBox()
+                          ],
+                        ),
                       ),
-                      child: Center(child: Text("Member Details")),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  InkWell(
-                    onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => CourtBooking()));
-                    },
-                    child: Container(
-                      width: getWidth(context),
-                      height: 30.h,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(10.r)
+                      SizedBox(
+                        width: 10.w,
                       ),
-                      child: Center(child: Text("Court Booking")),
-                    ),
-                  )
-                ],
-              ),
+                      Container(
+                        width: 150.w,
+                        height: 40.h,
+                        decoration: BoxDecoration(
+                            border:
+                                Border.all(color: Colors.grey.withOpacity(0.3)),
+                            borderRadius: BorderRadius.circular(10.r)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: 70,
+                              decoration: BoxDecoration(
+                                  color: Colors.redAccent.withOpacity(0.4),
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10.r),
+                                      bottomLeft: Radius.circular(10.r))),
+                              child: Center(
+                                child: Image.asset(
+                                  "assets/images/golf.png",
+                                  height: 25.h,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              "Golf",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 11.sp, fontWeight: FontWeight.w500),
+                            ),
+                            SizedBox()
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Container(
+                        width: 150.w,
+                        height: 40.h,
+                        decoration: BoxDecoration(
+                            border:
+                                Border.all(color: Colors.grey.withOpacity(0.3)),
+                            borderRadius: BorderRadius.circular(10.r)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: 70,
+                              decoration: BoxDecoration(
+                                  color: Colors.orange.withOpacity(0.4),
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10.r),
+                                      bottomLeft: Radius.circular(10.r))),
+                              child: Center(
+                                child: Image.asset(
+                                  "assets/images/cricket.png",
+                                  height: 25.h,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              "Cricket",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 11.sp, fontWeight: FontWeight.w500),
+                            ),
+                            SizedBox()
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Text(
+                  "Date",
+                  style: GoogleFonts.poppins(fontSize: 11.sp),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Container(
+                  height: 55.h,
+                  child: ListView.separated(
+                    separatorBuilder: (ctx, ind){
+                      return SizedBox(width: 10.w,);
+                    },
+                    itemCount: 10,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                    return Container(
+                      width: 55.w,
+                      height: 40.h,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: index == 2 ? ColorPellets.orange : Colors.grey.withOpacity(0.3)),
+                          borderRadius: BorderRadius.circular(10.r)),
+                      child: Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "0${index+1}",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 13.sp, fontWeight: FontWeight.w500),
+                            ),
+                            Text("Aug")
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Text(
+                  "Time",
+                  style: GoogleFonts.poppins(fontSize: 11.sp),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Container(
+                  height: 30.h,
+                  child: ListView.separated(
+                      separatorBuilder: (ctx, ind){
+                        return SizedBox(width: 10.w,);
+                      },
+                      itemCount: 10,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Container(
+                          width: 100.w,
+                          height: 30.h,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: index == 2 ? ColorPellets.orange : Colors.grey.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10.r)),
+                          child: Center(
+                            child: Text("0${index+1}: 00 PM"),
+                          ),
+                        );
+                      }),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Text(
+                  "Hour",
+                  style: GoogleFonts.poppins(fontSize: 11.sp),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Container(
+                  height: 55.h,
+                  child: ListView.separated(
+                      separatorBuilder: (ctx, ind){
+                        return SizedBox(width: 10.w,);
+                      },
+                      itemCount: 10,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Container(
+                          width: 55.w,
+                          height: 40.h,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: index == 2 ? ColorPellets.orange : Colors.grey.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10.r)),
+                          child: Center(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "0${index+1}",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 13.sp, fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                ),
+                SizedBox(height: 20.h,),
+                Center(
+                  child: Column(
+                    children: [
+                      Text("Grand Total", style: GoogleFonts.poppins(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w500
+                      ),),
+                      Text("50 AED")
+                    ],
+                  ),
+                )
+              ],
             )
           ],
         ),
       ),
+      bottomNavigationBar: Container(
+          margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
+          child: CustomButton(button_text: "Book Now",onTap: (){},isEnabled: true,)),
     );
   }
 }

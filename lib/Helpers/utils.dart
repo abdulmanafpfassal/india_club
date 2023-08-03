@@ -46,7 +46,7 @@ class LogoutDialog extends StatelessWidget {
                   child: Container(
                     height: 35.h,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(7.r),
+                        borderRadius: BorderRadius.circular(20.r),
                         border: Border.all(color: Colors.black)
                     ),
                     child: Center(child: Text("Cancel")),
