@@ -115,110 +115,128 @@ class _CourtBookingState extends State<CourtBooking> {
             margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Member Full Name: ",
-                  style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13.sp,
-                      color: Colors.white),
-                ),
-                Text(
-                  "Member ID: ",
-                  style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13.sp,
-                      color: Colors.white),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Member Full Name: ",
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13.sp,
+                          color: Colors.white),
+                    ),
+                    Text(
+                      "Member ID: ",
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13.sp,
+                          color: Colors.white),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 20.h,),
                 Container(
-                  width: getWidth(context),
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.r)
-                  ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      value: selectedSport,
-                      onChanged: (newValue) {
-                        setState(() {
-                          selectedSport = newValue!;
-                        });
-                      },
-                      hint: Text("Select Sports", style: GoogleFonts.poppins(
-                      fontSize: 12.sp,
-                      color: Colors.black.withOpacity(0.7)
-                    ),),
-                      items: sportsItems.map((sport) {
-                        return DropdownMenuItem<String>(
-                          value: sport,
-                          child: Text(sport),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10.h,),
-                InkWell(
-                  onTap: (){
-                    _selectDate(context);
-                  },
-                  child: Container(
-                    width: getWidth(context),
-                    height: 35.h,
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.r)
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(formattedDate.toString(), style: GoogleFonts.poppins(
-                          fontSize: 12.sp,
-                          color: Colors.black.withOpacity(0.7)
-                        ),),
-                        Icon(IconlyLight.calendar)
-                      ],
-                    ),
+                  margin: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: getWidth(context),
+                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.r)
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            value: selectedSport,
+                            onChanged: (newValue) {
+                              setState(() {
+                                selectedSport = newValue!;
+                              });
+                            },
+                            hint: Text("Select Sports", style: GoogleFonts.poppins(
+                                fontSize: 12.sp,
+                                color: Colors.black.withOpacity(0.7)
+                            ),),
+                            items: sportsItems.map((sport) {
+                              return DropdownMenuItem<String>(
+                                value: sport,
+                                child: Text(sport),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10.h,),
+                      InkWell(
+                        onTap: (){
+                          _selectDate(context);
+                        },
+                        child: Container(
+                          width: getWidth(context),
+                          height: 35.h,
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10.r)
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(formattedDate.toString(), style: GoogleFonts.poppins(
+                                  fontSize: 12.sp,
+                                  color: Colors.black.withOpacity(0.7)
+                              ),),
+                              Icon(IconlyLight.calendar)
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10.h,),
+                      Container(
+                        width: getWidth(context),
+                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.r)
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            value: selectedTime,
+                            onChanged: (newValue) {
+                              setState(() {
+                                selectedTime = newValue!;
+                              });
+                            },
+                            hint: Text("Select Time", style: GoogleFonts.poppins(
+                                fontSize: 12.sp,
+                                color: Colors.black.withOpacity(0.7)
+                            ),),
+                            items: selectedTimeList.map((sport) {
+                              return DropdownMenuItem<String>(
+                                value: sport,
+                                child: Text(sport),
+                              );
+                            }).toList(),
+                            borderRadius: BorderRadius.circular(10.r),
+                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(height: 10.h,),
                 Container(
-                  width: getWidth(context),
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.r)
-                  ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      value: selectedTime,
-                      onChanged: (newValue) {
-                        setState(() {
-                          selectedTime = newValue!;
-                        });
-                      },
-                      hint: Text("Select Time", style: GoogleFonts.poppins(
-                          fontSize: 12.sp,
-                          color: Colors.black.withOpacity(0.7)
-                      ),),
-                      items: selectedTimeList.map((sport) {
-                        return DropdownMenuItem<String>(
-                          value: sport,
-                          child: Text(sport),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10.h,),
-                CustomButton(button_text: "Book Now", onTap: (){
-                  _showDialogBox(context);
-                })
+                  margin: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: CustomButton(button_text: "Book Now", onTap: (){
+                    _showDialogBox(context);
+                  }, isEnabled: true,),
+                )
               ],
             ),
           )

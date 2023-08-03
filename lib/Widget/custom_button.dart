@@ -8,7 +8,8 @@ import '../Helpers/utils.dart';
 class CustomButton extends StatefulWidget {
   String button_text;
   Function onTap;
-  CustomButton({Key? key, required this.button_text, required this.onTap})
+  bool isEnabled;
+  CustomButton({Key? key, required this.button_text, required this.onTap, required this.isEnabled})
       : super(key: key);
 
   @override
@@ -26,13 +27,13 @@ class _CustomButtonState extends State<CustomButton> {
         width: getWidth(context),
         height: 35.h,
         decoration: BoxDecoration(
-            color: ColorPellets.orange,
-            borderRadius: BorderRadius.circular(7.r)),
+            color: widget.isEnabled ? ColorPellets.orange : Colors.grey.withOpacity(0.3),
+            borderRadius: BorderRadius.circular(40.r)),
         child: Center(
           child: Text(
             widget.button_text,
             style: GoogleFonts.poppins(
-                color: Colors.white, fontWeight: FontWeight.w500, fontSize: 11.sp),
+                color: widget.isEnabled ? Colors.white : Colors.grey, fontWeight: FontWeight.w500, fontSize: 11.sp),
           ),
         ),
       ),

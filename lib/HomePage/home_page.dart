@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
+import 'package:india_club/Helpers/colors.dart';
 import 'package:india_club/Helpers/utils.dart';
 import 'package:india_club/HomePage/court_booking.dart';
 import 'package:india_club/HomePage/member_profile.dart';
@@ -23,7 +24,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text("Home", style: GoogleFonts.poppins(
+        title: Text("India Club", style: GoogleFonts.poppins(
           color: Colors.black
         ),),
         actions: [
@@ -58,20 +59,67 @@ class _HomePageState extends State<HomePage> {
         margin: EdgeInsets.symmetric(horizontal: 10.w),
         child: ListView(
           children: [
-            Text(
-              "Member Full Name: ",
-              style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 13.sp,
-                  color: Colors.black),
+            SizedBox(height: 10.h,),
+            Container(
+              width: getWidth(context),
+              padding: EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.r),
+                color: ColorPellets.orange.withOpacity(0.07)
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(200.r),
+                        child: Image.asset("assets/images/dummy.jpg", height: 60.h,),
+                      ),
+                      SizedBox(width: 10.w,),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Full Name: ",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 11.sp,
+                                color: Colors.black.withOpacity(0.6)),
+                          ),
+                          Text(
+                            "Member ID: ",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 11.sp,
+                                color: Colors.black.withOpacity(0.6)),
+                          ),
+                          Text(
+                            "Phone: ",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 11.sp,
+                                color: Colors.black.withOpacity(0.6)),
+                          ),
+                          Text(
+                            "Address: ",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 11.sp,
+                                color: Colors.black.withOpacity(0.6)),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  Center(
+                    child: Text("View more >", style: GoogleFonts.poppins(
+                      color: Colors.orange
+                    ),),
+                  )
+                ],
+              ),
             ),
-            Text(
-              "Member ID: ",
-              style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 13.sp,
-                  color: Colors.black),
-            ),
+
             SizedBox(
               height: 70.h,
             ),

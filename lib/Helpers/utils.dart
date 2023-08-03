@@ -33,6 +33,7 @@ class LogoutDialog extends StatelessWidget {
                   onTap: (){
                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
                   },
+                  isEnabled: true,
                 ),
               ),
               SizedBox(width: 10.w,),
