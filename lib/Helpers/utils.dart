@@ -12,8 +12,6 @@ getHeight(BuildContext context) {
   return MediaQuery.of(context).size.height;
 }
 
-
-
 class LogoutDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -46,7 +44,7 @@ class LogoutDialog extends StatelessWidget {
                   child: Container(
                     height: 35.h,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.r),
+                        borderRadius: BorderRadius.circular(10.r),
                         border: Border.all(color: Colors.black)
                     ),
                     child: Center(child: Text("Cancel")),

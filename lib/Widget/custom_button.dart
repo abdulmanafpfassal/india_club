@@ -28,7 +28,7 @@ class _CustomButtonState extends State<CustomButton> {
         height: 35.h,
         decoration: BoxDecoration(
             color: widget.isEnabled ? ColorPellets.orange : Colors.grey.withOpacity(0.3),
-            borderRadius: BorderRadius.circular(40.r)),
+            borderRadius: BorderRadius.circular(10.r)),
         child: Center(
           child: Text(
             widget.button_text,
