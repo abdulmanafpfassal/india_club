@@ -111,46 +111,87 @@ class _NotificationPageState extends State<NotificationPage> {
       ),
       body: Container(
           margin: EdgeInsets.all(10.0),
-          child: ListView.separated(
-            separatorBuilder: (context, ind) {
-              return Divider();
-            },
-            itemCount: notifications.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 50.w,
-                        height: 40.h,
-                        decoration: BoxDecoration(
-                          color: ColorPellets.orange.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(100.r),
-                        ),
-                        child: Icon(IconlyLight.notification, color: Colors.white,),
-                      ),
-                      SizedBox(width: 10.w,),
-                      Expanded(
-                        child: Column(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text("Mark all as read", style: GoogleFonts.poppins(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w500,
+                      color: ColorPellets.orange
+                    ),)
+                  ],
+                ),
+                SizedBox(height: 10.h,),
+                ListView.separated(
+                  separatorBuilder: (context, ind) {
+                    return Divider(height: 30.h,);
+                  },
+                    shrinkWrap: true,
+                    physics: BouncingScrollPhysics(),
+                  itemCount: notifications.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(notifications[index]["title"], style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13.sp
-                            ),),
-                            Text(notifications[index]["message"], style: GoogleFonts.poppins(
-                              fontSize: 11.sp,
-                              color: Colors.grey
-                            ),)
+                            Container(
+                              width: 50.w,
+                              height: 40.h,
+                              decoration: BoxDecoration(
+                                color: ColorPellets.orange.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(100.r),
+                              ),
+                              child: Icon(IconlyLight.notification, color: Colors.white,),
+                            ),
+                            SizedBox(width: 10.w,),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(notifications[index]["title"], style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13.sp
+                                  ),),
+                                  Text(notifications[index]["message"], style: GoogleFonts.poppins(
+                                    fontSize: 11.sp,
+                                    color: Colors.grey
+                                  ),),
+                                  SizedBox(height: 10.h,),
+                                  Row(
+                                    children: [
+                                    index % 2 == 0 ?  Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(6.r),
+                                          border: Border.all(color: Colors.greenAccent)
+                                        ),
+                                        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.h),
+                                        child: Text("Mark as Read"),
+                                      ) : SizedBox(),
+                                      index % 2 == 0 ? SizedBox(width: 10.w,) : SizedBox(),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(6.r),
+                                            border: Border.all(color: Colors.redAccent)
+                                        ),
+                                        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.h),
+                                        child: Text("Delete"),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+
                           ],
                         ),
-                      ),
-
-                    ],
-                  ),
-                );
-              })
+                      );
+                    }),
+              ],
+            ),
+          )
       ),
     );
   }
