@@ -45,12 +45,16 @@ class _LoginPageState extends State<LoginPage> {
               height: getHeight(context) / 2,
               width: getWidth(context),
               decoration: BoxDecoration(
-                  color: Colors.white,
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.white, Colors.white, Color(0xFFFDE7CA),Color(0xFFFBCB8D),Color(0xFFFBCB8D), Color(0xFFFBCB8D),Color(0xFFFBCB8D)],
+                  ),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30.r),
                       topRight: Radius.circular(30.r)),
                   image: DecorationImage(
-                      image: AssetImage("assets/images/login_vector.png"),
+                      image: AssetImage("assets/images/baseimage.png"),
                       alignment: Alignment.bottomLeft)),
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 20.w),
@@ -124,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                         "Forgot Password?",
                         style: GoogleFonts.poppins(
                             fontSize: 10.sp,
-                            color: ColorPellets.orange.withOpacity(0.5),
+                            color: Colors.white,
                             fontWeight: FontWeight.w500),
                       ),
                     ),
