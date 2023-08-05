@@ -22,15 +22,15 @@ class _LoginPageState extends State<LoginPage> {
       body: Stack(
         children: [
           Container(
-            height: getHeight(context) / 1.89,
+            height: getHeight(context) / 2.4,
             width: getWidth(context),
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.black,
                 image: DecorationImage(
                   image: AssetImage("assets/images/banner_logo.jpg"),
                   fit: BoxFit.cover,
                   colorFilter: ColorFilter.mode(
-                      Colors.white.withOpacity(0.3), BlendMode.dstATop),
+                      Colors.black.withOpacity(0.3), BlendMode.dstATop),
                 )),
             child: Center(
               child: Image.asset(
@@ -42,13 +42,14 @@ class _LoginPageState extends State<LoginPage> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: getHeight(context) / 2,
+              height: getHeight(context) / 1.6,
               width: getWidth(context),
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Colors.white, Colors.white, Color(0xFFFDE7CA),Color(0xFFFBCB8D),Color(0xFFFBCB8D), Color(0xFFFBCB8D),Color(0xFFFBCB8D)],
+                    colors: [Colors.white, Colors.white,Colors.white,Colors.white, Color(0xFFFDE7CA),Color(0xFFFBCB8D),Color(0xFFFBCB8D), Color(0xFFFBCB8D),  Color(0xFFFBCB8D), Color(0xFFFBCB8D)],
+
                   ),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30.r),
@@ -76,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 10.w),
                       decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
+                          border: Border.all(color:  Colors.grey.withOpacity(0.3)),
                           borderRadius: BorderRadius.circular(10.r)),
                       child: TextField(
                         decoration: InputDecoration(
@@ -86,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                           enabledBorder: InputBorder.none,
                           hintText: "737778",
                           hintStyle: GoogleFonts.poppins(
-                              color: Colors.grey, fontSize: 11.sp),
+                              color:  Colors.grey.withOpacity(0.3), fontSize: 11.sp),
                         ),
                       ),
                     ),
@@ -105,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 10.w),
                       decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
+                          border: Border.all(color:  Colors.grey.withOpacity(0.3)),
                           borderRadius: BorderRadius.circular(10.r)),
                       child: TextField(
                         decoration: InputDecoration(
@@ -115,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                           enabledBorder: InputBorder.none,
                           hintText: "min 8 character",
                           hintStyle: GoogleFonts.poppins(
-                              color: Colors.grey, fontSize: 11.sp),
+                              color:  Colors.grey.withOpacity(0.3), fontSize: 11.sp),
                         ),
                       ),
                     ),
@@ -128,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                         "Forgot Password?",
                         style: GoogleFonts.poppins(
                             fontSize: 10.sp,
-                            color: Colors.white,
+                            color:  ColorPellets.orange,
                             fontWeight: FontWeight.w500),
                       ),
                     ),
@@ -145,14 +146,42 @@ class _LoginPageState extends State<LoginPage> {
                       isEnabled: true,
                     ),
                     Spacer(),
+                    // Container(
+                    //   height: 10.h,
+                    //   margin: EdgeInsets.all(20.0),
+                    //   child: Center(
+                    //       child: Text(
+                    //     "By Clicking, I accept the Terms & Conditions and Privacy Policy",
+                    //     style: GoogleFonts.poppins(fontSize: 10.sp),
+                    //   )),
+                    // )
                     Container(
                       height: 10.h,
                       margin: EdgeInsets.all(20.0),
-                      child: Center(
-                          child: Text(
-                        "By Clicking, I accept the Terms & Conditions and Privacy Policy",
-                        style: GoogleFonts.poppins(fontSize: 10.sp),
-                      )),
+                      child: RichText(
+                        text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'By Clicking, I accept the ',
+                                style: TextStyle(color: Colors.black, fontSize: 10.sp),
+                              ),
+                              TextSpan(
+                                  text: ' Terms & Conditions',
+                                  style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontSize: 10.sp),
+
+                              ),
+                              TextSpan(
+                                text: ' and',
+                                style: TextStyle(color: Colors.black,fontSize: 10.sp),
+                              ),
+                              TextSpan(
+                                text: ' Privacy Policy',
+                                style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontSize: 10.sp),
+
+                              ),
+                            ]
+                        )
+                      ),
                     )
                   ],
                 ),
