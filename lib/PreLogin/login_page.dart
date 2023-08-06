@@ -4,7 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:india_club/Helpers/colors.dart';
 import 'package:india_club/Helpers/utils.dart';
+import 'package:india_club/HomePage/dashboard.dart';
 import 'package:india_club/HomePage/home_page.dart';
+import 'package:india_club/PreLogin/forgot_password.dart';
 import 'package:india_club/Widget/custom_button.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+
       body: Stack(
         children: [
           Container(
@@ -128,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                       button_text: "Login",
                       onTap: () {
                         Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) => HomePage()),
+                            MaterialPageRoute(builder: (context) => Dashboard()),
                             (route) => false);
                       },
                       isEnabled: true,
@@ -136,14 +139,19 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: 5.h,
                     ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Forgot Password?",
-                        style: GoogleFonts.poppins(
-                            fontSize: 10.sp,
-                            color:  ColorPellets.orange,
-                            fontWeight: FontWeight.w500),
+                    InkWell(
+                      onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword()));
+                      },
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Forgot Password?",
+                          style: GoogleFonts.poppins(
+                              fontSize: 10.sp,
+                              color:  ColorPellets.orange,
+                              fontWeight: FontWeight.w500),
+                        ),
                       ),
                     ),
                     // Container(

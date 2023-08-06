@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:india_club/Helpers/utils.dart';
 
+import '../Helpers/colors.dart';
 import '../Notification/notification_page.dart';
 
 class MemberProfile extends StatefulWidget {
@@ -65,57 +66,76 @@ class _MemberProfileState extends State<MemberProfile> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(200.r),
-                child: Image.asset("assets/images/dummy.png", height: 100.h,),
-              ),
+            SizedBox(height: 5.h,),
+            SizedBox(
+              height: 10.h,
             ),
-            SizedBox(height: 20.h,),
             Container(
-              margin: EdgeInsets.all(10.0),
               width: getWidth(context),
               padding: EdgeInsets.all(10.0),
               decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(10.r)
-              ),
+                  borderRadius: BorderRadius.circular(10.r),
+                  color: ColorPellets.orange.withOpacity(0.07)),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Member Full Name : ", style: GoogleFonts.poppins(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500
-                  ),),
-                  SizedBox(height: 6.h,),
-                  Text("Member ID : ",style: GoogleFonts.poppins(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500
-                  ),),
-                  SizedBox(height: 6.h,),
-                  Text("Phone Number : ",style: GoogleFonts.poppins(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500
-                  ),),
-                  SizedBox(height: 6.h,),
-                  Text("Address : ",  style: GoogleFonts.poppins(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500
-                  ),),
-                  SizedBox(height: 3.h,),
+                  Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(200.r),
+                        child: Image.asset(
+                          "assets/images/dummy.jpg",
+                          height: 60.h,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Full Name: ",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 11.sp,
+                                color: Colors.black.withOpacity(0.6)),
+                          ),
+                          Text(
+                            "Member ID: ",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 11.sp,
+                                color: Colors.black.withOpacity(0.6)),
+                          ),
+                          Text(
+                            "Phone: ",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 11.sp,
+                                color: Colors.black.withOpacity(0.6)),
+                          ),
+                          Text(
+                            "Address: ",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 11.sp,
+                                color: Colors.black.withOpacity(0.6)),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ],
               ),
             ),
             Divider(indent: 10.w,endIndent: 10.w,),
             SizedBox(height: 3.h,),
             Container(
-              margin: EdgeInsets.all(10.0),
               width: getWidth(context),
               padding: EdgeInsets.all(10.0),
               decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(10.r)
-              ),
+                  borderRadius: BorderRadius.circular(10.r),
+                  color: ColorPellets.orange.withOpacity(0.07)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -125,24 +145,27 @@ class _MemberProfileState extends State<MemberProfile> {
                   ),),
                   SizedBox(height: 6.h,),
                   Text("Name : ", style: GoogleFonts.poppins(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500
+                      fontWeight: FontWeight.w500,
+                      fontSize: 11.sp,
+                      color: Colors.black.withOpacity(0.6),
                   ),),
-                  SizedBox(height: 6.h,),
+                  SizedBox(height: 3.h,),
                   Text("Relation : ",style: GoogleFonts.poppins(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500
+                    fontWeight: FontWeight.w500,
+                    fontSize: 11.sp,
+                    color: Colors.black.withOpacity(0.6),
                   ),),
-                  SizedBox(height: 6.h,),
-                  SizedBox(height: 6.h,),
+                  SizedBox(height: 12.h,),
                   Text("Name : ", style: GoogleFonts.poppins(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500
+                    fontWeight: FontWeight.w500,
+                    fontSize: 11.sp,
+                    color: Colors.black.withOpacity(0.6),
                   ),),
-                  SizedBox(height: 6.h,),
+                  SizedBox(height: 3.h,),
                   Text("Relation : ",style: GoogleFonts.poppins(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500
+                    fontWeight: FontWeight.w500,
+                    fontSize: 11.sp,
+                    color: Colors.black.withOpacity(0.6),
                   ),),
                 ],
               ),

@@ -6,6 +6,7 @@ import 'package:india_club/Notification/notification_page.dart';
 import 'package:india_club/Widget/custom_button.dart';
 import 'package:intl/intl.dart';
 
+import '../Helpers/colors.dart';
 import '../Helpers/utils.dart';
 
 class CourtBooking extends StatefulWidget {
@@ -19,6 +20,8 @@ class _CourtBookingState extends State<CourtBooking> {
   String? selectedSport;
   String? selectedTime;
   DateTime selectedDate = DateTime.now();
+  int index1 = -1;
+
 
   List<String> sportsItems = [
     'Football',
@@ -104,143 +107,232 @@ class _CourtBookingState extends State<CourtBooking> {
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          Image.asset(
-            "assets/images/truf.jpg",
-            fit: BoxFit.cover,
-            height: getHeight(context),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Member Full Name: ",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 13.sp,
-                          color: Colors.white),
-                    ),
-                    Text(
-                      "Member ID: ",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 13.sp,
-                          color: Colors.white),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20.h,),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: Column(
+      body: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 10.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Wrap(
                     children: [
-                      Container(
-                        width: getWidth(context),
-                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10.r)
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            value: selectedSport,
-                            onChanged: (newValue) {
-                              setState(() {
-                                selectedSport = newValue!;
-                              });
-                            },
-                            hint: Text("Select Sports", style: GoogleFonts.poppins(
-                                fontSize: 12.sp,
-                                color: Colors.black.withOpacity(0.7)
-                            ),),
-                            items: sportsItems.map((sport) {
-                              return DropdownMenuItem<String>(
-                                value: sport,
-                                child: Text(sport),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 10.h,),
                       InkWell(
                         onTap: (){
-                          _selectDate(context);
+                          setState(() {
+                            index1 = 0;
+                          });
                         },
                         child: Container(
-                          width: getWidth(context),
-                          height: 35.h,
-                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                          height: 70.h,
+                          width: 70.w,
                           decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10.r)
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              border:
+                              Border.all(color: index1 == 0 ? ColorPellets.orange : Colors.grey.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10.r)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(formattedDate.toString(), style: GoogleFonts.poppins(
-                                  fontSize: 12.sp,
-                                  color: Colors.black.withOpacity(0.7)
-                              ),),
-                              Icon(IconlyLight.calendar)
+                              Center(
+                                child: Container(
+                                  width: 70,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10.r),
+                                          bottomLeft: Radius.circular(10.r))),
+                                  child: Center(
+                                    child: Image.asset(
+                                      "assets/images/football.png",
+                                      height: 25.h,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 6.h,),
+                              Text(
+                                "Football",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 11.sp, fontWeight: FontWeight.w500),
+                              ),
+                              SizedBox()
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(height: 10.h,),
-                      Container(
-                        width: getWidth(context),
-                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10.r)
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            value: selectedTime,
-                            onChanged: (newValue) {
-                              setState(() {
-                                selectedTime = newValue!;
-                              });
-                            },
-                            hint: Text("Select Time", style: GoogleFonts.poppins(
-                                fontSize: 12.sp,
-                                color: Colors.black.withOpacity(0.7)
-                            ),),
-                            items: selectedTimeList.map((sport) {
-                              return DropdownMenuItem<String>(
-                                value: sport,
-                                child: Text(sport),
-                              );
-                            }).toList(),
-                            borderRadius: BorderRadius.circular(10.r),
-                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      InkWell(
+                        onTap: (){
+                          setState(() {
+                            index1 = 1;
+                          });
+                        },
+                        child: Container(
+                          height: 70.h,
+                          width: 70.w,
+                          decoration: BoxDecoration(
+                              border:
+                              Border.all(color: index1 == 1 ? ColorPellets.orange : Colors.grey.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10.r)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 70,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10.r),
+                                        bottomLeft: Radius.circular(10.r))),
+                                child: Center(
+                                  child: Image.asset(
+                                    "assets/images/golf.png",
+                                    height: 25.h,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 6.h,),
+                              Text(
+                                "Golf",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 11.sp, fontWeight: FontWeight.w500),
+                              ),
+                              SizedBox()
+                            ],
                           ),
                         ),
                       ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      InkWell(
+                        onTap: (){
+                          setState(() {
+                            index1 = 2;
+                          });
+                        },
+                        child: Container(
+                          height: 70.h,
+                          width: 70.w,
+                          decoration: BoxDecoration(
+                              border:
+                              Border.all(color: index1 == 2 ? ColorPellets.orange : Colors.grey.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10.r)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 70,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10.r),
+                                        bottomLeft: Radius.circular(10.r))),
+                                child: Center(
+                                  child: Image.asset(
+                                    "assets/images/cricket.png",
+                                    height: 25.h,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 6.h,),
+                              Text(
+                                "Cricket",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 11.sp, fontWeight: FontWeight.w500),
+                              ),
+                              SizedBox()
+                            ],
+                          ),
+                        ),
+                      )
                     ],
                   ),
-                ),
-                SizedBox(height: 10.h,),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: CustomButton(button_text: "Book Now", onTap: (){
-                    _showDialogBox(context);
-                  }, isEnabled: true,),
-                )
-              ],
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Text(
+                    "Date",
+                    style: GoogleFonts.poppins(fontSize: 11.sp),
+                  ),
+                  SizedBox(height: 10.h,),
+                  InkWell(
+                    onTap: (){
+                      _selectDate(context);
+                    },
+                    child: Container(
+                      width: getWidth(context),
+                      height: 35.h,
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(color: Colors.grey.withOpacity(0.3))
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(formattedDate.toString(), style: GoogleFonts.poppins(
+                              fontSize: 12.sp,
+                              color: Colors.black.withOpacity(0.7)
+                          ),),
+                          Icon(IconlyLight.calendar)
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10.h,),
+                  Text(
+                    "Time",
+                    style: GoogleFonts.poppins(fontSize: 11.sp),
+                  ),
+                  SizedBox(height: 10.h,),
+                  Container(
+                    width: getWidth(context),
+                   // padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(color: Colors.grey.withOpacity(0.3))
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        value: selectedTime,
+                        onChanged: (newValue) {
+                          setState(() {
+                            selectedTime = newValue!;
+                          });
+                        },
+                        hint: Text("Select Time", style: GoogleFonts.poppins(
+                            fontSize: 12.sp,
+                            color: Colors.black.withOpacity(0.7)
+                        ),),
+                        items: selectedTimeList.map((sport) {
+                          return DropdownMenuItem<String>(
+                            value: sport,
+                            child: Text(sport),
+                          );
+                        }).toList(),
+                        borderRadius: BorderRadius.circular(10.r),
+                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          )
-        ],
+            SizedBox(height: 10.h,),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 10.w),
+              child: CustomButton(button_text: "Book Now", onTap: (){
+                _showDialogBox(context);
+              }, isEnabled: true,),
+            )
+          ],
+        ),
       ),
     );
   }
