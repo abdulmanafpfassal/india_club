@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Colors.white, Colors.white,Colors.white,Colors.white, Color(0xFFFDE7CA),Color(0xFFFBCB8D),Color(0xFFFBCB8D), Color(0xFFFBCB8D),  Color(0xFFFBCB8D), Color(0xFFFBCB8D)],
+                    colors: [Colors.white, Colors.white,Colors.white,Colors.white,Colors.white, Color(0xFFFDE7CA),Color(0xFFFBCB8D),Color(0xFFFBCB8D), Color(0xFFFBCB8D),  Color(0xFFFBCB8D), Color(0xFFFBCB8D)],
 
                   ),
                   borderRadius: BorderRadius.only(
@@ -120,11 +120,24 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
+
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    CustomButton(
+                      button_text: "Login",
+                      onTap: () {
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => HomePage()),
+                            (route) => false);
+                      },
+                      isEnabled: true,
+                    ),
                     SizedBox(
                       height: 5.h,
                     ),
                     Align(
-                      alignment: Alignment.centerRight,
+                      alignment: Alignment.centerLeft,
                       child: Text(
                         "Forgot Password?",
                         style: GoogleFonts.poppins(
@@ -133,19 +146,6 @@ class _LoginPageState extends State<LoginPage> {
                             fontWeight: FontWeight.w500),
                       ),
                     ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    CustomButton(
-                      button_text: "Continue",
-                      onTap: () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) => HomePage()),
-                            (route) => false);
-                      },
-                      isEnabled: true,
-                    ),
-                    Spacer(),
                     // Container(
                     //   height: 10.h,
                     //   margin: EdgeInsets.all(20.0),
@@ -155,34 +155,33 @@ class _LoginPageState extends State<LoginPage> {
                     //     style: GoogleFonts.poppins(fontSize: 10.sp),
                     //   )),
                     // )
-                    Container(
-                      height: 10.h,
-                      margin: EdgeInsets.all(20.0),
-                      child: RichText(
-                        text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'By Clicking, I accept the ',
-                                style: TextStyle(color: Colors.black, fontSize: 10.sp),
-                              ),
-                              TextSpan(
-                                  text: ' Terms & Conditions',
-                                  style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontSize: 10.sp),
-
-                              ),
-                              TextSpan(
-                                text: ' and',
-                                style: TextStyle(color: Colors.black,fontSize: 10.sp),
-                              ),
-                              TextSpan(
-                                text: ' Privacy Policy',
-                                style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontSize: 10.sp),
-
-                              ),
-                            ]
-                        )
-                      ),
-                    )
+                    // Container(
+                    //   height: 10.h,
+                    //   margin: EdgeInsets.all(20.0),
+                    //   child: RichText(
+                    //     text: TextSpan(
+                    //         children: [
+                    //           TextSpan(
+                    //             text: 'By Clicking, I accept the ',
+                    //             style: TextStyle(color: Colors.black, fontSize: 10.sp),
+                    //           ),
+                    //           TextSpan(
+                    //               text: ' Terms & Conditions',
+                    //               style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontSize: 10.sp),
+                    //           ),
+                    //           TextSpan(
+                    //             text: ' and',
+                    //             style: TextStyle(color: Colors.black,fontSize: 10.sp),
+                    //           ),
+                    //           TextSpan(
+                    //             text: ' Privacy Policy',
+                    //             style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontSize: 10.sp),
+                    //
+                    //           ),
+                    //         ]
+                    //     )
+                    //   ),
+                    // )
                   ],
                 ),
               ),
