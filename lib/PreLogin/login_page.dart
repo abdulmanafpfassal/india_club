@@ -7,7 +7,9 @@ import 'package:india_club/Helpers/utils.dart';
 import 'package:india_club/HomePage/dashboard.dart';
 import 'package:india_club/HomePage/home_page.dart';
 import 'package:india_club/PreLogin/forgot_password.dart';
+import 'package:india_club/Src/Provider/authentication_provider.dart';
 import 'package:india_club/Widget/custom_button.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,6 +19,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,6 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                           border: Border.all(color:  Colors.grey.withOpacity(0.3)),
                           borderRadius: BorderRadius.circular(10.r)),
                       child: TextField(
+                        controller: usernameController,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           errorBorder: InputBorder.none,
@@ -112,6 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                           border: Border.all(color:  Colors.grey.withOpacity(0.3)),
                           borderRadius: BorderRadius.circular(10.r)),
                       child: TextField(
+                        controller: passwordController,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           errorBorder: InputBorder.none,
@@ -127,14 +134,21 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: 10.h,
                     ),
-                    CustomButton(
-                      button_text: "Login",
-                      onTap: () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) => Dashboard()),
-                            (route) => false);
-                      },
-                      isEnabled: true,
+                    Consumer<AuthenticationProvider>(
+                      builder: (context, login, _) {
+                        return login.isLoading ? Center(
+                          child: CircularProgressIndicator(
+                            color: ColorPellets.orange,
+                          ),
+                        ) : CustomButton(
+                          button_text: "Login",
+                          onTap: () async {
+                           await  login.setUserAndPassword(usernameController.text, passwordController.text);
+                           login.doLogin();
+                          },
+                          isEnabled: true,
+                        );
+                      }
                     ),
                     SizedBox(
                       height: 5.h,

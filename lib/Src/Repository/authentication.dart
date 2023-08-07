@@ -3,7 +3,10 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:india_club/Helpers/network.dart';
+import 'package:india_club/Helpers/utils.dart';
+import 'package:india_club/Src/Provider/authentication_provider.dart';
 import 'package:india_club/Src/WebService/webService.dart';
+import 'package:provider/provider.dart';
 
 class AuthenticationRepo {
   ApiService _service = ApiService();
@@ -19,8 +22,8 @@ class AuthenticationRepo {
         "jsonrpc": "2.0",
         "params": {
           "db": "indiaclub1",
-          "login": "kg@gm.com",
-          "password": "1234"
+          "login": getContext.navigatorKey.currentContext!.read<AuthenticationProvider>().userName,
+          "password": getContext.navigatorKey.currentContext!.read<AuthenticationProvider>().password
         }
       });
 

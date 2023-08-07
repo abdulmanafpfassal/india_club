@@ -12,6 +12,10 @@ getHeight(BuildContext context) {
   return MediaQuery.of(context).size.height;
 }
 
+class getContext {
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+}
+
 class LogoutDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
