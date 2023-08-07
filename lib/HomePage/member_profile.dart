@@ -94,26 +94,29 @@ class _MemberProfileState extends State<MemberProfile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Full Name: ",
+                            "Member Name: ",
                             style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 11.sp,
                                 color: Colors.black.withOpacity(0.6)),
                           ),
+                          SizedBox(height: 3.h,),
                           Text(
-                            "Member ID: ",
+                            "Membership No: ",
                             style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 11.sp,
                                 color: Colors.black.withOpacity(0.6)),
                           ),
+                          SizedBox(height: 3.h,),
                           Text(
-                            "Phone: ",
+                            "Phone number: ",
                             style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 11.sp,
                                 color: Colors.black.withOpacity(0.6)),
                           ),
+                          SizedBox(height: 3.h,),
                           Text(
                             "Address: ",
                             style: GoogleFonts.poppins(
@@ -139,15 +142,63 @@ class _MemberProfileState extends State<MemberProfile> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text("More Info", style: GoogleFonts.poppins(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600
+                  ),),
+                  SizedBox(height: 6.h,),
+                  Text(
+                    "Whatsapp No: ",
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 11.sp,
+                        color: Colors.black.withOpacity(0.6)),
+                  ),
+                  SizedBox(height: 3.h,),
+                  Text(
+                    "Email ID: ",
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 11.sp,
+                        color: Colors.black.withOpacity(0.6)),
+                  ),
+                  SizedBox(height: 3.h,),
+                  Text(
+                    "Membership Expiry: ",
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 11.sp,
+                        color: Colors.black.withOpacity(0.6)),
+                  ),
+                ],
+              ),
+            ),
+            Divider(indent: 10.w,endIndent: 10.w,),
+            SizedBox(height: 3.h,),
+            Container(
+              width: getWidth(context),
+              padding: EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.r),
+                  color: ColorPellets.orange.withOpacity(0.07)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text("Dependencies", style: GoogleFonts.poppins(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600
                   ),),
                   SizedBox(height: 6.h,),
                   Text("Name : ", style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 11.sp,
-                      color: Colors.black.withOpacity(0.6),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 11.sp,
+                    color: Colors.black.withOpacity(0.6),
+                  ),),
+                  SizedBox(height: 3.h,),
+                  Text("Age : ",style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 11.sp,
+                    color: Colors.black.withOpacity(0.6),
                   ),),
                   SizedBox(height: 3.h,),
                   Text("Relation : ",style: GoogleFonts.poppins(
@@ -157,6 +208,12 @@ class _MemberProfileState extends State<MemberProfile> {
                   ),),
                   SizedBox(height: 12.h,),
                   Text("Name : ", style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 11.sp,
+                    color: Colors.black.withOpacity(0.6),
+                  ),),
+                  SizedBox(height: 3.h,),
+                  Text("Age : ",style: GoogleFonts.poppins(
                     fontWeight: FontWeight.w500,
                     fontSize: 11.sp,
                     color: Colors.black.withOpacity(0.6),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
+import 'package:india_club/Bookings/booking_time.dart';
 import 'package:india_club/Notification/notification_page.dart';
 import 'package:india_club/Widget/custom_button.dart';
 import 'package:intl/intl.dart';
@@ -21,7 +22,6 @@ class _CourtBookingState extends State<CourtBooking> {
   String? selectedTime;
   DateTime selectedDate = DateTime.now();
   int index1 = -1;
-
 
   List<String> sportsItems = [
     'Football',
@@ -68,9 +68,10 @@ class _CourtBookingState extends State<CourtBooking> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text("Booking", style: GoogleFonts.poppins(
-            color: Colors.black
-        ),),
+        title: Text(
+          "Booking",
+          style: GoogleFonts.poppins(color: Colors.black),
+        ),
         leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);
@@ -81,8 +82,9 @@ class _CourtBookingState extends State<CourtBooking> {
             )),
         actions: [
           InkWell(
-            onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationPage()));
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => NotificationPage()));
             },
             child: Icon(
               IconlyLight.notification,
@@ -121,17 +123,20 @@ class _CourtBookingState extends State<CourtBooking> {
                   Wrap(
                     children: [
                       InkWell(
-                        onTap: (){
+                        onTap: () {
                           setState(() {
                             index1 = 0;
                           });
                         },
                         child: Container(
+                          margin: EdgeInsets.only(right: 10.w, top: 10.h),
                           height: 70.h,
                           width: 70.w,
                           decoration: BoxDecoration(
-                              border:
-                              Border.all(color: index1 == 0 ? ColorPellets.orange : Colors.grey.withOpacity(0.3)),
+                              border: Border.all(
+                                  color: index1 == 0
+                                      ? ColorPellets.orange
+                                      : Colors.grey.withOpacity(0.3)),
                               borderRadius: BorderRadius.circular(10.r)),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -151,32 +156,35 @@ class _CourtBookingState extends State<CourtBooking> {
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 6.h,),
+                              SizedBox(
+                                height: 6.h,
+                              ),
                               Text(
                                 "Football",
                                 style: GoogleFonts.poppins(
-                                    fontSize: 11.sp, fontWeight: FontWeight.w500),
+                                    fontSize: 11.sp,
+                                    fontWeight: FontWeight.w500),
                               ),
                               SizedBox()
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
                       InkWell(
-                        onTap: (){
+                        onTap: () {
                           setState(() {
                             index1 = 1;
                           });
                         },
                         child: Container(
+                          margin: EdgeInsets.only(right: 10.w, top: 10.h),
                           height: 70.h,
                           width: 70.w,
                           decoration: BoxDecoration(
-                              border:
-                              Border.all(color: index1 == 1 ? ColorPellets.orange : Colors.grey.withOpacity(0.3)),
+                              border: Border.all(
+                                  color: index1 == 1
+                                      ? ColorPellets.orange
+                                      : Colors.grey.withOpacity(0.3)),
                               borderRadius: BorderRadius.circular(10.r)),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -189,37 +197,40 @@ class _CourtBookingState extends State<CourtBooking> {
                                         bottomLeft: Radius.circular(10.r))),
                                 child: Center(
                                   child: Image.asset(
-                                    "assets/images/golf.png",
+                                    "assets/images/squash.png",
                                     height: 25.h,
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 6.h,),
+                              SizedBox(
+                                height: 6.h,
+                              ),
                               Text(
-                                "Golf",
+                                "Squash",
                                 style: GoogleFonts.poppins(
-                                    fontSize: 11.sp, fontWeight: FontWeight.w500),
+                                    fontSize: 11.sp,
+                                    fontWeight: FontWeight.w500),
                               ),
                               SizedBox()
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
                       InkWell(
-                        onTap: (){
+                        onTap: () {
                           setState(() {
                             index1 = 2;
                           });
                         },
                         child: Container(
+                          margin: EdgeInsets.only(right: 10.w, top: 10.h),
                           height: 70.h,
                           width: 70.w,
                           decoration: BoxDecoration(
-                              border:
-                              Border.all(color: index1 == 2 ? ColorPellets.orange : Colors.grey.withOpacity(0.3)),
+                              border: Border.all(
+                                  color: index1 == 2
+                                      ? ColorPellets.orange
+                                      : Colors.grey.withOpacity(0.3)),
                               borderRadius: BorderRadius.circular(10.r)),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -237,11 +248,106 @@ class _CourtBookingState extends State<CourtBooking> {
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 6.h,),
+                              SizedBox(
+                                height: 6.h,
+                              ),
                               Text(
                                 "Cricket",
                                 style: GoogleFonts.poppins(
-                                    fontSize: 11.sp, fontWeight: FontWeight.w500),
+                                    fontSize: 11.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              SizedBox()
+                            ],
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            index1 = 3;
+                          });
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(right: 10.w, top: 10.h),
+                          height: 70.h,
+                          width: 70.w,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: index1 == 3
+                                      ? ColorPellets.orange
+                                      : Colors.grey.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10.r)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 70,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10.r),
+                                        bottomLeft: Radius.circular(10.r))),
+                                child: Center(
+                                  child: Image.asset(
+                                    "assets/images/tennis.png",
+                                    height: 25.h,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 6.h,
+                              ),
+                              Text(
+                                "Tennis",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 11.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              SizedBox()
+                            ],
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            index1 = 4;
+                          });
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(right: 10.w, top: 10.h),
+                          height: 70.h,
+                          width: 70.w,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: index1 == 4
+                                      ? ColorPellets.orange
+                                      : Colors.grey.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10.r)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 70,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10.r),
+                                        bottomLeft: Radius.circular(10.r))),
+                                child: Center(
+                                  child: Image.asset(
+                                    "assets/images/badminton.png",
+                                    height: 25.h,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 6.h,
+                              ),
+                              Text(
+                                "Badminton",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 11.sp,
+                                    fontWeight: FontWeight.w500),
                               ),
                               SizedBox()
                             ],
@@ -257,9 +363,11 @@ class _CourtBookingState extends State<CourtBooking> {
                     "Date",
                     style: GoogleFonts.poppins(fontSize: 11.sp),
                   ),
-                  SizedBox(height: 10.h,),
+                  SizedBox(
+                    height: 10.h,
+                  ),
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       _selectDate(context);
                     },
                     child: Container(
@@ -269,67 +377,88 @@ class _CourtBookingState extends State<CourtBooking> {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10.r),
-                        border: Border.all(color: Colors.grey.withOpacity(0.3))
-                      ),
+                          border:
+                              Border.all(color: Colors.grey.withOpacity(0.3))),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(formattedDate.toString(), style: GoogleFonts.poppins(
-                              fontSize: 12.sp,
-                              color: Colors.black.withOpacity(0.7)
-                          ),),
+                          Text(
+                            formattedDate.toString(),
+                            style: GoogleFonts.poppins(
+                                fontSize: 12.sp,
+                                color: Colors.black.withOpacity(0.7)),
+                          ),
                           Icon(IconlyLight.calendar)
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 10.h,),
-                  Text(
-                    "Time",
-                    style: GoogleFonts.poppins(fontSize: 11.sp),
+                  SizedBox(
+                    height: 10.h,
                   ),
-                  SizedBox(height: 10.h,),
-                  Container(
-                    width: getWidth(context),
-                   // padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.r),
-                        border: Border.all(color: Colors.grey.withOpacity(0.3))
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: selectedTime,
-                        onChanged: (newValue) {
-                          setState(() {
-                            selectedTime = newValue!;
-                          });
-                        },
-                        hint: Text("Select Time", style: GoogleFonts.poppins(
-                            fontSize: 12.sp,
-                            color: Colors.black.withOpacity(0.7)
-                        ),),
-                        items: selectedTimeList.map((sport) {
-                          return DropdownMenuItem<String>(
-                            value: sport,
-                            child: Text(sport),
-                          );
-                        }).toList(),
-                        borderRadius: BorderRadius.circular(10.r),
-                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  InkWell(
+                    onTap: (){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => BookingTime()));
+                    },
+                    child: Text(
+                      "Check Availability",
+                      style: GoogleFonts.poppins(
+                        fontSize: 11.sp,
+                        color: ColorPellets.orange,
+                        fontWeight: FontWeight.w600
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  // Container(
+                  //   width: getWidth(context),
+                  //  // padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  //   decoration: BoxDecoration(
+                  //       color: Colors.white,
+                  //       borderRadius: BorderRadius.circular(10.r),
+                  //       border: Border.all(color: Colors.grey.withOpacity(0.3))
+                  //   ),
+                  //   child: DropdownButtonHideUnderline(
+                  //     child: DropdownButton<String>(
+                  //       isExpanded: true,
+                  //       value: selectedTime,
+                  //       onChanged: (newValue) {
+                  //         setState(() {
+                  //           selectedTime = newValue!;
+                  //         });
+                  //       },
+                  //       hint: Text("Select Time", style: GoogleFonts.poppins(
+                  //           fontSize: 12.sp,
+                  //           color: Colors.black.withOpacity(0.7)
+                  //       ),),
+                  //       items: selectedTimeList.map((sport) {
+                  //         return DropdownMenuItem<String>(
+                  //           value: sport,
+                  //           child: Text(sport),
+                  //         );
+                  //       }).toList(),
+                  //       borderRadius: BorderRadius.circular(10.r),
+                  //       padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
-            SizedBox(height: 10.h,),
+            SizedBox(
+              height: 10.h,
+            ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 10.w),
-              child: CustomButton(button_text: "Book Now", onTap: (){
-                _showDialogBox(context);
-              }, isEnabled: true,),
+              child: CustomButton(
+                button_text: "Book Now",
+                onTap: () {
+                  _showDialogBox(context);
+                },
+                isEnabled: true,
+              ),
             )
           ],
         ),
@@ -359,13 +488,17 @@ class _CourtBookingState extends State<CourtBooking> {
                     fontSize: 14.sp,
                   ),
                 ),
-                SizedBox(height: 10.h,),
-                Text("Booking Successful!", style: GoogleFonts.poppins(
-                  fontSize: 12.sp
-                ),),
-                Text("Booking Number: BKNG20230803", style: GoogleFonts.poppins(
-                    fontSize: 12.sp
-                ),),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Text(
+                  "Booking Successful!",
+                  style: GoogleFonts.poppins(fontSize: 12.sp),
+                ),
+                Text(
+                  "Booking Number: BKNG20230803",
+                  style: GoogleFonts.poppins(fontSize: 12.sp),
+                ),
                 SizedBox(height: 10.h),
                 // Add spacing between the text and other content
                 ElevatedButton(
@@ -385,5 +518,4 @@ class _CourtBookingState extends State<CourtBooking> {
       },
     );
   }
-
 }

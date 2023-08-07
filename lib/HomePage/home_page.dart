@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:india_club/Helpers/colors.dart';
 import 'package:india_club/Helpers/utils.dart';
-import 'package:india_club/HomePage/court_booking.dart';
+import 'package:india_club/Bookings/court_booking.dart';
 import 'package:india_club/HomePage/member_profile.dart';
 import 'package:india_club/Widget/custom_button.dart';
 

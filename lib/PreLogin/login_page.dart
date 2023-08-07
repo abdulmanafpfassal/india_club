@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 20.h,
                     ),
                     Text(
-                      "Your Member ID",
+                      "Your Email ID/ Member ID",
                       style: GoogleFonts.poppins(
                         fontSize: 12.sp,
                       ),
