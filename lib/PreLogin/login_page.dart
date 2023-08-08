@@ -9,7 +9,9 @@ import 'package:india_club/HomePage/home_page.dart';
 import 'package:india_club/PreLogin/forgot_password.dart';
 import 'package:india_club/Src/Provider/authentication_provider.dart';
 import 'package:india_club/Widget/custom_button.dart';
+import 'package:m_toast/m_toast.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -21,12 +23,26 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  ShowMToast _mToast = ShowMToast();
+  bool obscure = true;
+
+  @override
+  void initState() {
+    Future.delayed(Duration(seconds: 0), () async {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      var session = preferences.getString("session");
+      print(session);
+      if(session != null){
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Dashboard()), (route) => false);
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       body: Stack(
         children: [
           Container(
@@ -56,8 +72,19 @@ class _LoginPageState extends State<LoginPage> {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Colors.white, Colors.white,Colors.white,Colors.white,Colors.white, Color(0xFFFDE7CA),Color(0xFFFBCB8D),Color(0xFFFBCB8D), Color(0xFFFBCB8D),  Color(0xFFFBCB8D), Color(0xFFFBCB8D)],
-
+                    colors: [
+                      Colors.white,
+                      Colors.white,
+                      Colors.white,
+                      Colors.white,
+                      Colors.white,
+                      Color(0xFFFDE7CA),
+                      Color(0xFFFBCB8D),
+                      Color(0xFFFBCB8D),
+                      Color(0xFFFBCB8D),
+                      Color(0xFFFBCB8D),
+                      Color(0xFFFBCB8D)
+                    ],
                   ),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30.r),
@@ -85,7 +112,8 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 10.w),
                       decoration: BoxDecoration(
-                          border: Border.all(color:  Colors.grey.withOpacity(0.3)),
+                          border:
+                              Border.all(color: Colors.grey.withOpacity(0.3)),
                           borderRadius: BorderRadius.circular(10.r)),
                       child: TextField(
                         controller: usernameController,
@@ -96,7 +124,8 @@ class _LoginPageState extends State<LoginPage> {
                           enabledBorder: InputBorder.none,
                           hintText: "737778",
                           hintStyle: GoogleFonts.poppins(
-                              color:  Colors.grey.withOpacity(0.3), fontSize: 11.sp),
+                              color: Colors.grey.withOpacity(0.3),
+                              fontSize: 11.sp),
                         ),
                       ),
                     ),
@@ -115,19 +144,44 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 10.w),
                       decoration: BoxDecoration(
-                          border: Border.all(color:  Colors.grey.withOpacity(0.3)),
+                          border:
+                              Border.all(color: Colors.grey.withOpacity(0.3)),
                           borderRadius: BorderRadius.circular(10.r)),
                       child: TextField(
                         controller: passwordController,
+                        obscureText: obscure,
                         decoration: InputDecoration(
-                          border: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          hintText: "min 8 character",
-                          hintStyle: GoogleFonts.poppins(
-                              color:  Colors.grey.withOpacity(0.3), fontSize: 11.sp),
-                        ),
+                            border: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            hintText: "min 8 character",
+                            hintStyle: GoogleFonts.poppins(
+                                color: Colors.grey.withOpacity(0.3),
+                                fontSize: 11.sp),
+                            suffixIcon: obscure
+                                ? InkWell(
+                              onTap: (){
+                                setState(() {
+                                  obscure = false;
+                                });
+                              },
+                                  child: Icon(
+                                      Icons.remove_red_eye_outlined,
+                                      color: Colors.grey.withOpacity(0.3),
+                                    ),
+                                )
+                                : InkWell(
+                              onTap: (){
+                                setState(() {
+                                  obscure = true;
+                                });
+                              },
+                                  child: Icon(
+                                      Icons.remove_red_eye,
+                                      color: Colors.grey.withOpacity(0.3),
+                                    ),
+                                )),
                       ),
                     ),
 
@@ -135,27 +189,40 @@ class _LoginPageState extends State<LoginPage> {
                       height: 10.h,
                     ),
                     Consumer<AuthenticationProvider>(
-                      builder: (context, login, _) {
-                        return login.isLoading ? Center(
-                          child: CircularProgressIndicator(
-                            color: ColorPellets.orange,
-                          ),
-                        ) : CustomButton(
-                          button_text: "Login",
-                          onTap: () async {
-                           await  login.setUserAndPassword(usernameController.text, passwordController.text);
-                           login.doLogin();
-                          },
-                          isEnabled: true,
-                        );
-                      }
-                    ),
+                        builder: (context, login, _) {
+                      return login.isLoading
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                color: ColorPellets.orange,
+                              ),
+                            )
+                          : CustomButton(
+                              button_text: "Login",
+                              onTap: () async {
+                                if (usernameController.text.isNotEmpty ||
+                                    passwordController.text.isNotEmpty) {
+                                  await login.setUserAndPassword(
+                                      usernameController.text,
+                                      passwordController.text);
+                                  login.doLogin();
+                                } else {
+                                  _mToast.errorToast(
+                                      getContext.navigatorKey.currentContext!,
+                                      message:
+                                          "Please fill all the required fields",
+                                      alignment: Alignment.bottomCenter);
+                                }
+                              },
+                              isEnabled: true,
+                            );
+                    }),
                     SizedBox(
                       height: 5.h,
                     ),
                     InkWell(
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword()));
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ForgotPassword()));
                       },
                       child: Align(
                         alignment: Alignment.centerLeft,
@@ -163,7 +230,7 @@ class _LoginPageState extends State<LoginPage> {
                           "Forgot Password?",
                           style: GoogleFonts.poppins(
                               fontSize: 10.sp,
-                              color:  ColorPellets.orange,
+                              color: ColorPellets.orange,
                               fontWeight: FontWeight.w500),
                         ),
                       ),

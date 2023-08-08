@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:india_club/Helpers/utils.dart';
 import 'package:india_club/HomePage/dashboard.dart';
+import 'package:india_club/PreLogin/login_page.dart';
 import 'package:india_club/Src/Repository/authentication.dart';
 import 'package:m_toast/m_toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +13,7 @@ class AuthenticationProvider with ChangeNotifier {
   AuthenticationRepo _authenticationRepo = AuthenticationRepo();
   ShowMToast _mToast = ShowMToast();
   dynamic loginResponse;
+  dynamic logoutResponse;
   bool isLoading = false;
   String userName = "";
   String password = "";
@@ -36,14 +38,31 @@ class AuthenticationProvider with ChangeNotifier {
       }
       SharedPreferences preferences = await SharedPreferences.getInstance();
       preferences.setString("name", loginResponse["result"]["name"].toString());
+      preferences.setString("uid", loginResponse["result"]["uid"].toString());
       preferences.setString("mem_id", loginResponse["result"]["membership_no"].toString());
       preferences.setString("email", loginResponse["result"]["email"].toString());
       Navigator.of(getContext.navigatorKey.currentContext!).pushAndRemoveUntil(
           MaterialPageRoute(builder: (ctx) => Dashboard()), (route) => false);
     } else {
       setIsLoading(false);
-      _mToast.errorToast(getContext.navigatorKey.currentContext!,
-          message: "Invalid Credentials", alignment: Alignment.bottomCenter);
+      Future.delayed(Duration(seconds: 1), () {
+        _mToast.errorToast(getContext.navigatorKey.currentContext!,
+            message: "Invalid Credentials", alignment: Alignment.bottomCenter);
+      });
+    }
+  }
+
+  doLogout() async {
+    logoutResponse = await _authenticationRepo.doLogout();
+    if (logoutResponse.containsKey("error")) {
+      Future.delayed(Duration(seconds: 1), () {
+        _mToast.errorToast(getContext.navigatorKey.currentContext!,
+            message: "Server Error", alignment: Alignment.bottomCenter);
+      });
+    } else {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.clear();
+      Navigator.of(getContext.navigatorKey.currentContext!).pushAndRemoveUntil(MaterialPageRoute(builder: (ctx)=> LoginPage()), (route) => false);
     }
   }
 }

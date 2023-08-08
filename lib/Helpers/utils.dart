@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconly/iconly.dart';
 import 'package:india_club/PreLogin/login_page.dart';
+import 'package:india_club/Src/Provider/authentication_provider.dart';
 import 'package:india_club/Widget/custom_button.dart';
+import 'package:provider/provider.dart';
 
 getWidth(BuildContext context) {
   return MediaQuery.of(context).size.width;
@@ -15,6 +17,19 @@ getHeight(BuildContext context) {
 class getContext {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 }
+
+String extractSessionId(String rawSessionString) {
+  RegExp regExp = RegExp(r'session_id=([a-fA-F0-9]+)');
+  Match? match = regExp.firstMatch(rawSessionString);
+
+  if (match != null) {
+    return match.group(1)!;
+  }
+
+  return "";
+}
+
+
 
 class LogoutDialog extends StatelessWidget {
   @override
@@ -32,8 +47,8 @@ class LogoutDialog extends StatelessWidget {
                 child:
                 CustomButton(
                   button_text: "Logout",
-                  onTap: (){
-                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+                  onTap: () {
+                    getContext.navigatorKey.currentContext!.read<AuthenticationProvider>().doLogout();
                   },
                   isEnabled: true,
                 ),

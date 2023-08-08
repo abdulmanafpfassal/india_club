@@ -7,6 +7,7 @@ import 'package:india_club/Helpers/utils.dart';
 import 'package:india_club/Src/Provider/authentication_provider.dart';
 import 'package:india_club/Src/WebService/webService.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationRepo {
   ApiService _service = ApiService();
@@ -28,6 +29,14 @@ class AuthenticationRepo {
       });
 
       final response = await _service.postResponse(NetworkUrls.LOGIN, body, headers);
+      var cookies = response.headers['set-cookie'];
+      log(cookies.toString());
+      if (cookies.contains('session_id')) {
+        final sessionId = cookies.split(';')[0].split('=')[1];
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.setString("session", sessionId);
+        log("message " + preferences.getString("session").toString());
+      }
 
       if(response.statusCode == 200){
         Map<String, dynamic> responseBody = jsonDecode(response.body);
@@ -38,6 +47,40 @@ class AuthenticationRepo {
       if(kDebugMode){
         log("message" + e.toString());
       }
+    }
+    return responseData;
+  }
+
+  Future<Map<String, dynamic>> doLogout() async {
+    Map<String, dynamic> responseData = {};
+    try{
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      var session_id = preferences.getString("session");
+
+      print("session"+session_id.toString());
+
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        "X-Openerp-Session-id": "$session_id"
+      };
+
+      var body = jsonEncode({
+        "jsonrpc": "2.0",
+        "params": {
+          "db": "indiaclub1",
+        }
+      });
+
+      final response = await _service.postResponse(NetworkUrls.LOGOUT, body, headers);
+
+      log("message" + response.statusCode.toString());
+      if(response.statusCode == 200){
+        Map<String, dynamic> responseBody = jsonDecode(response.body);
+        responseData = responseBody;
+      }
+
+    }catch (e) {
+      log("message"+ e.toString());
     }
     return responseData;
   }
