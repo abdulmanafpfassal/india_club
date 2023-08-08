@@ -4,12 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:india_club/Helpers/utils.dart';
 import 'package:india_club/PreLogin/login_page.dart';
 import 'package:india_club/Src/Provider/authentication_provider.dart';
+import 'package:india_club/Src/Provider/sports_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => AuthenticationProvider())
+      ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
+      ChangeNotifierProvider(create: (context) => SportsBookingProvider()),
     ],
     child: MyApp(),
   ));

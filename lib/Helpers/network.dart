@@ -4,5 +4,6 @@ class NetworkUrls {
 
   static String LOGIN = "web/session/authenticate";
   static String LOGOUT = "web/session/destroy";
+  static String GET_ALL_SPORTS = "api/get_sports";
 
 }

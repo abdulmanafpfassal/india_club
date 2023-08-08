@@ -4,8 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:india_club/Bookings/booking_time.dart';
 import 'package:india_club/Notification/notification_page.dart';
+import 'package:india_club/Src/Provider/sports_provider.dart';
 import 'package:india_club/Widget/custom_button.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../Helpers/colors.dart';
 import '../Helpers/utils.dart';
@@ -58,6 +60,16 @@ class _CourtBookingState extends State<CourtBooking> {
         selectedDate = pickedDate;
       });
     }
+  }
+
+  @override
+  void initState() {
+    Future.delayed(Duration(seconds: 0), () {
+      getContext.navigatorKey.currentContext!
+          .read<SportsBookingProvider>()
+          .setSportsList();
+    });
+    super.initState();
   }
 
   @override
@@ -120,242 +132,71 @@ class _CourtBookingState extends State<CourtBooking> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Wrap(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            index1 = 0;
-                          });
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(right: 10.w, top: 10.h),
-                          height: 70.h,
-                          width: 70.w,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: index1 == 0
-                                      ? ColorPellets.orange
-                                      : Colors.grey.withOpacity(0.3)),
-                              borderRadius: BorderRadius.circular(10.r)),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Center(
-                                child: Container(
-                                  width: 70,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(10.r),
-                                          bottomLeft: Radius.circular(10.r))),
-                                  child: Center(
-                                    child: Image.asset(
-                                      "assets/images/football.png",
-                                      height: 25.h,
+                  Consumer<SportsBookingProvider>(
+                      builder: (context, sports, _) {
+                    return sports.sportsList != null
+                        ? Wrap(
+                            children: sports.sportsList["data"]
+                                .asMap()
+                                .entries
+                                .map<Widget>((entry) {
+                            int currentIndex = entry.key;
+                            dynamic data = entry.value;
+
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  index1 = currentIndex;
+                                });
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 10.w, top: 10.h),
+                                height: 70.h,
+                                width: 70.w,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: index1 == currentIndex
+                                            ? ColorPellets.orange
+                                            : Colors.grey.withOpacity(0.3)),
+                                    borderRadius: BorderRadius.circular(10.r)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Center(
+                                      child: Container(
+                                        width: 70,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(10.r),
+                                                bottomLeft:
+                                                    Radius.circular(10.r))),
+                                        child: Center(
+                                          child: Image.asset(
+                                            "assets/images/football.png",
+                                            height: 25.h,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    SizedBox(
+                                      height: 6.h,
+                                    ),
+                                    Text(
+                                      data["activity"],
+                                      // Assuming "name" is the key for the sport's name
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    SizedBox()
+                                  ],
                                 ),
                               ),
-                              SizedBox(
-                                height: 6.h,
-                              ),
-                              Text(
-                                "Football",
-                                style: GoogleFonts.poppins(
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              SizedBox()
-                            ],
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            index1 = 1;
-                          });
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(right: 10.w, top: 10.h),
-                          height: 70.h,
-                          width: 70.w,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: index1 == 1
-                                      ? ColorPellets.orange
-                                      : Colors.grey.withOpacity(0.3)),
-                              borderRadius: BorderRadius.circular(10.r)),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 70,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10.r),
-                                        bottomLeft: Radius.circular(10.r))),
-                                child: Center(
-                                  child: Image.asset(
-                                    "assets/images/squash.png",
-                                    height: 25.h,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 6.h,
-                              ),
-                              Text(
-                                "Squash",
-                                style: GoogleFonts.poppins(
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              SizedBox()
-                            ],
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            index1 = 2;
-                          });
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(right: 10.w, top: 10.h),
-                          height: 70.h,
-                          width: 70.w,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: index1 == 2
-                                      ? ColorPellets.orange
-                                      : Colors.grey.withOpacity(0.3)),
-                              borderRadius: BorderRadius.circular(10.r)),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 70,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10.r),
-                                        bottomLeft: Radius.circular(10.r))),
-                                child: Center(
-                                  child: Image.asset(
-                                    "assets/images/cricket.png",
-                                    height: 25.h,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 6.h,
-                              ),
-                              Text(
-                                "Cricket",
-                                style: GoogleFonts.poppins(
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              SizedBox()
-                            ],
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            index1 = 3;
-                          });
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(right: 10.w, top: 10.h),
-                          height: 70.h,
-                          width: 70.w,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: index1 == 3
-                                      ? ColorPellets.orange
-                                      : Colors.grey.withOpacity(0.3)),
-                              borderRadius: BorderRadius.circular(10.r)),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 70,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10.r),
-                                        bottomLeft: Radius.circular(10.r))),
-                                child: Center(
-                                  child: Image.asset(
-                                    "assets/images/tennis.png",
-                                    height: 25.h,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 6.h,
-                              ),
-                              Text(
-                                "Tennis",
-                                style: GoogleFonts.poppins(
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              SizedBox()
-                            ],
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            index1 = 4;
-                          });
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(right: 10.w, top: 10.h),
-                          height: 70.h,
-                          width: 70.w,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: index1 == 4
-                                      ? ColorPellets.orange
-                                      : Colors.grey.withOpacity(0.3)),
-                              borderRadius: BorderRadius.circular(10.r)),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 70,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10.r),
-                                        bottomLeft: Radius.circular(10.r))),
-                                child: Center(
-                                  child: Image.asset(
-                                    "assets/images/badminton.png",
-                                    height: 25.h,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 6.h,
-                              ),
-                              Text(
-                                "Badminton",
-                                style: GoogleFonts.poppins(
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              SizedBox()
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                            );
+                          }).toList())
+                        : SizedBox();
+                  }),
+
                   SizedBox(
                     height: 10.h,
                   ),
@@ -397,16 +238,16 @@ class _CourtBookingState extends State<CourtBooking> {
                     height: 10.h,
                   ),
                   InkWell(
-                    onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => BookingTime()));
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => BookingTime()));
                     },
                     child: Text(
                       "Check Availability",
                       style: GoogleFonts.poppins(
-                        fontSize: 11.sp,
-                        color: ColorPellets.orange,
-                        fontWeight: FontWeight.w600
-                      ),
+                          fontSize: 11.sp,
+                          color: ColorPellets.orange,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                   SizedBox(
