@@ -7,6 +7,7 @@ import 'package:india_club/Notification/notification_page.dart';
 import 'package:india_club/Src/Provider/sports_provider.dart';
 import 'package:india_club/Widget/custom_button.dart';
 import 'package:intl/intl.dart';
+import 'package:m_toast/m_toast.dart';
 import 'package:provider/provider.dart';
 
 import '../Helpers/colors.dart';
@@ -58,6 +59,7 @@ class _CourtBookingState extends State<CourtBooking> {
     if (pickedDate != null && pickedDate != selectedDate) {
       setState(() {
         selectedDate = pickedDate;
+        getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().setDate(DateFormat('MM/dd/yyyy').format(selectedDate));
       });
     }
   }
@@ -68,6 +70,7 @@ class _CourtBookingState extends State<CourtBooking> {
       getContext.navigatorKey.currentContext!
           .read<SportsBookingProvider>()
           .setSportsList();
+      getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().setDate(DateFormat('MM/dd/yyyy').format(selectedDate));
     });
     super.initState();
   }
@@ -147,6 +150,7 @@ class _CourtBookingState extends State<CourtBooking> {
                               onTap: () {
                                 setState(() {
                                   index1 = currentIndex;
+                                  sports.setActivityId(data["id"].toString());
                                 });
                               },
                               child: Container(
@@ -239,8 +243,14 @@ class _CourtBookingState extends State<CourtBooking> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => BookingTime()));
+                      if(index1 != -1) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => BookingTime()));
+                      }else{
+                        Future.delayed(Duration(seconds: 0), () {
+                          ShowMToast().errorToast(context, message: "Select a sport", alignment: Alignment.bottomCenter);
+                        });
+                      }
                     },
                     child: Text(
                       "Check Availability",

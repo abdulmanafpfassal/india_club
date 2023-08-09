@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
+import 'package:india_club/Src/Provider/sports_provider.dart';
 
 import '../Helpers/utils.dart';
 import '../Notification/notification_page.dart';
 import '../Widget/custom_button.dart';
+import 'package:provider/provider.dart';
 
 class BookingTime extends StatefulWidget {
   const BookingTime({super.key});
@@ -15,6 +17,15 @@ class BookingTime extends StatefulWidget {
 }
 
 class _BookingTimeState extends State<BookingTime> {
+
+  @override
+  void initState() {
+    Future.delayed(Duration(seconds: 0), () {
+      getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().setCourtList();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
