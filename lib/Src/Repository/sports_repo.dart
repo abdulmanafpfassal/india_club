@@ -27,6 +27,7 @@ class SportsBookingRepo {
       if(response.statusCode == 200){
         Map<String, dynamic> responseBody = jsonDecode(response.body);
         responseData = responseBody;
+        log("message" + responseData.toString());
       }
 
     }catch(e){

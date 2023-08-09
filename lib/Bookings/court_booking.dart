@@ -162,22 +162,22 @@ class _CourtBookingState extends State<CourtBooking> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Center(
-                                      child: Container(
-                                        width: 70,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(10.r),
-                                                bottomLeft:
-                                                    Radius.circular(10.r))),
-                                        child: Center(
-                                          child: Image.asset(
-                                            "assets/images/football.png",
-                                            height: 25.h,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                    // Center(
+                                    //   child: Container(
+                                    //     width: 70,
+                                    //     decoration: BoxDecoration(
+                                    //         borderRadius: BorderRadius.only(
+                                    //             topLeft: Radius.circular(10.r),
+                                    //             bottomLeft:
+                                    //                 Radius.circular(10.r))),
+                                    //     child: Center(
+                                    //       child: Image.asset(
+                                    //         "assets/images/football.png",
+                                    //         height: 25.h,
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     SizedBox(
                                       height: 6.h,
                                     ),

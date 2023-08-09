@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
@@ -40,7 +41,10 @@ class AuthenticationProvider with ChangeNotifier {
       preferences.setString("name", loginResponse["result"]["name"].toString());
       preferences.setString("uid", loginResponse["result"]["uid"].toString());
       preferences.setString("mem_id", loginResponse["result"]["membership_no"].toString());
+      preferences.setString("whatsapp", loginResponse["result"]["whatsapp_no"].toString());
+      preferences.setString("address", loginResponse["result"]["address"].toString());
       preferences.setString("email", loginResponse["result"]["email"].toString());
+      preferences.setString("dep", json.encode(loginResponse["result"]["dependent_detailes"]));
       Navigator.of(getContext.navigatorKey.currentContext!).pushAndRemoveUntil(
           MaterialPageRoute(builder: (ctx) => Dashboard()), (route) => false);
     } else {
@@ -53,13 +57,16 @@ class AuthenticationProvider with ChangeNotifier {
   }
 
   doLogout() async {
+    setIsLoading(true);
     logoutResponse = await _authenticationRepo.doLogout();
     if (logoutResponse.containsKey("error")) {
       Future.delayed(Duration(seconds: 1), () {
         _mToast.errorToast(getContext.navigatorKey.currentContext!,
             message: "Server Error", alignment: Alignment.bottomCenter);
       });
+      isLoading = false;
     } else {
+      setIsLoading(false);
       SharedPreferences preferences = await SharedPreferences.getInstance();
       preferences.clear();
       Navigator.of(getContext.navigatorKey.currentContext!).pushAndRemoveUntil(MaterialPageRoute(builder: (ctx)=> LoginPage()), (route) => false);
