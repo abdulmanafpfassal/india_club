@@ -137,7 +137,7 @@ class _CourtBookingState extends State<CourtBooking> {
                 children: [
                   Consumer<SportsBookingProvider>(
                       builder: (context, sports, _) {
-                    return sports.sportsList != null
+                    return sports.sportsList != null || sports.isLoading != true
                         ? Wrap(
                             children: sports.sportsList["data"]
                                 .asMap()
@@ -198,7 +198,7 @@ class _CourtBookingState extends State<CourtBooking> {
                               ),
                             );
                           }).toList())
-                        : SizedBox();
+                        : Container(child: Center(child: CircularProgressIndicator(color: ColorPellets.orange,),),);
                   }),
 
                   SizedBox(
