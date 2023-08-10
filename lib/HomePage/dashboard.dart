@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,6 +18,8 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  int _currentBannerIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,17 +27,20 @@ class _DashboardState extends State<Dashboard> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text("Menu", style: GoogleFonts.poppins(
-            color: Colors.black
-        ),),
+        title: Text(
+          "Home",
+          style: GoogleFonts.poppins(color: Colors.black),
+        ),
         actions: [
           InkWell(
-            onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationPage()));
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => NotificationPage()));
             },
             child: Icon(
               IconlyLight.notification,
               color: Colors.black,
+              size: 20.sp,
             ),
           ),
           SizedBox(
@@ -48,6 +54,7 @@ class _DashboardState extends State<Dashboard> {
             child: Icon(
               IconlyLight.logout,
               color: Colors.red,
+              size: 20.sp,
             ),
           ),
           SizedBox(
@@ -55,114 +62,286 @@ class _DashboardState extends State<Dashboard> {
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          Align(
-              alignment: Alignment.bottomLeft,
-              child: Image.asset("assets/images/login_vector.png")),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10.w),
-            child: ListView(
-              children: [
-                Container(
-                  width: getWidth(context),
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.r),
-                    color: ColorPellets.orange.withOpacity(0.07)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      body: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10.w),
+        child: ListView(
+          children: [
+            SizedBox(
+              height: 10.h,
+            ),
+            Container(
+              width: getWidth(context),
+              padding: EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.r),
+                border: Border.all(color: ColorPellets.orange.withOpacity(0.1)),
+              ),
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                      Text(
-                        "Member Name: ",
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12.sp,
-                            color: Colors.black),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(200.r),
+                        child: Image.asset(
+                          "assets/images/dummy.jpg",
+                          height: 60.h,
+                        ),
                       ),
-                      Text(
-                        "Member ID: ",
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12.sp,
-                            color: Colors.black),
+                      SizedBox(
+                        width: 10.w,
                       ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Abdul Manaf",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 11.sp,
+                                color: Colors.black.withOpacity(0.6)),
+                          ),
+                          SizedBox(
+                            height: 3.h,
+                          ),
+                          Text(
+                            "Member ID: ",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 11.sp,
+                                color: Colors.black.withOpacity(0.6)),
+                          ),
+                        ],
+                      )
                     ],
                   ),
-                ),
-
-                SizedBox(
-                  height: 10.h,
-                ),
-                Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Text(
+                  //   "Categories",
+                  //   style: GoogleFonts.poppins(
+                  //     fontSize: 12.sp,
+                  //     fontWeight: FontWeight.w500,
+                  //     color: Colors.black.withOpacity(0.7)
+                  //   ),
+                  // ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Row(
                     children: [
-                      Text(
-                        "Categories",
-                        style: GoogleFonts.poppins(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black.withOpacity(0.7)
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => MemberProfile()));
+                          },
+                          child: Container(
+                            height: 50.h,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color:
+                                        ColorPellets.orange.withOpacity(0.3)),
+                                borderRadius: BorderRadius.circular(10.r)),
+                            child: Center(
+                                child: Row(
+                              children: [
+                                Container(
+                                  width: 50.w,
+                                  height: 50.h,
+                                  decoration: BoxDecoration(
+                                      color:
+                                          ColorPellets.orange.withOpacity(0.3),
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10.r),
+                                          bottomLeft: Radius.circular(10.r))),
+                                  child: Center(
+                                    child: Icon(
+                                      IconlyLight.profile,
+                                      color: ColorPellets.orange,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10.w,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("Member Details"),
+                                    SizedBox(
+                                      height: 5.h,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text("View"),
+                                        Icon(
+                                          IconlyLight.arrow_right_2,
+                                          size: 12.sp,
+                                          color: ColorPellets.orange,
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ],
+                            )),
+                          ),
                         ),
                       ),
                       SizedBox(
-                        height: 10.h,
+                        width: 10.w,
                       ),
-                      InkWell(
-                        onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MemberProfile()));
-                        },
-                        child: Container(
-                          width: getWidth(context),
-                          height: 30.h,
-                          padding: EdgeInsets.symmetric(horizontal: 10.w),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black),
-                              borderRadius: BorderRadius.circular(10.r)
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => CourtBooking()));
+                          },
+                          child: Container(
+                            height: 50.h,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color:
+                                        ColorPellets.orange.withOpacity(0.3)),
+                                borderRadius: BorderRadius.circular(10.r)),
+                            child: Center(
+                                child: Row(
+                              children: [
+                                Container(
+                                  width: 50.w,
+                                  height: 50.h,
+                                  decoration: BoxDecoration(
+                                      color:
+                                          ColorPellets.orange.withOpacity(0.3),
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10.r),
+                                          bottomLeft: Radius.circular(10.r))),
+                                  child: Center(
+                                    child: Icon(
+                                      IconlyLight.calendar,
+                                      color: ColorPellets.orange,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10.w,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("Court Booking"),
+                                    SizedBox(
+                                      height: 5.h,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text("View"),
+                                        Icon(
+                                          IconlyLight.arrow_right_2,
+                                          size: 12.sp,
+                                          color: ColorPellets.orange,
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ],
+                            )),
                           ),
-                          child: Center(child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(),
-                              Text("Member Details"),
-                              Icon(Icons.navigate_next, size: 15.sp,color: Colors.grey,)
-                            ],
-                          )),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      InkWell(
-                        onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => CourtBooking()));
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10.w),
-                          width: getWidth(context),
-                          height: 30.h,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black),
-                              borderRadius: BorderRadius.circular(10.r)
-                          ),
-                          child: Center(child:  Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(),
-                              Text("Court Booking"),
-                              Icon(Icons.navigate_next, size: 15.sp,color: Colors.grey,)
-                            ],
-                          )),
                         ),
                       )
                     ],
                   ),
-                )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            CarouselSlider(
+              options: CarouselOptions(
+                height: 130.h,
+                viewportFraction: 1,
+                autoPlay: true,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _currentBannerIndex = index;
+                  });
+                },
+              ),
+              items: ["assets/images/banner1.png", "assets/images/banner2.png"].map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.symmetric(horizontal: 5.0),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.r),
+                          image: DecorationImage(
+                              image: AssetImage(i), fit: BoxFit.cover)),
+                    );
+                  },
+                );
+              }).toList(),
+            ),
+            SizedBox(height: 5.h,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                for (int i = 0; i < 2; i++)
+                  Container(
+                    width: 6,
+                    height: 6,
+                    margin: EdgeInsets.symmetric(horizontal: 2.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _currentBannerIndex == i
+                          ? ColorPellets.orange // Change to the desired color for selected dot
+                          : ColorPellets.orange.withOpacity(0.2), // Change to the desired color for unselected dots
+                    ),
+                  ),
               ],
             ),
-          ),
-        ],
+            SizedBox(
+              height: 10.h,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Booking History",
+                  style: GoogleFonts.poppins(
+                      fontSize: 12.sp, fontWeight: FontWeight.w500),
+                ),
+                Text(
+                  "View All",
+                  style: GoogleFonts.poppins(
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.w500,
+                      color: ColorPellets.orange),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            Center(
+              child: Text("No Records Found"),
+            )
+          ],
+        ),
       ),
     );
   }
