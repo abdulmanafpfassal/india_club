@@ -40,17 +40,17 @@ class AuthenticationProvider with ChangeNotifier {
         log(loginResponse.toString());
       }
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      preferences.setString("name", loginResponse["result"]["name"].toString());
-      preferences.setString("uid", loginResponse["result"]["uid"].toString());
-      preferences.setString(
+      await preferences.setString("name", loginResponse["result"]["name"].toString());
+      await preferences.setString("uid", loginResponse["result"]["uid"].toString());
+      await preferences.setString(
           "mem_id", loginResponse["result"]["membership_no"].toString());
-      preferences.setString(
+      await preferences.setString(
           "whatsapp", loginResponse["result"]["whatsapp_no"].toString());
-      preferences.setString(
+      await preferences.setString(
           "address", loginResponse["result"]["address"].toString());
-      preferences.setString(
+      await preferences.setString(
           "email", loginResponse["result"]["email"].toString());
-      preferences.setString(
+      await preferences.setString(
           "dep", json.encode(loginResponse["result"]["dependent_detailes"]));
       Navigator.of(getContext.navigatorKey.currentContext!).pushAndRemoveUntil(
           MaterialPageRoute(builder: (ctx) => Dashboard()), (route) => false);

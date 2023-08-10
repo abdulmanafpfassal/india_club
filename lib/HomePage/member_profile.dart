@@ -23,21 +23,28 @@ class _MemberProfileState extends State<MemberProfile> {
   var whatsapp;
   var address;
   var email;
+  var jsonString;
   List<dynamic>? jsonArray;
 
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 0), () async {
-      SharedPreferences preferences = await SharedPreferences.getInstance();
-      name = preferences.getString("name");
-      mem_id = preferences.getString("mem_id");
-      whatsapp = preferences.getString("whatsapp");
-      address = preferences.getString("address");
-      email = preferences.getString("email");
-      var jsonString = preferences.getString('dep');
+    super.initState();
+    _loadData(); // Call your data loading function
+  }
+
+  Future<void> _loadData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    name = preferences.getString("name");
+    mem_id = preferences.getString("mem_id");
+    whatsapp = preferences.getString("whatsapp");
+    address = preferences.getString("address");
+    email = preferences.getString("email");
+    jsonString = preferences.getString("dep");
+    print("j" + jsonString.toString());
+    setState(() {
       jsonArray = json.decode(jsonString.toString());
     });
-    super.initState();
+    print(jsonArray);
   }
 
   @override
@@ -247,6 +254,7 @@ class _MemberProfileState extends State<MemberProfile> {
                   Container(
                     child: ListView.separated(
                       shrinkWrap: true,
+                        itemCount: jsonArray == null ? 0 :jsonArray!.length,
                         itemBuilder: (context, index) {
                           return jsonArray != null ?Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -287,7 +295,7 @@ class _MemberProfileState extends State<MemberProfile> {
                         separatorBuilder: (context, ind){
                           return SizedBox(height: 12.h,);
                         },
-                        itemCount: jsonArray!.length),
+                        ),
                   ),
                 ],
               ),
