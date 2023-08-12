@@ -8,5 +8,6 @@ class NetworkUrls {
   static String GET_COURT = "api/get_court?activity_id=";
   static String GET_SLOT = "api/get_available_slots_for_court?court_id=";
   static String member_details = "api/get_member_details?user_id=";
+  static String create_booking = "api/create_booking";
 
 }

@@ -258,7 +258,7 @@ class _MemberProfileState extends State<MemberProfile> {
                                     height: 3.h,
                                   ),
                                   Text(
-                                    "Relation : ${details.memberDetails["data"][0]["dependent_list"][index]["relation"]}",
+                                    "Relation : ${details.memberDetails["data"][0]["dependent_list"][index]["dependent_type"]}",
                                     style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 11.sp,

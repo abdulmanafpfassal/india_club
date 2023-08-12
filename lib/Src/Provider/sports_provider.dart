@@ -12,6 +12,7 @@ class SportsBookingProvider with ChangeNotifier {
   dynamic sportsList;
   dynamic courtList;
   dynamic slot_availability;
+  dynamic courtBooking;
   var activity_id;
   var date;
   Color selection_color = ColorPellets.orange.withOpacity(0.6);
@@ -19,6 +20,57 @@ class SportsBookingProvider with ChangeNotifier {
   DateTime selectedDate = DateTime.now();
   int guestNumber = 0;
   int memberNumber = 0;
+
+  var userId;
+  var memberId;
+  var emailId;
+  var courtId;
+  var gender;
+  var gsm = "";
+  var date_from;
+  var slotId;
+  var booking_date;
+  var membershipId;
+
+
+  setUser(int id){
+    userId = id;
+  }
+
+  setMemberId(int id){
+    memberId = id;
+  }
+
+  setEmail(String text){
+    emailId = text;
+  }
+
+
+  setCourtId(int id){
+    courtId = id;
+  }
+
+  setGender(var text){
+    print(text);
+    if(text == false){
+      gender = "";
+    }else{
+      gender = text;
+    }
+  }
+
+  setDateFrom(String text) {
+    date_from = text;
+    booking_date = text;
+  }
+
+  setSlotId(int id){
+    slotId = id;
+  }
+
+  setMembershipId(String id){
+    membershipId = id;
+  }
 
   incrementGuest(){
     guestNumber = guestNumber+1;
@@ -129,6 +181,12 @@ class SportsBookingProvider with ChangeNotifier {
     log(courtList.toString());
 
     setIsLoading(false); // Make sure to set isLoading to false after updating courtList
+  }
+
+  doCreateBooking() async {
+    setIsLoading(true);
+    courtBooking = await _bookingRepo.createBooking();
+    setIsLoading(false);
   }
 
 }

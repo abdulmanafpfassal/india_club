@@ -8,8 +8,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:india_club/Helpers/utils.dart';
 import 'package:india_club/HomePage/dashboard.dart';
 import 'package:india_club/PreLogin/login_page.dart';
+import 'package:india_club/Src/Provider/sports_provider.dart';
 import 'package:india_club/Src/Repository/authentication.dart';
 import 'package:m_toast/m_toast.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationProvider with ChangeNotifier {
@@ -115,7 +117,12 @@ class AuthenticationProvider with ChangeNotifier {
 
   setMemberDetails() async {
     memberDetails =  await _authenticationRepo.getMemberDetails();
-    log("details" + memberDetails.toString());
+    log("message" + memberDetails.toString());
+    if(memberDetails != null) {
+      getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().setMembershipId(memberDetails["data"][0]["membership_no"].toString());
+      getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().setEmail(memberDetails["data"][0]["email"].toString());
+      getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().setGender(memberDetails["data"][0]["gender"]);
+    }
     notifyListeners();
   }
 

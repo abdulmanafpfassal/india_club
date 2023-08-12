@@ -80,7 +80,7 @@ class _CourtBookingState extends State<CourtBooking> {
     Future.delayed(Duration(seconds: 0), () async {
       await getContext.navigatorKey.currentContext!
           .read<SportsBookingProvider>()
-          .setDate(DateFormat('MM/dd/yyyy').format(selectedDate));
+          .setDate(DateFormat('yyyy-MM-dd').format(selectedDate));
       getContext.navigatorKey.currentContext!
           .read<SportsBookingProvider>()
           .setCourtList();
@@ -241,6 +241,9 @@ class _CourtBookingState extends State<CourtBooking> {
                                           builder: (context, time, _) {
                                         return InkWell(
                                           onTap: () {
+                                            time.setCourtId(provider
+                                                .courtList["data"][index]["id"]);
+                                            time.setSlotId(e.value["id"]);
                                             time.setIsSelectedToTrue(
                                                 e.value["id"],
                                                 provider.courtList["data"]
@@ -469,15 +472,19 @@ class _CourtBookingState extends State<CourtBooking> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-        child: CustomButton(
-          button_text: "Book Now",
-          onTap: () {
-            _showDialogBox(context);
-          },
-          isEnabled: true,
-        ),
+      bottomNavigationBar: Consumer<SportsBookingProvider>(
+        builder: (context, loading, _) {
+          return loading.isLoading ? Center(child: CircularProgressIndicator(color: ColorPellets.orange,),) : Container(
+            margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+            child: CustomButton(
+              button_text: "Book Now",
+              onTap: () {
+                loading.doCreateBooking();
+              },
+              isEnabled: true,
+            ),
+          );
+        }
       ),
     );
   }
