@@ -20,6 +20,7 @@ class AuthenticationProvider with ChangeNotifier {
   bool isLoading = false;
   String userName = "";
   String password = "";
+  dynamic memberDetails;
 
   setUserAndPassword(String text1, String text2) {
     userName = text1;
@@ -40,18 +41,8 @@ class AuthenticationProvider with ChangeNotifier {
         log(loginResponse.toString());
       }
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      await preferences.setString("name", loginResponse["result"]["name"].toString());
-      await preferences.setString("uid", loginResponse["result"]["uid"].toString());
       await preferences.setString(
-          "mem_id", loginResponse["result"]["membership_no"].toString());
-      await preferences.setString(
-          "whatsapp", loginResponse["result"]["whatsapp_no"].toString());
-      await preferences.setString(
-          "address", loginResponse["result"]["address"].toString());
-      await preferences.setString(
-          "email", loginResponse["result"]["email"].toString());
-      await preferences.setString(
-          "dep", json.encode(loginResponse["result"]["dependent_detailes"]));
+          "uid", loginResponse["result"]["uid"].toString());
       Navigator.of(getContext.navigatorKey.currentContext!).pushAndRemoveUntil(
           MaterialPageRoute(builder: (ctx) => Dashboard()), (route) => false);
     } else {
@@ -73,10 +64,8 @@ class AuthenticationProvider with ChangeNotifier {
                 children: [
                   Text(
                     "Failed",
-                    style: GoogleFonts.poppins(
-                        fontSize: 14.sp,
-                        color: Colors.red
-                    ),
+                    style:
+                        GoogleFonts.poppins(fontSize: 14.sp, color: Colors.red),
                   ),
                   SizedBox(
                     height: 10.h,
@@ -106,23 +95,28 @@ class AuthenticationProvider with ChangeNotifier {
     }
   }
 
-    doLogout() async {
-      setIsLoading(true);
-      logoutResponse = await _authenticationRepo.doLogout();
-      if (logoutResponse.containsKey("error")) {
-        Future.delayed(Duration(seconds: 1), () {
-          _mToast.errorToast(getContext.navigatorKey.currentContext!,
-              message: "Server Error", alignment: Alignment.bottomCenter);
-        });
-        isLoading = false;
-      } else {
-        setIsLoading(false);
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.of(getContext.navigatorKey.currentContext!)
-            .pushAndRemoveUntil(
-            MaterialPageRoute(builder: (ctx) => LoginPage()), (route) => false);
-      }
+  doLogout() async {
+    setIsLoading(true);
+    logoutResponse = await _authenticationRepo.doLogout();
+    if (logoutResponse.containsKey("error")) {
+      Future.delayed(Duration(seconds: 1), () {
+        _mToast.errorToast(getContext.navigatorKey.currentContext!,
+            message: "Server Error", alignment: Alignment.bottomCenter);
+      });
+      isLoading = false;
+    } else {
+      setIsLoading(false);
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.clear();
+      Navigator.of(getContext.navigatorKey.currentContext!).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (ctx) => LoginPage()), (route) => false);
     }
+  }
+
+  setMemberDetails() async {
+    memberDetails =  await _authenticationRepo.getMemberDetails();
+    log("details" + memberDetails.toString());
+    notifyListeners();
+  }
 
 }

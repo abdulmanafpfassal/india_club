@@ -14,21 +14,24 @@ class AuthenticationRepo {
 
   Future<Map<String, dynamic>> loginUser() async {
     Map<String, dynamic> responseData = {};
-    try{
-      Map<String, String> headers = {
-        "Content-Type": "application/json"
-      };
+    try {
+      Map<String, String> headers = {"Content-Type": "application/json"};
 
       var body = jsonEncode({
         "jsonrpc": "2.0",
         "params": {
           "db": "indiaclub1",
-          "login": getContext.navigatorKey.currentContext!.read<AuthenticationProvider>().userName,
-          "password": getContext.navigatorKey.currentContext!.read<AuthenticationProvider>().password
+          "login": getContext.navigatorKey.currentContext!
+              .read<AuthenticationProvider>()
+              .userName,
+          "password": getContext.navigatorKey.currentContext!
+              .read<AuthenticationProvider>()
+              .password
         }
       });
 
-      final response = await _service.postResponse(NetworkUrls.LOGIN, body, headers);
+      final response =
+          await _service.postResponse(NetworkUrls.LOGIN, body, headers);
       var cookies = response.headers['set-cookie'];
       log(cookies.toString());
       if (cookies.contains('session_id')) {
@@ -38,13 +41,12 @@ class AuthenticationRepo {
         log("message " + preferences.getString("session").toString());
       }
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Map<String, dynamic> responseBody = jsonDecode(response.body);
         responseData = responseBody;
       }
-
-    }catch (e) {
-      if(kDebugMode){
+    } catch (e) {
+      if (kDebugMode) {
         log("message" + e.toString());
       }
     }
@@ -53,11 +55,11 @@ class AuthenticationRepo {
 
   Future<Map<String, dynamic>> doLogout() async {
     Map<String, dynamic> responseData = {};
-    try{
+    try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       var session_id = preferences.getString("session");
 
-      print("session"+session_id.toString());
+      print("session" + session_id.toString());
 
       Map<String, String> headers = {
         'Content-Type': 'application/json',
@@ -71,16 +73,43 @@ class AuthenticationRepo {
         }
       });
 
-      final response = await _service.postResponse(NetworkUrls.LOGOUT, body, headers);
+      final response =
+          await _service.postResponse(NetworkUrls.LOGOUT, body, headers);
 
       log("message" + response.statusCode.toString());
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Map<String, dynamic> responseBody = jsonDecode(response.body);
         responseData = responseBody;
       }
+    } catch (e) {
+      log("message" + e.toString());
+    }
+    return responseData;
+  }
 
-    }catch (e) {
-      log("message"+ e.toString());
+  Future<Map<String, dynamic>> getMemberDetails() async {
+    Map<String, dynamic> responseData = {};
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      var session_id = preferences.getString("session");
+      var uid = preferences.getString("uid");
+
+      print("session" + session_id.toString());
+
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        "X-Openerp-Session-id": "$session_id"
+      };
+
+      final response = await _service.getResponse(
+          NetworkUrls.member_details + uid.toString(), headers);
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseBody = jsonDecode(response.body);
+        responseData = responseBody;
+      }
+    } catch (e) {
+      log(e.toString());
     }
     return responseData;
   }

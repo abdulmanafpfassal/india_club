@@ -6,6 +6,7 @@ import 'package:iconly/iconly.dart';
 import 'package:india_club/Helpers/utils.dart';
 import 'package:india_club/Bookings/court_booking.dart';
 import 'package:india_club/HomePage/member_profile.dart';
+import 'package:india_club/Src/Provider/authentication_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../Bookings/sports_list.dart';
@@ -26,6 +27,9 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     Future.delayed(Duration(seconds: 0), () {
+      getContext.navigatorKey.currentContext!
+          .read<AuthenticationProvider>()
+          .setMemberDetails();
       getContext.navigatorKey.currentContext!
           .read<SportsBookingProvider>()
           .setSportsList();
@@ -84,7 +88,7 @@ class _DashboardState extends State<Dashboard> {
             ),
             CarouselSlider(
               options: CarouselOptions(
-                height: 130.h,
+                height: 140.h,
                 viewportFraction: 1,
                 autoPlay: true,
                 onPageChanged: (index, reason) {
@@ -93,7 +97,8 @@ class _DashboardState extends State<Dashboard> {
                   });
                 },
               ),
-              items: ["assets/images/banner1.png", "assets/images/banner2.png"].map((i) {
+              items: ["assets/images/banner1.png", "assets/images/banner2.png"]
+                  .map((i) {
                 return Builder(
                   builder: (BuildContext context) {
                     return Container(
@@ -109,7 +114,9 @@ class _DashboardState extends State<Dashboard> {
                 );
               }).toList(),
             ),
-            SizedBox(height: 5.h,),
+            SizedBox(
+              height: 5.h,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -121,8 +128,10 @@ class _DashboardState extends State<Dashboard> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: _currentBannerIndex == i
-                          ? ColorPellets.orange // Change to the desired color for selected dot
-                          : ColorPellets.orange.withOpacity(0.2), // Change to the desired color for unselected dots
+                          ? ColorPellets
+                              .orange // Change to the desired color for selected dot
+                          : ColorPellets.orange.withOpacity(
+                              0.2), // Change to the desired color for unselected dots
                     ),
                   ),
               ],
@@ -151,28 +160,63 @@ class _DashboardState extends State<Dashboard> {
                       SizedBox(
                         width: 10.w,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Abdul Manaf",
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 11.sp,
-                                color: Colors.black.withOpacity(0.6)),
-                          ),
-                          SizedBox(
-                            height: 3.h,
-                          ),
-                          Text(
-                            "Member ID: ",
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 11.sp,
-                                color: Colors.black.withOpacity(0.6)),
-                          ),
-                        ],
-                      )
+                      Consumer<AuthenticationProvider>(
+                          builder: (context, details, _) {
+                        return details.memberDetails != null
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  details.memberDetails["data"][0]["surname"] ==
+                                              null ||
+                                          details.memberDetails["data"][0]
+                                                  ["surname"] ==
+                                              ""
+                                      ? Text(
+                                          details.memberDetails["data"][0]
+                                                  ["name"]
+                                              .toString(),
+                                          style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 11.sp,
+                                              color: Colors.black
+                                                  .withOpacity(0.6)),
+                                        )
+                                      : Text(
+                                          details.memberDetails["data"][0]
+                                                      ["name"]
+                                                  .toString() +
+                                              " " +
+                                              details.memberDetails["data"][0]
+                                                      ["surname"]
+                                                  .toString(),
+                                          style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 11.sp,
+                                              color: Colors.black
+                                                  .withOpacity(0.6)),
+                                        ),
+                                  SizedBox(
+                                    height: 3.h,
+                                  ),
+                                  Text(
+                                    "Member ID: ${details.memberDetails["data"][0]
+                                    ["membership_no"]
+                                        .toString()}",
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 11.sp,
+                                        color: Colors.black.withOpacity(0.6)),
+                                  ),
+                                ],
+                              )
+                            : Center(
+                                child: Text(
+                                  "Loading...",
+                                  style: GoogleFonts.poppins(
+                                      color: Colors.grey, fontSize: 10.sp),
+                                ),
+                              );
+                      })
                     ],
                   ),
                 ],
@@ -264,7 +308,9 @@ class _DashboardState extends State<Dashboard> {
                       Expanded(
                         child: InkWell(
                           onTap: () {
-                            showModalBottomSheet(context: context, builder: (context) => SportsList());
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (context) => SportsList());
                           },
                           child: Container(
                             height: 50.h,
@@ -325,8 +371,6 @@ class _DashboardState extends State<Dashboard> {
                 ],
               ),
             ),
-
-
             SizedBox(
               height: 10.h,
             ),

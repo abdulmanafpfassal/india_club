@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:india_club/Helpers/utils.dart';
+import 'package:india_club/Src/Provider/authentication_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Helpers/colors.dart';
@@ -18,34 +20,6 @@ class MemberProfile extends StatefulWidget {
 }
 
 class _MemberProfileState extends State<MemberProfile> {
-  var name;
-  var mem_id;
-  var whatsapp;
-  var address;
-  var email;
-  var jsonString;
-  List<dynamic>? jsonArray;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadData(); // Call your data loading function
-  }
-
-  Future<void> _loadData() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    name = preferences.getString("name");
-    mem_id = preferences.getString("mem_id");
-    whatsapp = preferences.getString("whatsapp");
-    address = preferences.getString("address");
-    email = preferences.getString("email");
-    jsonString = preferences.getString("dep");
-    print("j" + jsonString.toString());
-    setState(() {
-      jsonArray = json.decode(jsonString.toString());
-    });
-    print(jsonArray);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,213 +69,217 @@ class _MemberProfileState extends State<MemberProfile> {
           ),
         ],
       ),
-      body: Container(
-        margin: EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 5.h,
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Container(
-              width: getWidth(context),
-              padding: EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
-                  color: ColorPellets.orange.withOpacity(0.07)),
-              child: Column(
-                children: [
-                  Row(
+      body: Consumer<AuthenticationProvider>(
+        builder: (context, details, _) {
+          return Container(
+            margin: EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 5.h,
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Container(
+                  width: getWidth(context),
+                  padding: EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.r),
+                      color: ColorPellets.orange.withOpacity(0.07)),
+                  child: Column(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(200.r),
-                        child: Image.asset(
-                          "assets/images/dummy.jpg",
-                          height: 60.h,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      Row(
                         children: [
-                          Text(
-                            "Member Name: $name",
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 11.sp,
-                                color: Colors.black.withOpacity(0.6)),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(200.r),
+                            child: Image.asset(
+                              "assets/images/dummy.jpg",
+                              height: 60.h,
+                            ),
                           ),
                           SizedBox(
-                            height: 3.h,
+                            width: 10.w,
                           ),
-                          Text(
-                            "Membership No: $mem_id",
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 11.sp,
-                                color: Colors.black.withOpacity(0.6)),
-                          ),
-                          SizedBox(
-                            height: 3.h,
-                          ),
-                          Text(
-                            "Phone number: ",
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 11.sp,
-                                color: Colors.black.withOpacity(0.6)),
-                          ),
-                          SizedBox(
-                            height: 3.h,
-                          ),
-                          Text(
-                            "Address: $address",
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 11.sp,
-                                color: Colors.black.withOpacity(0.6)),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Divider(
-              indent: 10.w,
-              endIndent: 10.w,
-            ),
-            SizedBox(
-              height: 3.h,
-            ),
-            Container(
-              width: getWidth(context),
-              padding: EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
-                  color: ColorPellets.orange.withOpacity(0.07)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "More Info",
-                    style: GoogleFonts.poppins(
-                        fontSize: 14.sp, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 6.h,
-                  ),
-                  Text(
-                    "Whatsapp No: $whatsapp",
-                    style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 11.sp,
-                        color: Colors.black.withOpacity(0.6)),
-                  ),
-                  SizedBox(
-                    height: 3.h,
-                  ),
-                  Text(
-                    "Email ID: $email",
-                    style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 11.sp,
-                        color: Colors.black.withOpacity(0.6)),
-                  ),
-                  SizedBox(
-                    height: 3.h,
-                  ),
-                  Text(
-                    "Membership Expiry: ",
-                    style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 11.sp,
-                        color: Colors.black.withOpacity(0.6)),
-                  ),
-                ],
-              ),
-            ),
-            Divider(
-              indent: 10.w,
-              endIndent: 10.w,
-            ),
-            SizedBox(
-              height: 3.h,
-            ),
-            Container(
-              width: getWidth(context),
-              padding: EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
-                  color: ColorPellets.orange.withOpacity(0.07)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Dependencies",
-                    style: GoogleFonts.poppins(
-                        fontSize: 14.sp, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 6.h,
-                  ),
-                  Container(
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                        itemCount: jsonArray == null ? 0 :jsonArray!.length,
-                        itemBuilder: (context, index) {
-                          return jsonArray != null ?Column(
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Name : ${jsonArray![index]["name"]}",
+                               Text(
+                                "Member Name: ${details.memberDetails["data"][0]["name"]} ${details.memberDetails["data"][0]["surname"]}",
                                 style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 11.sp,
-                                  color: Colors.black.withOpacity(0.6),
-                                ),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 11.sp,
+                                    color: Colors.black.withOpacity(0.6)),
                               ),
                               SizedBox(
                                 height: 3.h,
                               ),
                               Text(
-                                "Age : ${jsonArray![index]["age"]}",
+                                "Membership No: ${details.memberDetails["data"][0]["membership_no"]}",
                                 style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 11.sp,
-                                  color: Colors.black.withOpacity(0.6),
-                                ),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 11.sp,
+                                    color: Colors.black.withOpacity(0.6)),
                               ),
                               SizedBox(
                                 height: 3.h,
                               ),
                               Text(
-                                "Relation : ${jsonArray![index]["relation"]}",
+                                details.memberDetails["data"][0]["phone"] == false ? "Phone number: " : "Phone number: ${details.memberDetails["data"][0]["phone"]}",
                                 style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 11.sp,
-                                  color: Colors.black.withOpacity(0.6),
-                                ),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 11.sp,
+                                    color: Colors.black.withOpacity(0.6)),
+                              ),
+                              SizedBox(
+                                height: 3.h,
+                              ),
+                              Text(
+                                "Address: ${details.memberDetails["data"][0]["address"]}",
+                                style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 11.sp,
+                                    color: Colors.black.withOpacity(0.6)),
                               ),
                             ],
-                          ) : SizedBox();
-                        },
-                        separatorBuilder: (context, ind){
-                          return SizedBox(height: 12.h,);
-                        },
-                        ),
+                          )
+                        ],
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )
-          ],
-        ),
+                ),
+                Divider(
+                  indent: 10.w,
+                  endIndent: 10.w,
+                ),
+                SizedBox(
+                  height: 3.h,
+                ),
+                Container(
+                  width: getWidth(context),
+                  padding: EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.r),
+                      color: ColorPellets.orange.withOpacity(0.07)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "More Info",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14.sp, fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(
+                        height: 6.h,
+                      ),
+                      Text(
+                        details.memberDetails["data"][0]["whatsapp_no"] == false ? "Whatsapp: " : "Whatsapp: ${details.memberDetails["data"][0]["whatsapp_no"]}",
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 11.sp,
+                            color: Colors.black.withOpacity(0.6)),
+                      ),
+                      SizedBox(
+                        height: 3.h,
+                      ),
+                      Text(
+                        "Email ID: ${details.memberDetails["data"][0]["email"]}",
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 11.sp,
+                            color: Colors.black.withOpacity(0.6)),
+                      ),
+                      SizedBox(
+                        height: 3.h,
+                      ),
+                      Text(
+                        "Membership Expiry: ",
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 11.sp,
+                            color: Colors.black.withOpacity(0.6)),
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(
+                  indent: 10.w,
+                  endIndent: 10.w,
+                ),
+                SizedBox(
+                  height: 3.h,
+                ),
+                Container(
+                  width: getWidth(context),
+                  padding: EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.r),
+                      color: ColorPellets.orange.withOpacity(0.07)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Dependencies",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14.sp, fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(
+                        height: 6.h,
+                      ),
+                      Container(
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                            itemCount: details.memberDetails["data"][0]["dependent_list"].length,
+                            itemBuilder: (context, index) {
+                              return details.memberDetails["data"][0]["dependent_list"].length >0  ?Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Name : ${details.memberDetails["data"][0]["dependent_list"][index]["name"]}",
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 11.sp,
+                                      color: Colors.black.withOpacity(0.6),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 3.h,
+                                  ),
+                                  Text(
+                                    "Age : ${details.memberDetails["data"][0]["dependent_list"][index]["age"]}",
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 11.sp,
+                                      color: Colors.black.withOpacity(0.6),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 3.h,
+                                  ),
+                                  Text(
+                                    "Relation : ${details.memberDetails["data"][0]["dependent_list"][index]["relation"]}",
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 11.sp,
+                                      color: Colors.black.withOpacity(0.6),
+                                    ),
+                                  ),
+                                ],
+                              ) : SizedBox();
+                            },
+                            separatorBuilder: (context, ind){
+                              return SizedBox(height: 12.h,);
+                            },
+                            ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        }
       ),
     );
   }
