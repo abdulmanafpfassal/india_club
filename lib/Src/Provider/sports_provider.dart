@@ -55,6 +55,11 @@ class SportsBookingProvider with ChangeNotifier {
     courtId = id;
   }
 
+  clearCourtIdAndSlot(){
+    courtId = null;
+    slotId = null;
+  }
+
   setGender(var text){
     print(text);
     if(text == false){
@@ -144,8 +149,10 @@ class SportsBookingProvider with ChangeNotifier {
               courtList["data"][data]["slot_availability"][index]["isSelected"] = true;
               notifyListeners();
             }else{
-              courtList["data"][data]["slot_availability"][index]["isSelected"] = false;
-              notifyListeners();
+              for(var ind = 0; ind < courtList["data"].length; ind++){
+                courtList["data"][ind]["slot_availability"][index]["isSelected"] = false;
+                notifyListeners();
+              }
             }
           }
         }
@@ -156,12 +163,10 @@ class SportsBookingProvider with ChangeNotifier {
   clearSelectedList(String court){
     if(courtList != null){
       for (var data = 0; data < courtList["data"].length; data++) {
-        if(courtList["data"][data]["name"] == court){
           for (var index = 0; index < courtList["data"][data]["slot_availability"].length; index++) {
               courtList["data"][data]["slot_availability"][index]["isSelected"] = false;
               notifyListeners();
             }
-          }
         }
       }
     }
@@ -260,7 +265,7 @@ class SportsBookingProvider with ChangeNotifier {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Thank You!",
+                    "Failed!",
                     style: GoogleFonts.poppins(
                       fontSize: 14.sp,
                     ),
@@ -277,7 +282,7 @@ class SportsBookingProvider with ChangeNotifier {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      primary: Colors.teal, // Set the background color to teal
+                      primary: Colors.red, // Set the background color to teal
                     ),
                     onPressed: () {
                       Navigator.pop(context); // Close the dialog box

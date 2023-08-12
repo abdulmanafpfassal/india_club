@@ -78,6 +78,9 @@ class _CourtBookingState extends State<CourtBooking> {
   @override
   void initState() {
     Future.delayed(Duration(seconds: 0), () async {
+      getContext.navigatorKey.currentContext!
+          .read<SportsBookingProvider>()
+          .clearCourtIdAndSlot();
       await getContext.navigatorKey.currentContext!
           .read<SportsBookingProvider>()
           .setDate(DateFormat('yyyy-MM-dd').format(selectedDate));

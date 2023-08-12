@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,7 +26,7 @@ class _SportsListState extends State<SportsList> {
       padding: EdgeInsets.all(20.0),
       child: Consumer<SportsBookingProvider>(
           builder: (context, sports, _) {
-            return sports.sportsList != null && sports.sportsList.containsKey("data") || sports.isLoading != true
+            return sports.sportsList != null || sports.isLoading != true
                 ? Wrap(
                 children: sports.sportsList["data"]
                     .asMap()
