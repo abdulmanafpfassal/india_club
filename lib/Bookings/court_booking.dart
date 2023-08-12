@@ -61,6 +61,14 @@ class _CourtBookingState extends State<CourtBooking> {
       selectedDate = newDate;
       formattedDate = DateFormat('dd MMM yyyy').format(newDate);
       dateController.animateToDate(selectedDate);
+      Future.delayed(Duration(seconds: 0), () async {
+        await getContext.navigatorKey.currentContext!
+            .read<SportsBookingProvider>()
+            .setDate(DateFormat('MM/dd/yyyy').format(selectedDate));
+        getContext.navigatorKey.currentContext!
+            .read<SportsBookingProvider>()
+            .setCourtList();
+      });
     });
     getContext.navigatorKey.currentContext!
         .read<SportsBookingProvider>()
@@ -279,6 +287,7 @@ class _CourtBookingState extends State<CourtBooking> {
                         ),
                       );
               }),
+              SizedBox(height: 10.h,),
               Consumer<SportsBookingProvider>(builder: (context, user, _) {
                 return Row(
                   children: [

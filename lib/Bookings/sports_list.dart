@@ -35,13 +35,14 @@ class _SportsListState extends State<SportsList> {
                   dynamic data = entry.value;
 
                   return InkWell(
-                    onTap: () {
+                    onTap: ()  {
                       setState(() {
                         index1 = currentIndex;
                         sports.setActivityId(data["id"].toString());
-                        Future.delayed(Duration(seconds: 0), () {
-                          Navigator.of(context).push(MaterialPageRoute(
+                        Future.delayed(Duration(seconds: 0), () async {
+                         await Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => CourtBooking()));
+                         Navigator.pop(context);
                         });
                       });
                     },
