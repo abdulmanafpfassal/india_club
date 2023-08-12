@@ -92,7 +92,7 @@ class AuthenticationRepo {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       var session_id = preferences.getString("session");
-      var uid = preferences.getString("uid");
+      var uid = preferences.getInt("uid");
 
       print("session" + session_id.toString());
 

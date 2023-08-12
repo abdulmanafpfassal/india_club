@@ -64,7 +64,7 @@ class _CourtBookingState extends State<CourtBooking> {
       Future.delayed(Duration(seconds: 0), () async {
         await getContext.navigatorKey.currentContext!
             .read<SportsBookingProvider>()
-            .setDate(DateFormat('MM/dd/yyyy').format(selectedDate));
+            .setDate(DateFormat('yyyy-MM-dd').format(selectedDate));
         getContext.navigatorKey.currentContext!
             .read<SportsBookingProvider>()
             .setCourtList();
@@ -72,7 +72,7 @@ class _CourtBookingState extends State<CourtBooking> {
     });
     getContext.navigatorKey.currentContext!
         .read<SportsBookingProvider>()
-        .setDate(DateFormat('MM/dd/yyyy').format(selectedDate));
+        .setDate(DateFormat('yyyy-MM-dd').format(selectedDate));
   }
 
   @override
@@ -205,7 +205,7 @@ class _CourtBookingState extends State<CourtBooking> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "Court: ${provider.courtList["data"][index]["name"]}",
+                                      "Court Name: ${provider.courtList["data"][index]["name"]}",
                                       style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 10.sp),
@@ -229,7 +229,8 @@ class _CourtBookingState extends State<CourtBooking> {
                                 SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   // Scroll horizontally
-                                  child: Row(
+                                  child: provider.courtList["data"][index]
+                                  ["slot_availability"].length > 0 ? Row(
                                     children: provider.courtList["data"][index]
                                             ["slot_availability"]
                                         .asMap()
@@ -272,7 +273,7 @@ class _CourtBookingState extends State<CourtBooking> {
                                         );
                                       });
                                     }).toList(),
-                                  ),
+                                  ) : Center(child: Text("No Slots Available"),),
                                 ),
                                 SizedBox(
                                   height: 10.h,
@@ -489,7 +490,7 @@ class _CourtBookingState extends State<CourtBooking> {
     );
   }
 
-  _showDialogBox(BuildContext context) {
+  _showDialogBox(BuildContext context, String id) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

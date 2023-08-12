@@ -43,8 +43,10 @@ class AuthenticationProvider with ChangeNotifier {
         log(loginResponse.toString());
       }
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      await preferences.setString(
-          "uid", loginResponse["result"]["uid"].toString());
+      await preferences.setInt(
+          "uid", loginResponse["result"]["uid"]);
+      await preferences.setInt(
+          "partnerId", loginResponse["result"]["partner_id"]);
       Navigator.of(getContext.navigatorKey.currentContext!).pushAndRemoveUntil(
           MaterialPageRoute(builder: (ctx) => Dashboard()), (route) => false);
     } else {

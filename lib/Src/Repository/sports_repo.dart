@@ -98,7 +98,8 @@ class SportsBookingRepo {
     try{
       SharedPreferences preferences = await SharedPreferences.getInstance();
       var session_id = preferences.getString("session");
-      var uid = preferences.getString("uid");
+      var uid = preferences.getInt("uid");
+      var memberId = preferences.getInt("partnerId");
 
 
       print("session"+session_id.toString());
@@ -112,7 +113,7 @@ class SportsBookingRepo {
 
       var body = jsonEncode({
         "user_id": uid,
-        "member_id": sportData.memberId,
+        "member_id": memberId,
         "email_id": sportData.emailId,
         "activity": sportData.activity_id,
         "court_id": sportData.courtId,
@@ -128,13 +129,44 @@ class SportsBookingRepo {
 
       log(body.toString());
 
-      // final response = await _service.postResponse(NetworkUrls.create_booking, body, headers);
-      //
-      // if(response.statusCode == 200){
-      //   Map<String, dynamic> responseBody = jsonDecode(response.body);
-      //   responseData = responseBody;
-      // }
+      final response = await _service.postResponse(NetworkUrls.create_booking, body, headers);
 
+      if(response.statusCode == 200){
+        Map<String, dynamic> responseBody = jsonDecode(response.body);
+        responseData = responseBody;
+        log("message" + responseData.toString());
+      }
+
+    }catch (e) {
+      log(e.toString());
+    }
+    return responseData;
+  }
+
+  Future<Map<String, dynamic>> getBookingDetails() async {
+    Map<String, dynamic> responseData = {};
+    try{
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      var session_id = preferences.getString("session");
+      var uid = preferences.getInt("uid");
+      var memberId = preferences.getInt("partnerId");
+
+
+      print("session"+session_id.toString());
+
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        "X-Openerp-Session-id": "$session_id"
+      };
+      
+      final response = await _service.getResponse(NetworkUrls.booking_history + uid.toString() + "&member_id=" + memberId.toString(),
+          headers);
+
+      if(response.statusCode == 200){
+        Map<String, dynamic> responseBody = jsonDecode(response.body);
+        responseData = responseBody;
+      }
+      
     }catch (e) {
       log(e.toString());
     }

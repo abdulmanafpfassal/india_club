@@ -1,6 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:india_club/Helpers/utils.dart';
+import 'package:india_club/HomePage/dashboard.dart';
 import 'package:india_club/Src/Repository/sports_repo.dart';
 
 import '../../Helpers/colors.dart';
@@ -13,6 +17,7 @@ class SportsBookingProvider with ChangeNotifier {
   dynamic courtList;
   dynamic slot_availability;
   dynamic courtBooking;
+  dynamic bookingHistory;
   var activity_id;
   var date;
   Color selection_color = ColorPellets.orange.withOpacity(0.6);
@@ -186,6 +191,114 @@ class SportsBookingProvider with ChangeNotifier {
   doCreateBooking() async {
     setIsLoading(true);
     courtBooking = await _bookingRepo.createBooking();
+    if(courtBooking.containsKey("result")){
+      setBookingHistory();
+      showDialog(
+        context: getContext.navigatorKey.currentContext!,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 10.w,
+                vertical: 20.h, // Adjust the vertical padding as needed
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Thank You!",
+                    style: GoogleFonts.poppins(
+                      fontSize: 14.sp,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Text(
+                    "Booking Successful!",
+                    style: GoogleFonts.poppins(fontSize: 12.sp),
+                  ),
+                  Text(
+                    "Booking Number: ${courtBooking["result"]["data"]["booking_id"].toString()}",
+                    style: GoogleFonts.poppins(fontSize: 12.sp),
+                  ),
+                  SizedBox(height: 10.h),
+                  // Add spacing between the text and other content
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      primary: Colors.teal, // Set the background color to teal
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Dashboard()), (route) => false); // Close the dialog box
+                    },
+                    child: Text('Go Back'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    }else{
+      showDialog(
+        context: getContext.navigatorKey.currentContext!,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 10.w,
+                vertical: 20.h, // Adjust the vertical padding as needed
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Thank You!",
+                    style: GoogleFonts.poppins(
+                      fontSize: 14.sp,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Text(
+                    "Booking Not Successful!",
+                    style: GoogleFonts.poppins(fontSize: 12.sp),
+                  ),
+                  SizedBox(height: 10.h),
+                  // Add spacing between the text and other content
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      primary: Colors.teal, // Set the background color to teal
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context); // Close the dialog box
+                    },
+                    child: Text('Try Again'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    }
+    setIsLoading(false);
+  }
+
+  setBookingHistory() async {
+    setIsLoading(true);
+    bookingHistory = await _bookingRepo.getBookingDetails();
+    log("message" + bookingHistory.toString());
+    notifyListeners();
     setIsLoading(false);
   }
 
