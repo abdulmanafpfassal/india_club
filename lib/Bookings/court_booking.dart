@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +15,7 @@ import 'package:provider/provider.dart';
 
 import '../Helpers/colors.dart';
 import '../Helpers/utils.dart';
+import '../Widget/date_picker.dart';
 
 class CourtBooking extends StatefulWidget {
   const CourtBooking({super.key});
@@ -25,28 +29,11 @@ class _CourtBookingState extends State<CourtBooking> {
   String? selectedTime;
   DateTime selectedDate = DateTime.now();
   int index1 = -1;
+  DatePickerController dateController = DatePickerController();
 
-  List<String> sportsItems = [
-    'Football',
-    'Basketball',
-    'Tennis',
-    'Cricket',
-    'Baseball',
-    'Soccer',
-    'Volleyball',
-    'Hockey',
-  ];
+  String formattedDate = DateFormat('dd MMM yyyy').format(DateTime.now());
 
-  List<String> selectedTimeList = [
-    '07:00 - 08:00AM',
-    '08:00 - 09:00AM',
-    '09:00 - 10:00AM',
-    '10:00 - 11:00AM',
-    '11:00 - 12:00PM',
-    '12:00 - 01:00PM',
-    '01:00 - 02:00PM',
-    '03:00 - 04:00PM',
-  ];
+
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
@@ -57,27 +44,33 @@ class _CourtBookingState extends State<CourtBooking> {
     );
 
     if (pickedDate != null && pickedDate != selectedDate) {
-      setState(() {
-        selectedDate = pickedDate;
-        getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().setDate(DateFormat('MM/dd/yyyy').format(selectedDate));
-      });
+        _updateSelectedDate(pickedDate);
     }
+  }
+
+  void _updateSelectedDate(DateTime newDate) {
+    log(">>>>>>>" + newDate.toString());
+    setState(() {
+      selectedDate = newDate;
+      formattedDate = DateFormat('dd MMM yyyy').format(newDate);
+      // dateController.animateToDate(selectedDate);
+    });
+    getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().setDate(DateFormat('MM/dd/yyyy').format(selectedDate));
   }
 
   @override
   void initState() {
+    selectedDate = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
     Future.delayed(Duration(seconds: 0), () {
-      getContext.navigatorKey.currentContext!
-          .read<SportsBookingProvider>()
-          .setSportsList();
       getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().setDate(DateFormat('MM/dd/yyyy').format(selectedDate));
     });
     super.initState();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
-    String formattedDate = DateFormat('dd MMM yyyy').format(selectedDate);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -130,77 +123,16 @@ class _CourtBookingState extends State<CourtBooking> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            CustomHorizontalDatePicker(
+              selectedTextColor: Colors.white,
+              selectionColor: ColorPellets.orange.withOpacity(0.6),
+              initialSelectedDate: selectedDate,
+            ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 10.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Consumer<SportsBookingProvider>(
-                      builder: (context, sports, _) {
-                    return sports.sportsList != null || sports.isLoading != true
-                        ? Wrap(
-                            children: sports.sportsList["data"]
-                                .asMap()
-                                .entries
-                                .map<Widget>((entry) {
-                            int currentIndex = entry.key;
-                            dynamic data = entry.value;
-
-                            return InkWell(
-                              onTap: () {
-                                setState(() {
-                                  index1 = currentIndex;
-                                  sports.setActivityId(data["id"].toString());
-                                });
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(right: 10.w, top: 10.h),
-                                height: 70.h,
-                                width: 70.w,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: index1 == currentIndex
-                                            ? ColorPellets.orange
-                                            : Colors.grey.withOpacity(0.3)),
-                                    borderRadius: BorderRadius.circular(10.r)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    // Center(
-                                    //   child: Container(
-                                    //     width: 70,
-                                    //     decoration: BoxDecoration(
-                                    //         borderRadius: BorderRadius.only(
-                                    //             topLeft: Radius.circular(10.r),
-                                    //             bottomLeft:
-                                    //                 Radius.circular(10.r))),
-                                    //     child: Center(
-                                    //       child: Image.asset(
-                                    //         "assets/images/football.png",
-                                    //         height: 25.h,
-                                    //       ),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    SizedBox(
-                                      height: 6.h,
-                                    ),
-                                    Text(
-                                      data["activity"],
-                                      // Assuming "name" is the key for the sport's name
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 11.sp,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    SizedBox()
-                                  ],
-                                ),
-                              ),
-                            );
-                          }).toList())
-                        : Container(child: Center(child: CircularProgressIndicator(color: ColorPellets.orange,),),);
-                  }),
-
                   SizedBox(
                     height: 10.h,
                   ),
@@ -369,4 +301,7 @@ class _CourtBookingState extends State<CourtBooking> {
       },
     );
   }
+
+
+
 }

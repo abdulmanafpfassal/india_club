@@ -6,9 +6,12 @@ import 'package:iconly/iconly.dart';
 import 'package:india_club/Helpers/utils.dart';
 import 'package:india_club/Bookings/court_booking.dart';
 import 'package:india_club/HomePage/member_profile.dart';
+import 'package:provider/provider.dart';
 
+import '../Bookings/sports_list.dart';
 import '../Helpers/colors.dart';
 import '../Notification/notification_page.dart';
+import '../Src/Provider/sports_provider.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -19,6 +22,16 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   int _currentBannerIndex = 0;
+
+  @override
+  void initState() {
+    Future.delayed(Duration(seconds: 0), () {
+      getContext.navigatorKey.currentContext!
+          .read<SportsBookingProvider>()
+          .setSportsList();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +79,54 @@ class _DashboardState extends State<Dashboard> {
         margin: EdgeInsets.symmetric(horizontal: 10.w),
         child: ListView(
           children: [
+            SizedBox(
+              height: 10.h,
+            ),
+            CarouselSlider(
+              options: CarouselOptions(
+                height: 130.h,
+                viewportFraction: 1,
+                autoPlay: true,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _currentBannerIndex = index;
+                  });
+                },
+              ),
+              items: ["assets/images/banner1.png", "assets/images/banner2.png"].map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.symmetric(horizontal: 5.0),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.r),
+                          image: DecorationImage(
+                              image: AssetImage(i), fit: BoxFit.cover)),
+                    );
+                  },
+                );
+              }).toList(),
+            ),
+            SizedBox(height: 5.h,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                for (int i = 0; i < 2; i++)
+                  Container(
+                    width: 6,
+                    height: 6,
+                    margin: EdgeInsets.symmetric(horizontal: 2.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _currentBannerIndex == i
+                          ? ColorPellets.orange // Change to the desired color for selected dot
+                          : ColorPellets.orange.withOpacity(0.2), // Change to the desired color for unselected dots
+                    ),
+                  ),
+              ],
+            ),
             SizedBox(
               height: 10.h,
             ),
@@ -203,8 +264,7 @@ class _DashboardState extends State<Dashboard> {
                       Expanded(
                         child: InkWell(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => CourtBooking()));
+                            showModalBottomSheet(context: context, builder: (context) => SportsList());
                           },
                           child: Container(
                             height: 50.h,
@@ -265,54 +325,8 @@ class _DashboardState extends State<Dashboard> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 10.h,
-            ),
-            CarouselSlider(
-              options: CarouselOptions(
-                height: 130.h,
-                viewportFraction: 1,
-                autoPlay: true,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _currentBannerIndex = index;
-                  });
-                },
-              ),
-              items: ["assets/images/banner1.png", "assets/images/banner2.png"].map((i) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.symmetric(horizontal: 5.0),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.r),
-                          image: DecorationImage(
-                              image: AssetImage(i), fit: BoxFit.cover)),
-                    );
-                  },
-                );
-              }).toList(),
-            ),
-            SizedBox(height: 5.h,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                for (int i = 0; i < 2; i++)
-                  Container(
-                    width: 6,
-                    height: 6,
-                    margin: EdgeInsets.symmetric(horizontal: 2.0),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: _currentBannerIndex == i
-                          ? ColorPellets.orange // Change to the desired color for selected dot
-                          : ColorPellets.orange.withOpacity(0.2), // Change to the desired color for unselected dots
-                    ),
-                  ),
-              ],
-            ),
+
+
             SizedBox(
               height: 10.h,
             ),

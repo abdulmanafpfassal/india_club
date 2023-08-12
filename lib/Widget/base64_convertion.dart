@@ -12,7 +12,7 @@ class Base64ImageWidget extends StatefulWidget {
 }
 
 class _Base64ImageWidgetState extends State<Base64ImageWidget> {
-  late Image image;
+  Image? image;
 
   @override
   void initState() {
@@ -22,40 +22,28 @@ class _Base64ImageWidgetState extends State<Base64ImageWidget> {
 
   void _decodeImage() {
     try {
-      Uint8List imageBytes = base64Url.decode(widget.base64Url);
-      setState(() {
-        image = Image.memory(imageBytes);
-      });
+      final uri = Uri.parse(widget.base64Url);
+      final mimeType = uri.data!.mimeType;
+      final base64Content = uri.data!.contentAsBytes();
+
+      if (mimeType != null && base64Content.isNotEmpty) {
+        setState(() {
+          image = Image.memory(Uint8List.fromList(base64Content));
+        });
+      } else {
+        print('Invalid data URI format');
+      }
     } catch (e) {
       print('Error decoding image: $e');
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: image ?? CircularProgressIndicator(),
+      child: image ?? CircularProgressIndicator(color: Colors.orange,),
     );
   }
 }
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Base64 Image Example',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Base64 Image Example'),
-        ),
-        body: Base64ImageWidget(
-          base64Url: 'YOUR_BASE64_URL_HERE',
-        ),
-      ),
-    );
-  }
-}
