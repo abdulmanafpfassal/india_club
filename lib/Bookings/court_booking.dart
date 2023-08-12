@@ -15,7 +15,6 @@ import 'package:provider/provider.dart';
 
 import '../Helpers/colors.dart';
 import '../Helpers/utils.dart';
-import '../Widget/date_picker.dart';
 
 class CourtBooking extends StatefulWidget {
   const CourtBooking({super.key});
@@ -33,8 +32,6 @@ class _CourtBookingState extends State<CourtBooking> {
 
   String formattedDate = DateFormat('dd MMM yyyy').format(DateTime.now());
 
-
-
   Future<void> _selectDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -44,206 +41,433 @@ class _CourtBookingState extends State<CourtBooking> {
     );
 
     if (pickedDate != null && pickedDate != selectedDate) {
-        _updateSelectedDate(pickedDate);
+      _updateSelectedDate(pickedDate);
     }
   }
 
   void _updateSelectedDate(DateTime newDate) {
-    log(">>>>>>>" + newDate.toString());
     setState(() {
+      DateTime now = DateTime.now();
+      newDate = DateTime(
+        newDate.year,
+        newDate.month,
+        newDate.day,
+        now.hour,
+        now.minute,
+        now.second,
+        now.millisecond,
+        now.microsecond,
+      );
       selectedDate = newDate;
       formattedDate = DateFormat('dd MMM yyyy').format(newDate);
-      // dateController.animateToDate(selectedDate);
+      dateController.animateToDate(selectedDate);
     });
-    getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().setDate(DateFormat('MM/dd/yyyy').format(selectedDate));
+    getContext.navigatorKey.currentContext!
+        .read<SportsBookingProvider>()
+        .setDate(DateFormat('MM/dd/yyyy').format(selectedDate));
   }
 
   @override
   void initState() {
-    selectedDate = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
-    Future.delayed(Duration(seconds: 0), () {
-      getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().setDate(DateFormat('MM/dd/yyyy').format(selectedDate));
+    Future.delayed(Duration(seconds: 0), () async {
+      await getContext.navigatorKey.currentContext!
+          .read<SportsBookingProvider>()
+          .setDate(DateFormat('MM/dd/yyyy').format(selectedDate));
+      getContext.navigatorKey.currentContext!
+          .read<SportsBookingProvider>()
+          .setCourtList();
     });
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Text(
-          "Booking",
-          style: GoogleFonts.poppins(color: Colors.black),
-        ),
-        leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              IconlyLight.arrow_left_2,
-              color: Colors.black,
-            )),
-        actions: [
-          InkWell(
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => NotificationPage()));
-            },
-            child: Icon(
-              IconlyLight.notification,
-              color: Colors.black,
-            ),
-          ),
-          SizedBox(
-            width: 20.w,
-          ),
-          InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                  context: context, builder: (ctx) => LogoutDialog());
-            },
-            child: Icon(
-              IconlyLight.logout,
-              color: Colors.red,
-            ),
-          ),
-          SizedBox(
-            width: 10.w,
-          ),
-        ],
-      ),
-      body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100.h),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomHorizontalDatePicker(
-              selectedTextColor: Colors.white,
-              selectionColor: ColorPellets.orange.withOpacity(0.6),
-              initialSelectedDate: selectedDate,
+            AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              title: Text(
+                "Booking",
+                style: GoogleFonts.poppins(color: Colors.black),
+              ),
+              leading: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(
+                    IconlyLight.arrow_left_2,
+                    color: Colors.black,
+                  )),
+              actions: [
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => NotificationPage()));
+                  },
+                  child: Icon(
+                    IconlyLight.notification,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(
+                  width: 20.w,
+                ),
+                InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                        context: context, builder: (ctx) => LogoutDialog());
+                  },
+                  child: Icon(
+                    IconlyLight.logout,
+                    color: Colors.red,
+                  ),
+                ),
+                SizedBox(
+                  width: 10.w,
+                ),
+              ],
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 10.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
                 children: [
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  Text(
-                    "Date",
-                    style: GoogleFonts.poppins(fontSize: 11.sp),
+                  Expanded(
+                    child: Container(child: buildDatePicker()),
                   ),
                   SizedBox(
-                    height: 10.h,
+                    width: 10.w,
                   ),
                   InkWell(
                     onTap: () {
                       _selectDate(context);
                     },
                     child: Container(
-                      width: getWidth(context),
-                      height: 35.h,
-                      padding: EdgeInsets.symmetric(horizontal: 10.w),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.r),
-                          border:
-                              Border.all(color: Colors.grey.withOpacity(0.3))),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            formattedDate.toString(),
-                            style: GoogleFonts.poppins(
-                                fontSize: 12.sp,
-                                color: Colors.black.withOpacity(0.7)),
-                          ),
-                          Icon(IconlyLight.calendar)
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      if(index1 != -1) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => BookingTime()));
-                      }else{
-                        Future.delayed(Duration(seconds: 0), () {
-                          ShowMToast().errorToast(context, message: "Select a sport", alignment: Alignment.bottomCenter);
-                        });
-                      }
-                    },
-                    child: Text(
-                      "Check Availability",
-                      style: GoogleFonts.poppins(
-                          fontSize: 11.sp,
-                          color: ColorPellets.orange,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  // Container(
-                  //   width: getWidth(context),
-                  //  // padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  //   decoration: BoxDecoration(
-                  //       color: Colors.white,
-                  //       borderRadius: BorderRadius.circular(10.r),
-                  //       border: Border.all(color: Colors.grey.withOpacity(0.3))
-                  //   ),
-                  //   child: DropdownButtonHideUnderline(
-                  //     child: DropdownButton<String>(
-                  //       isExpanded: true,
-                  //       value: selectedTime,
-                  //       onChanged: (newValue) {
-                  //         setState(() {
-                  //           selectedTime = newValue!;
-                  //         });
-                  //       },
-                  //       hint: Text("Select Time", style: GoogleFonts.poppins(
-                  //           fontSize: 12.sp,
-                  //           color: Colors.black.withOpacity(0.7)
-                  //       ),),
-                  //       items: selectedTimeList.map((sport) {
-                  //         return DropdownMenuItem<String>(
-                  //           value: sport,
-                  //           child: Text(sport),
-                  //         );
-                  //       }).toList(),
-                  //       borderRadius: BorderRadius.circular(10.r),
-                  //       padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  //     ),
-                  //   ),
-                  // ),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 10.h),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: ColorPellets.orange.withOpacity(0.6)),
+                            borderRadius: BorderRadius.circular(10.r)),
+                        child: Icon(IconlyLight.calendar)),
+                  )
                 ],
               ),
             ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10.w),
-              child: CustomButton(
-                button_text: "Book Now",
-                onTap: () {
-                  _showDialogBox(context);
-                },
-                isEnabled: true,
-              ),
-            )
           ],
+        ),
+      ),
+      body: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Select Court",
+                style: GoogleFonts.poppins(
+                    color: Colors.black, fontWeight: FontWeight.w500),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Consumer<SportsBookingProvider>(builder: (context, provider, _) {
+                return provider.courtList != null || provider.isLoading != true
+                    ? ListView.separated(
+                        scrollDirection: Axis.vertical,
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        separatorBuilder: (ctx, ind) {
+                          return SizedBox(
+                            height: 10.h,
+                          );
+                        },
+                        itemCount: provider.courtList["data"].length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Court: ${provider.courtList["data"][index]["name"]}",
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 10.sp),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        provider.clearSelectedList(provider
+                                            .courtList["data"][index]["name"]);
+                                      },
+                                      child: Text(
+                                        "Clear",
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 10.sp,
+                                            color: ColorPellets.orange),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Divider(),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  // Scroll horizontally
+                                  child: Row(
+                                    children: provider.courtList["data"][index]
+                                            ["slot_availability"]
+                                        .asMap()
+                                        .entries
+                                        .map<Widget>((e) {
+                                      final slot = e.value[
+                                          "slot"]; // Access "slot" from the value of the MapEntry
+                                      return Consumer<SportsBookingProvider>(
+                                          builder: (context, time, _) {
+                                        return InkWell(
+                                          onTap: () {
+                                            time.setIsSelectedToTrue(
+                                                e.value["id"],
+                                                provider.courtList["data"]
+                                                    [index]["name"]);
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                right: 10.w, top: 10.h),
+                                            child: Text(slot.toString(),
+                                                style: GoogleFonts.poppins(
+                                                    color: e.value["isSelected"]
+                                                        ? Colors.green
+                                                        : Colors.grey)),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 10.w,
+                                                vertical: 5.h),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(6.r),
+                                              border: Border.all(
+                                                  color: e.value["isSelected"]
+                                                      ? Colors.green
+                                                      : Colors.grey),
+                                            ),
+                                          ),
+                                        );
+                                      });
+                                    }).toList(),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.h,
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                      )
+                    : Container(
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: ColorPellets.orange,
+                          ),
+                        ),
+                      );
+              }),
+              Consumer<SportsBookingProvider>(builder: (context, user, _) {
+                return Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.r),
+                            border: Border.all(
+                                color: ColorPellets.orange.withOpacity(0.3))),
+                        child: Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Text(
+                                "Select Members",
+                                style: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      user.incrementMem();
+                                    },
+                                    child: Container(
+                                      width: 30.w,
+                                      height: 30.w,
+                                      decoration: BoxDecoration(
+                                          color: ColorPellets.orange
+                                              .withOpacity(0.2),
+                                          borderRadius:
+                                              BorderRadius.circular(100.r)),
+                                      child: Icon(
+                                        Icons.add,
+                                        color: Colors.orange,
+                                        size: 14.sp,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 30.w,
+                                    height: 30.w,
+                                    child: Center(
+                                        child: Text(
+                                      user.memberNumber.toString(),
+                                      style:
+                                          GoogleFonts.poppins(fontSize: 14.sp),
+                                    )),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      user.decrementMem();
+                                    },
+                                    child: Container(
+                                      width: 30.w,
+                                      height: 30.w,
+                                      decoration: BoxDecoration(
+                                          color: ColorPellets.orange
+                                              .withOpacity(0.2),
+                                          borderRadius:
+                                              BorderRadius.circular(100.r)),
+                                      child: Icon(
+                                        Icons.remove,
+                                        color: Colors.orange,
+                                        size: 14.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.r),
+                            border: Border.all(
+                                color: ColorPellets.orange.withOpacity(0.3))),
+                        child: Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Text(
+                                "Select Guest",
+                                style: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      user.incrementGuest();
+                                    },
+                                    child: Container(
+                                      width: 30.w,
+                                      height: 30.w,
+                                      decoration: BoxDecoration(
+                                          color: ColorPellets.orange
+                                              .withOpacity(0.2),
+                                          borderRadius:
+                                              BorderRadius.circular(100.r)),
+                                      child: Icon(
+                                        Icons.add,
+                                        color: Colors.orange,
+                                        size: 14.sp,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 30.w,
+                                    height: 30.w,
+                                    child: Center(
+                                        child: Text(
+                                      user.guestNumber.toString(),
+                                      style:
+                                          GoogleFonts.poppins(fontSize: 14.sp),
+                                    )),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      user.decrementGuest();
+                                    },
+                                    child: Container(
+                                      width: 30.w,
+                                      height: 30.w,
+                                      decoration: BoxDecoration(
+                                          color: ColorPellets.orange
+                                              .withOpacity(0.2),
+                                          borderRadius:
+                                              BorderRadius.circular(100.r)),
+                                      child: Icon(
+                                        Icons.remove,
+                                        color: Colors.orange,
+                                        size: 14.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+        child: CustomButton(
+          button_text: "Book Now",
+          onTap: () {
+            _showDialogBox(context);
+          },
+          isEnabled: true,
         ),
       ),
     );
@@ -302,6 +526,14 @@ class _CourtBookingState extends State<CourtBooking> {
     );
   }
 
-
-
+  Widget buildDatePicker() {
+    return DatePicker(
+      DateTime.now(),
+      controller: dateController,
+      initialSelectedDate: selectedDate,
+      selectionColor: ColorPellets.orange.withOpacity(0.6),
+      selectedTextColor: Colors.white,
+      onDateChange: (date) => _updateSelectedDate(date),
+    );
+  }
 }

@@ -32,50 +32,6 @@ class _BookingTimeState extends State<BookingTime> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Text(
-          "Availability",
-          style: GoogleFonts.poppins(color: Colors.black),
-        ),
-        leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              IconlyLight.arrow_left_2,
-              color: Colors.black,
-            )),
-        actions: [
-          InkWell(
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => NotificationPage()));
-            },
-            child: Icon(
-              IconlyLight.notification,
-              color: Colors.black,
-            ),
-          ),
-          SizedBox(
-            width: 20.w,
-          ),
-          InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                  context: context, builder: (ctx) => LogoutDialog());
-            },
-            child: Icon(
-              IconlyLight.logout,
-              color: Colors.red,
-            ),
-          ),
-          SizedBox(
-            width: 10.w,
-          ),
-        ],
-      ),
       body: Container(
         margin: EdgeInsets.all(10.0),
         child: Consumer<SportsBookingProvider>(builder: (context, provider, _) {
