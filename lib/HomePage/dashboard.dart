@@ -14,6 +14,7 @@ import '../Bookings/sports_list.dart';
 import '../Helpers/colors.dart';
 import '../Notification/notification_page.dart';
 import '../Src/Provider/sports_provider.dart';
+import 'drawer.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -24,6 +25,8 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   int _currentBannerIndex = 0;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
 
   @override
   void initState() {
@@ -44,9 +47,18 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        leading: InkWell(
+          onTap: (){
+            _scaffoldKey.currentState?.openDrawer();
+          },
+          child: Container(
+            padding: EdgeInsets.all(15.0),
+              child: Image.asset("assets/images/hamburger.png",)),
+        ),
         elevation: 0,
         title: Text(
           "Home",
@@ -82,6 +94,10 @@ class _DashboardState extends State<Dashboard> {
             width: 10.w,
           ),
         ],
+      ),
+      drawer: Drawer(
+        backgroundColor: Colors.white,
+        child: DrawerPage(),
       ),
       body: RefreshIndicator(
         color: ColorPellets.orange,

@@ -42,7 +42,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 height: 20.h,
               ),
               Text(
-                "Your Email ID/Member ID",
+                "Your Email ID",
                 style: GoogleFonts.poppins(
                   fontSize: 12.sp,
                 ),

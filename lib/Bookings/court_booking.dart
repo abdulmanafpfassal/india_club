@@ -160,8 +160,8 @@ class _CourtBookingState extends State<CourtBooking> {
                         padding: EdgeInsets.symmetric(
                             horizontal: 10.w, vertical: 10.h),
                         decoration: BoxDecoration(
-                            border: Border.all(
-                                color: ColorPellets.orange.withOpacity(0.6)),
+                            // border: Border.all(
+                            //     color: ColorPellets.orange.withOpacity(0.6)),
                             borderRadius: BorderRadius.circular(10.r)),
                         child: Icon(IconlyLight.calendar)),
                   )
@@ -229,7 +229,8 @@ class _CourtBookingState extends State<CourtBooking> {
                                   ],
                                 ),
                                 Divider(),
-                                SingleChildScrollView(
+                                provider.courtList["data"][index]
+                                ["slot_availability"] != null ? SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   // Scroll horizontally
                                   child: provider.courtList["data"][index]
@@ -277,7 +278,7 @@ class _CourtBookingState extends State<CourtBooking> {
                                       });
                                     }).toList(),
                                   ) : Center(child: Text("No Slots Available"),),
-                                ),
+                                ) : SizedBox(),
                                 SizedBox(
                                   height: 10.h,
                                 )

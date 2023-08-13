@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
+
         title: Text(
           "India Club",
           style: GoogleFonts.poppins(color: Colors.black),
