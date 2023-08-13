@@ -36,6 +36,12 @@ class SportsBookingProvider with ChangeNotifier {
   var slotId;
   var booking_date;
   var membershipId;
+  var sportsName;
+
+  setSportsName(String name) {
+    sportsName = name;
+    notifyListeners();
+  }
 
 
   setUser(int id){
@@ -129,7 +135,63 @@ class SportsBookingProvider with ChangeNotifier {
 
   setSportsList() async {
     setIsLoading(true);
-    sportsList = await _bookingRepo.getAllSports();
+    sportsList = {
+      "message": "All Games have been fetched successfully",
+      "status": true,
+      "status_code": 200,
+      "data": [
+        {
+          "id": 1,
+          "sequence": "SP00001",
+          "activity": "TENNIS",
+          "activity_type": "games",
+          "court_ids": null,
+          "company_id": 1,
+          "company_name": "India Club Dubai",
+          "icon": "assets/images/tennis.png"
+        },
+        {
+          "id": 2,
+          "sequence": "SP00002",
+          "activity": "BADMINTON",
+          "activity_type": "games",
+          "court_ids": null,
+          "company_id": 1,
+          "company_name": "India Club Dubai",
+          "icon": "assets/images/badminton.png"
+        },
+        {
+          "id": 4,
+          "sequence": "SP00004",
+          "activity": "CRICKET",
+          "activity_type": "games",
+          "court_ids": null,
+          "company_id": 1,
+          "company_name": "India Club Dubai",
+          "icon": "assets/images/cricket.png"
+        },
+        {
+          "id": 5,
+          "sequence": "SP00005",
+          "activity": "FOOTBALL",
+          "activity_type": "games",
+          "court_ids": null,
+          "company_id": 1,
+          "company_name": "India Club Dubai",
+          "icon": "assets/images/football.png"
+        },
+        {
+          "id": 6,
+          "sequence": "SP00006",
+          "activity": "SQUASH",
+          "activity_type": "games",
+          "court_ids": null,
+          "company_id": 1,
+          "company_name": "India Club Dubai",
+          "icon": "assets/images/squash.png"
+        }
+      ]
+    };
     setIsLoading(false);
     notifyListeners();
   }

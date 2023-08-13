@@ -5,12 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
-import 'package:india_club/Bookings/booking_time.dart';
 import 'package:india_club/Notification/notification_page.dart';
 import 'package:india_club/Src/Provider/sports_provider.dart';
 import 'package:india_club/Widget/custom_button.dart';
 import 'package:intl/intl.dart';
-import 'package:m_toast/m_toast.dart';
 import 'package:provider/provider.dart';
 
 import '../Helpers/colors.dart';
@@ -102,9 +100,13 @@ class _CourtBookingState extends State<CourtBooking> {
             AppBar(
               backgroundColor: Colors.white,
               elevation: 0,
-              title: Text(
-                "Booking",
-                style: GoogleFonts.poppins(color: Colors.black),
+              title: Consumer<SportsBookingProvider>(
+                builder: (context, name, _) {
+                  return Text(
+                    "${name.sportsName} Booking",
+                    style: GoogleFonts.poppins(color: Colors.black),
+                  );
+                }
               ),
               leading: GestureDetector(
                   onTap: () {
@@ -296,183 +298,183 @@ class _CourtBookingState extends State<CourtBooking> {
                       );
               }),
               SizedBox(height: 10.h,),
-              Consumer<SportsBookingProvider>(builder: (context, user, _) {
-                return Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(
-                                color: ColorPellets.orange.withOpacity(0.3))),
-                        child: Center(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              Text(
-                                "Select Members",
-                                style: GoogleFonts.poppins(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      user.incrementMem();
-                                    },
-                                    child: Container(
-                                      width: 30.w,
-                                      height: 30.w,
-                                      decoration: BoxDecoration(
-                                          color: ColorPellets.orange
-                                              .withOpacity(0.2),
-                                          borderRadius:
-                                              BorderRadius.circular(100.r)),
-                                      child: Icon(
-                                        Icons.add,
-                                        color: Colors.orange,
-                                        size: 14.sp,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 30.w,
-                                    height: 30.w,
-                                    child: Center(
-                                        child: Text(
-                                      user.memberNumber.toString(),
-                                      style:
-                                          GoogleFonts.poppins(fontSize: 14.sp),
-                                    )),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      user.decrementMem();
-                                    },
-                                    child: Container(
-                                      width: 30.w,
-                                      height: 30.w,
-                                      decoration: BoxDecoration(
-                                          color: ColorPellets.orange
-                                              .withOpacity(0.2),
-                                          borderRadius:
-                                              BorderRadius.circular(100.r)),
-                                      child: Icon(
-                                        Icons.remove,
-                                        color: Colors.orange,
-                                        size: 14.sp,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(
-                                color: ColorPellets.orange.withOpacity(0.3))),
-                        child: Center(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              Text(
-                                "Select Guest",
-                                style: GoogleFonts.poppins(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      user.incrementGuest();
-                                    },
-                                    child: Container(
-                                      width: 30.w,
-                                      height: 30.w,
-                                      decoration: BoxDecoration(
-                                          color: ColorPellets.orange
-                                              .withOpacity(0.2),
-                                          borderRadius:
-                                              BorderRadius.circular(100.r)),
-                                      child: Icon(
-                                        Icons.add,
-                                        color: Colors.orange,
-                                        size: 14.sp,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 30.w,
-                                    height: 30.w,
-                                    child: Center(
-                                        child: Text(
-                                      user.guestNumber.toString(),
-                                      style:
-                                          GoogleFonts.poppins(fontSize: 14.sp),
-                                    )),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      user.decrementGuest();
-                                    },
-                                    child: Container(
-                                      width: 30.w,
-                                      height: 30.w,
-                                      decoration: BoxDecoration(
-                                          color: ColorPellets.orange
-                                              .withOpacity(0.2),
-                                          borderRadius:
-                                              BorderRadius.circular(100.r)),
-                                      child: Icon(
-                                        Icons.remove,
-                                        color: Colors.orange,
-                                        size: 14.sp,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              }),
+              // Consumer<SportsBookingProvider>(builder: (context, user, _) {
+              //   return Row(
+              //     children: [
+              //       Expanded(
+              //         child: Container(
+              //           decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.circular(10.r),
+              //               border: Border.all(
+              //                   color: ColorPellets.orange.withOpacity(0.3))),
+              //           child: Center(
+              //             child: Column(
+              //               crossAxisAlignment: CrossAxisAlignment.center,
+              //               children: [
+              //                 SizedBox(
+              //                   height: 10.h,
+              //                 ),
+              //                 Text(
+              //                   "Select Members",
+              //                   style: GoogleFonts.poppins(
+              //                       color: Colors.black,
+              //                       fontWeight: FontWeight.w500),
+              //                 ),
+              //                 SizedBox(
+              //                   height: 10.h,
+              //                 ),
+              //                 Row(
+              //                   mainAxisAlignment:
+              //                       MainAxisAlignment.spaceEvenly,
+              //                   children: [
+              //                     InkWell(
+              //                       onTap: () {
+              //                         user.incrementMem();
+              //                       },
+              //                       child: Container(
+              //                         width: 30.w,
+              //                         height: 30.w,
+              //                         decoration: BoxDecoration(
+              //                             color: ColorPellets.orange
+              //                                 .withOpacity(0.2),
+              //                             borderRadius:
+              //                                 BorderRadius.circular(100.r)),
+              //                         child: Icon(
+              //                           Icons.add,
+              //                           color: Colors.orange,
+              //                           size: 14.sp,
+              //                         ),
+              //                       ),
+              //                     ),
+              //                     Container(
+              //                       width: 30.w,
+              //                       height: 30.w,
+              //                       child: Center(
+              //                           child: Text(
+              //                         user.memberNumber.toString(),
+              //                         style:
+              //                             GoogleFonts.poppins(fontSize: 14.sp),
+              //                       )),
+              //                     ),
+              //                     InkWell(
+              //                       onTap: () {
+              //                         user.decrementMem();
+              //                       },
+              //                       child: Container(
+              //                         width: 30.w,
+              //                         height: 30.w,
+              //                         decoration: BoxDecoration(
+              //                             color: ColorPellets.orange
+              //                                 .withOpacity(0.2),
+              //                             borderRadius:
+              //                                 BorderRadius.circular(100.r)),
+              //                         child: Icon(
+              //                           Icons.remove,
+              //                           color: Colors.orange,
+              //                           size: 14.sp,
+              //                         ),
+              //                       ),
+              //                     ),
+              //                   ],
+              //                 ),
+              //                 SizedBox(
+              //                   height: 10.h,
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //       SizedBox(
+              //         width: 10.w,
+              //       ),
+              //       Expanded(
+              //         child: Container(
+              //           decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.circular(10.r),
+              //               border: Border.all(
+              //                   color: ColorPellets.orange.withOpacity(0.3))),
+              //           child: Center(
+              //             child: Column(
+              //               crossAxisAlignment: CrossAxisAlignment.center,
+              //               children: [
+              //                 SizedBox(
+              //                   height: 10.h,
+              //                 ),
+              //                 Text(
+              //                   "Select Guest",
+              //                   style: GoogleFonts.poppins(
+              //                       color: Colors.black,
+              //                       fontWeight: FontWeight.w500),
+              //                 ),
+              //                 SizedBox(
+              //                   height: 10.h,
+              //                 ),
+              //                 Row(
+              //                   mainAxisAlignment:
+              //                       MainAxisAlignment.spaceEvenly,
+              //                   children: [
+              //                     InkWell(
+              //                       onTap: () {
+              //                         user.incrementGuest();
+              //                       },
+              //                       child: Container(
+              //                         width: 30.w,
+              //                         height: 30.w,
+              //                         decoration: BoxDecoration(
+              //                             color: ColorPellets.orange
+              //                                 .withOpacity(0.2),
+              //                             borderRadius:
+              //                                 BorderRadius.circular(100.r)),
+              //                         child: Icon(
+              //                           Icons.add,
+              //                           color: Colors.orange,
+              //                           size: 14.sp,
+              //                         ),
+              //                       ),
+              //                     ),
+              //                     Container(
+              //                       width: 30.w,
+              //                       height: 30.w,
+              //                       child: Center(
+              //                           child: Text(
+              //                         user.guestNumber.toString(),
+              //                         style:
+              //                             GoogleFonts.poppins(fontSize: 14.sp),
+              //                       )),
+              //                     ),
+              //                     InkWell(
+              //                       onTap: () {
+              //                         user.decrementGuest();
+              //                       },
+              //                       child: Container(
+              //                         width: 30.w,
+              //                         height: 30.w,
+              //                         decoration: BoxDecoration(
+              //                             color: ColorPellets.orange
+              //                                 .withOpacity(0.2),
+              //                             borderRadius:
+              //                                 BorderRadius.circular(100.r)),
+              //                         child: Icon(
+              //                           Icons.remove,
+              //                           color: Colors.orange,
+              //                           size: 14.sp,
+              //                         ),
+              //                       ),
+              //                     ),
+              //                   ],
+              //                 ),
+              //                 SizedBox(
+              //                   height: 10.h,
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   );
+              // }),
             ],
           ),
         ),

@@ -26,6 +26,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int _currentBannerIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  int index1= -1;
 
 
   @override
@@ -60,9 +61,30 @@ class _DashboardState extends State<Dashboard> {
               child: Image.asset("assets/images/hamburger.png",)),
         ),
         elevation: 0,
-        title: Text(
-          "Home",
-          style: GoogleFonts.poppins(color: Colors.black),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Consumer<AuthenticationProvider>(
+              builder: (context, name, _) {
+                return name.memberDetails != null ? Text("Hi ${name.memberDetails["data"][0]
+                ["name"]
+                    .toString()}", style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13.sp,
+                  color: Colors.black
+                ),) : Text("Hi ", style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13.sp,
+                    color: Colors.black
+                ),);
+              }
+            ),
+            Text("Welcome Back", style: GoogleFonts.poppins(
+                fontWeight: FontWeight.bold,
+                fontSize: 15.sp,
+              color: Colors.black
+            ),)
+          ],
         ),
         actions: [
           InkWell(
@@ -116,6 +138,20 @@ class _DashboardState extends State<Dashboard> {
           margin: EdgeInsets.symmetric(horizontal: 10.w),
           child: ListView(
             children: [
+              // SizedBox(height: 10.h,),
+              // Column(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     Text("Hi Manaf", style: GoogleFonts.poppins(
+              //       fontWeight: FontWeight.w500,
+              //       fontSize: 13.sp
+              //     ),),
+              //     Text("Welcome Back", style: GoogleFonts.poppins(
+              //         fontWeight: FontWeight.bold,
+              //         fontSize: 15.sp
+              //     ),)
+              //   ],
+              // ),
               SizedBox(
                 height: 10.h,
               ),
@@ -171,94 +207,99 @@ class _DashboardState extends State<Dashboard> {
                     ),
                 ],
               ),
+              // SizedBox(
+              //   height: 10.h,
+              // ),
+              // Container(
+              //   width: getWidth(context),
+              //   padding: EdgeInsets.all(10.0),
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(10.r),
+              //     border:
+              //         Border.all(color: ColorPellets.orange.withOpacity(0.1)),
+              //   ),
+              //   child: Column(
+              //     children: [
+              //       Row(
+              //         children: [
+              //           ClipRRect(
+              //             borderRadius: BorderRadius.circular(200.r),
+              //             child: Image.asset(
+              //               "assets/images/dummy.jpg",
+              //               height: 60.h,
+              //             ),
+              //           ),
+              //           SizedBox(
+              //             width: 10.w,
+              //           ),
+              //           Consumer<AuthenticationProvider>(
+              //               builder: (context, details, _) {
+              //             return details.memberDetails != null
+              //                 ? Column(
+              //                     crossAxisAlignment: CrossAxisAlignment.start,
+              //                     children: [
+              //                       details.memberDetails["data"][0]
+              //                                       ["surname"] ==
+              //                                   null ||
+              //                               details.memberDetails["data"][0]
+              //                                       ["surname"] ==
+              //                                   ""
+              //                           ? Text(
+              //                               details.memberDetails["data"][0]
+              //                                       ["name"]
+              //                                   .toString(),
+              //                               style: GoogleFonts.poppins(
+              //                                   fontWeight: FontWeight.w500,
+              //                                   fontSize: 11.sp,
+              //                                   color: Colors.black
+              //                                       .withOpacity(0.6)),
+              //                             )
+              //                           : Text(
+              //                               details.memberDetails["data"][0]
+              //                                           ["name"]
+              //                                       .toString() +
+              //                                   " " +
+              //                                   details.memberDetails["data"][0]
+              //                                           ["surname"]
+              //                                       .toString(),
+              //                               style: GoogleFonts.poppins(
+              //                                   fontWeight: FontWeight.w500,
+              //                                   fontSize: 11.sp,
+              //                                   color: Colors.black
+              //                                       .withOpacity(0.6)),
+              //                             ),
+              //                       SizedBox(
+              //                         height: 3.h,
+              //                       ),
+              //                       Text(
+              //                         "Member ID: ${details.memberDetails["data"][0]["membership_no"].toString()}",
+              //                         style: GoogleFonts.poppins(
+              //                             fontWeight: FontWeight.w500,
+              //                             fontSize: 11.sp,
+              //                             color: Colors.black.withOpacity(0.6)),
+              //                       ),
+              //                     ],
+              //                   )
+              //                 : Center(
+              //                     child: Text(
+              //                       "Loading...",
+              //                       style: GoogleFonts.poppins(
+              //                           color: Colors.grey, fontSize: 10.sp),
+              //                     ),
+              //                   );
+              //           })
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              // ),
               SizedBox(
                 height: 10.h,
               ),
-              Container(
-                width: getWidth(context),
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
-                  border:
-                      Border.all(color: ColorPellets.orange.withOpacity(0.1)),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(200.r),
-                          child: Image.asset(
-                            "assets/images/dummy.jpg",
-                            height: 60.h,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        Consumer<AuthenticationProvider>(
-                            builder: (context, details, _) {
-                          return details.memberDetails != null
-                              ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    details.memberDetails["data"][0]
-                                                    ["surname"] ==
-                                                null ||
-                                            details.memberDetails["data"][0]
-                                                    ["surname"] ==
-                                                ""
-                                        ? Text(
-                                            details.memberDetails["data"][0]
-                                                    ["name"]
-                                                .toString(),
-                                            style: GoogleFonts.poppins(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 11.sp,
-                                                color: Colors.black
-                                                    .withOpacity(0.6)),
-                                          )
-                                        : Text(
-                                            details.memberDetails["data"][0]
-                                                        ["name"]
-                                                    .toString() +
-                                                " " +
-                                                details.memberDetails["data"][0]
-                                                        ["surname"]
-                                                    .toString(),
-                                            style: GoogleFonts.poppins(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 11.sp,
-                                                color: Colors.black
-                                                    .withOpacity(0.6)),
-                                          ),
-                                    SizedBox(
-                                      height: 3.h,
-                                    ),
-                                    Text(
-                                      "Member ID: ${details.memberDetails["data"][0]["membership_no"].toString()}",
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 11.sp,
-                                          color: Colors.black.withOpacity(0.6)),
-                                    ),
-                                  ],
-                                )
-                              : Center(
-                                  child: Text(
-                                    "Loading...",
-                                    style: GoogleFonts.poppins(
-                                        color: Colors.grey, fontSize: 10.sp),
-                                  ),
-                                );
-                        })
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 10.h,
+              Text(
+                "Sports",
+                style: GoogleFonts.poppins(
+                    fontSize: 12.sp, fontWeight: FontWeight.w500),
               ),
               Center(
                 child: Column(
@@ -275,136 +316,77 @@ class _DashboardState extends State<Dashboard> {
                     SizedBox(
                       height: 10.h,
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => MemberProfile()));
-                            },
-                            child: Container(
-                              height: 50.h,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: ColorPellets.orange
-                                          .withOpacity(0.15)),
-                                  borderRadius: BorderRadius.circular(10.r)),
-                              child: Center(
-                                  child: Row(
-                                children: [
-                                  Container(
-                                    width: 50.w,
-                                    height: 50.h,
+                    Consumer<SportsBookingProvider>(
+                        builder: (context, sports, _) {
+                          return sports.sportsList != null || sports.isLoading != true
+                              ? Wrap(
+
+                              children: sports.sportsList["data"]
+                                  .asMap()
+                                  .entries
+                                  .map<Widget>((entry) {
+                                int currentIndex = entry.key;
+                                dynamic data = entry.value;
+
+                                return InkWell(
+                                  onTap: ()  {
+                                    setState(() {
+                                      index1 = currentIndex;
+                                      sports.setActivityId(data["id"].toString());
+                                      sports.setSportsName(data["activity"]);
+                                      Future.delayed(Duration(seconds: 0), () async {
+                                        await Navigator.of(context).push(MaterialPageRoute(
+                                            builder: (context) => CourtBooking()));
+                                        index1 = -1;
+                                      });
+                                    });
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 10.w, top: 10.h),
+                                    height: 70.h,
+                                    width: 70.w,
                                     decoration: BoxDecoration(
-                                        color: ColorPellets.orange
-                                            .withOpacity(0.15),
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(10.r),
-                                            bottomLeft: Radius.circular(10.r))),
-                                    child: Center(
-                                      child: Icon(
-                                        IconlyLight.profile,
-                                        color: ColorPellets.orange,
-                                      ),
+                                        border: Border.all(
+                                            color: index1 == currentIndex
+                                                ? ColorPellets.orange
+                                                : Colors.grey.withOpacity(0.3)),
+                                        borderRadius: BorderRadius.circular(10.r)),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Center(
+                                          child: Container(
+                                            width: 45.w,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(10.r),
+                                                    bottomLeft:
+                                                    Radius.circular(10.r))),
+                                            child: Center(
+                                              child:  Image.asset(
+                                                 data["icon"],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 6.h,
+                                        ),
+                                        Text(
+                                          data["activity"],
+                                          // Assuming "name" is the key for the sport's name
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 11.sp,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox()
+                                      ],
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text("Member Details"),
-                                      SizedBox(
-                                        height: 5.h,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text("View"),
-                                          Icon(
-                                            IconlyLight.arrow_right_2,
-                                            size: 12.sp,
-                                            color: ColorPellets.orange,
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              )),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              showModalBottomSheet(
-                                  context: context,
-                                  builder: (context) => SportsList());
-                            },
-                            child: Container(
-                              height: 50.h,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: ColorPellets.orange
-                                          .withOpacity(0.15)),
-                                  borderRadius: BorderRadius.circular(10.r)),
-                              child: Center(
-                                  child: Row(
-                                children: [
-                                  Container(
-                                    width: 50.w,
-                                    height: 50.h,
-                                    decoration: BoxDecoration(
-                                        color: ColorPellets.orange
-                                            .withOpacity(0.15),
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(10.r),
-                                            bottomLeft: Radius.circular(10.r))),
-                                    child: Center(
-                                      child: Icon(
-                                        IconlyLight.calendar,
-                                        color: ColorPellets.orange,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text("Court Booking"),
-                                      SizedBox(
-                                        height: 5.h,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text("View"),
-                                          Icon(
-                                            IconlyLight.arrow_right_2,
-                                            size: 12.sp,
-                                            color: ColorPellets.orange,
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                                );
+                              }).toList())
+                              : Container(child: Center(child: CircularProgressIndicator(color: ColorPellets.orange,),),);
+                        })
                   ],
                 ),
               ),
