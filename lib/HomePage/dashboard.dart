@@ -26,8 +26,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int _currentBannerIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  int index1= -1;
-
+  int index1 = -1;
 
   @override
   void initState() {
@@ -53,37 +52,43 @@ class _DashboardState extends State<Dashboard> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: InkWell(
-          onTap: (){
+          onTap: () {
             _scaffoldKey.currentState?.openDrawer();
           },
           child: Container(
-            padding: EdgeInsets.all(15.0),
-              child: Image.asset("assets/images/hamburger.png",)),
+              padding: EdgeInsets.all(15.0),
+              child: Image.asset(
+                "assets/images/hamburger.png",
+              )),
         ),
         elevation: 0,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Consumer<AuthenticationProvider>(
-              builder: (context, name, _) {
-                return name.memberDetails != null ? Text("Hi ${name.memberDetails["data"][0]
-                ["name"]
-                    .toString()}", style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 13.sp,
-                  color: Colors.black
-                ),) : Text("Hi ", style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 13.sp,
-                    color: Colors.black
-                ),);
-              }
-            ),
-            Text("Welcome Back", style: GoogleFonts.poppins(
-                fontWeight: FontWeight.bold,
-                fontSize: 15.sp,
-              color: Colors.black
-            ),)
+            Consumer<AuthenticationProvider>(builder: (context, name, _) {
+              return name.memberDetails != null
+                  ? Text(
+                      "Hi ${name.memberDetails["data"][0]["name"].toString()}",
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13.sp,
+                          color: Colors.black),
+                    )
+                  : Text(
+                      "Hi ",
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13.sp,
+                          color: Colors.black),
+                    );
+            }),
+            Text(
+              "Welcome Back",
+              style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15.sp,
+                  color: Colors.black),
+            )
           ],
         ),
         actions: [
@@ -103,7 +108,7 @@ class _DashboardState extends State<Dashboard> {
           ),
           InkWell(
             onTap: () {
-              showModalBottomSheet(
+              showDialog(
                   context: context, builder: (ctx) => LogoutDialog());
             },
             child: Icon(
@@ -168,7 +173,7 @@ class _DashboardState extends State<Dashboard> {
                 ),
                 items: [
                   "assets/images/banner1.png",
-                  "assets/images/banner2.png"
+                  "assets/images/benner-2.jpg"
                 ].map((i) {
                   return Builder(
                     builder: (BuildContext context) {
@@ -297,7 +302,7 @@ class _DashboardState extends State<Dashboard> {
                 height: 10.h,
               ),
               Text(
-                "Sports",
+                "Booking",
                 style: GoogleFonts.poppins(
                     fontSize: 12.sp, fontWeight: FontWeight.w500),
               ),
@@ -318,10 +323,11 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     Consumer<SportsBookingProvider>(
                         builder: (context, sports, _) {
-                          return sports.sportsList != null || sports.isLoading != true
-                              ? Wrap(
-
-                              children: sports.sportsList["data"]
+                      return sports.sportsList1 != null ||
+                              sports.isLoading != true
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: sports.sportsList1["data"]
                                   .asMap()
                                   .entries
                                   .map<Widget>((entry) {
@@ -329,64 +335,187 @@ class _DashboardState extends State<Dashboard> {
                                 dynamic data = entry.value;
 
                                 return InkWell(
-                                  onTap: ()  {
+                                  onTap: () {
                                     setState(() {
                                       index1 = currentIndex;
-                                      sports.setActivityId(data["id"].toString());
+                                      sports
+                                          .setActivityId(data["id"].toString());
                                       sports.setSportsName(data["activity"]);
-                                      Future.delayed(Duration(seconds: 0), () async {
-                                        await Navigator.of(context).push(MaterialPageRoute(
-                                            builder: (context) => CourtBooking()));
+                                      Future.delayed(Duration(seconds: 0),
+                                          () async {
+                                        await Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CourtBooking()));
                                         index1 = -1;
                                       });
                                     });
                                   },
                                   child: Container(
-                                    margin: EdgeInsets.only(right: 10.w, top: 10.h),
-                                    height: 70.h,
-                                    width: 70.w,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: index1 == currentIndex
-                                                ? ColorPellets.orange
-                                                : Colors.grey.withOpacity(0.3)),
-                                        borderRadius: BorderRadius.circular(10.r)),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Center(
-                                          child: Container(
-                                            width: 45.w,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft: Radius.circular(10.r),
-                                                    bottomLeft:
-                                                    Radius.circular(10.r))),
-                                            child: Center(
-                                              child:  Image.asset(
-                                                 data["icon"],
+                                    // margin:
+                                    //     EdgeInsets.only(right: 13.w, top: 10.h),
+                                    child: Material(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      color: Colors.white,
+                                      elevation: 4,
+                                      child: Container(
+                                        // margin:
+                                        //     EdgeInsets.only(right: 13.w, top: 10.h),
+                                        height: 100.h,
+                                        width: 100.w,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.grey
+                                                      .withOpacity(0.3)),
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Center(
+                                              child: Container(
+                                                width: currentIndex == 2 ? 40.w : 50.w,
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius
+                                                        .only(
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    10.r),
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    10.r))),
+                                                child: Center(
+                                                  child: Image.asset(
+                                                    data["icon"],
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ),
+                                            SizedBox(
+                                              height: 6.h,
+                                            ),
+                                            Text(
+                                              data["activity"],
+                                              // Assuming "name" is the key for the sport's name
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: 11.sp,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            SizedBox()
+                                          ],
                                         ),
-                                        SizedBox(
-                                          height: 6.h,
-                                        ),
-                                        Text(
-                                          data["activity"],
-                                          // Assuming "name" is the key for the sport's name
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 11.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        SizedBox()
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 );
                               }).toList())
-                              : Container(child: Center(child: CircularProgressIndicator(color: ColorPellets.orange,),),);
-                        })
+                          : Container(
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: ColorPellets.orange,
+                                ),
+                              ),
+                            );
+                    }),
+                    SizedBox(height: 10.h,),
+                    Consumer<SportsBookingProvider>(
+                        builder: (context, sports, _) {
+                      return sports.sportsList2 != null ||
+                              sports.isLoading != true
+                          ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                              children: sports.sportsList2["data"]
+                                  .asMap()
+                                  .entries
+                                  .map<Widget>((entry) {
+                              int currentIndex = entry.key;
+                              dynamic data = entry.value;
+
+                              return InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    index1 = currentIndex;
+                                    sports.setActivityId(data["id"].toString());
+                                    sports.setSportsName(data["activity"]);
+                                    Future.delayed(Duration(seconds: 0),
+                                        () async {
+                                      await Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CourtBooking()));
+                                      index1 = -1;
+                                    });
+                                  });
+                                },
+                                child: Container(
+                                  margin:
+                                      EdgeInsets.only(right: 20.w, top: 10.h),
+                                  child: Material(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    color: Colors.white,
+                                    elevation: 4,
+                                    child: Container(
+                                      // margin:
+                                      //     EdgeInsets.only(right: 13.w, top: 10.h),
+                                      height: 100.h,
+                                      width: 100.w,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.grey.withOpacity(0.3)),
+                                        borderRadius:
+                                            BorderRadius.circular(10.r),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Center(
+                                            child: Container(
+                                              width: currentIndex == 0 ? 40.w : 50.w,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  10.r),
+                                                          bottomLeft:
+                                                              Radius.circular(
+                                                                  10.r))),
+                                              child: Center(
+                                                child: Image.asset(
+                                                  data["icon"],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 6.h,
+                                          ),
+                                          Text(
+                                            data["activity"],
+                                            // Assuming "name" is the key for the sport's name
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 11.sp,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox()
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList())
+                          : Container(
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: ColorPellets.orange,
+                                ),
+                              ),
+                            );
+                    })
                   ],
                 ),
               ),

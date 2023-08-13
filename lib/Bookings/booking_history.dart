@@ -52,7 +52,7 @@ class _BookingHistoryState extends State<BookingHistory> {
           ),
           InkWell(
             onTap: () {
-              showModalBottomSheet(
+              showDialog(
                   context: context, builder: (ctx) => LogoutDialog());
             },
             child: Icon(

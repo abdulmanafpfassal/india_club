@@ -133,12 +133,44 @@ class _MemberProfileState extends State<MemberProfile> {
                               height: 3.h,
                             ),
                             Text(
-                              "${details.memberDetails["data"][0]["email"]}",
+                              details.memberDetails["data"][0]["email"] == false
+                                  ? "email: "
+                                  : "Email: ${details.memberDetails["data"][0]["email"]}",
                               style: GoogleFonts.poppins(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 11.sp,
                                   color: Colors.black.withOpacity(0.6)),
                             ),
+                            // SizedBox(
+                            //   height: 3.h,
+                            // ),
+                            // Text(
+                            //   "Membership Expiry: ",
+                            //   style: GoogleFonts.poppins(
+                            //       fontWeight: FontWeight.w500,
+                            //       fontSize: 11.sp,
+                            //       color: Colors.black.withOpacity(0.6)),
+                            // ),
+                            // SizedBox(
+                            //   height: 3.h,
+                            // ),
+                            // Text(
+                            //   "Email: ${details.memberDetails["data"][0]["email"]}",
+                            //   style: GoogleFonts.poppins(
+                            //       fontWeight: FontWeight.w500,
+                            //       fontSize: 11.sp,
+                            //       color: Colors.black.withOpacity(0.6)),
+                            // ),
+                            // SizedBox(
+                            //   height: 3.h,
+                            // ),
+                            // Text(
+                            //   "Address: ${details.memberDetails["data"][0]["address"]}",
+                            //   style: GoogleFonts.poppins(
+                            //       fontWeight: FontWeight.w500,
+                            //       fontSize: 11.sp,
+                            //       color: Colors.black.withOpacity(0.6)),
+                            // ),
                           ],
                         )
                       ],
@@ -306,7 +338,7 @@ class _MemberProfileState extends State<MemberProfile> {
                   ),
                   InkWell(
                     onTap: () {
-                      showModalBottomSheet(
+                      showDialog(
                           context: context, builder: (ctx) => LogoutDialog());
                     },
                     child: Container(
@@ -492,7 +524,7 @@ class _MemberProfileState extends State<MemberProfile> {
   Widget Profile() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
-      height: getHeight(context) / 2,
+      // height: getHeight(context) / 2,
       child: Consumer<AuthenticationProvider>(builder: (context, details, _) {
         return SingleChildScrollView(
           child: Column(
@@ -542,39 +574,49 @@ class _MemberProfileState extends State<MemberProfile> {
                         fontSize: 11.sp,
                         color: Colors.black.withOpacity(0.6)),
                   ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  Text(
+                    "Address: ${details.memberDetails["data"][0]["address"]}",
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 11.sp,
+                        color: Colors.black.withOpacity(0.6)),
+                  ),
                 ],
               ),
               SizedBox(
                 height: 10.h,
               ),
-              Center(
-                child: Text(
-                  "Address",
-                  style: GoogleFonts.poppins(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13.sp),
-                ),
-              ),
-              Center(
-                child: Container(
-                  width: 40.w,
-                  height: 3.h,
-                  decoration: BoxDecoration(
-                      color: ColorPellets.orange.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(10.r)),
-                ),
-              ),
+              // Center(
+              //   child: Text(
+              //     "Address",
+              //     style: GoogleFonts.poppins(
+              //         color: Colors.black,
+              //         fontWeight: FontWeight.bold,
+              //         fontSize: 13.sp),
+              //   ),
+              // ),
+              // Center(
+              //   child: Container(
+              //     width: 40.w,
+              //     height: 3.h,
+              //     decoration: BoxDecoration(
+              //         color: ColorPellets.orange.withOpacity(0.3),
+              //         borderRadius: BorderRadius.circular(10.r)),
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 10.h,
+              // ),
+              // Text(details.memberDetails["data"][0]["address"]),
               SizedBox(
                 height: 10.h,
               ),
-              Text(details.memberDetails["data"][0]["address"]),
-              SizedBox(
-                height: 10.h,
-              ),
               Center(
                 child: Text(
-                  "Dependencies",
+                  "Dependents",
                   style: GoogleFonts.poppins(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,

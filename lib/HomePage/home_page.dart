@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
           ),
           InkWell(
             onTap: () {
-              showModalBottomSheet(
+              showDialog(
                   context: context, builder: (ctx) => LogoutDialog());
             },
             child: Icon(

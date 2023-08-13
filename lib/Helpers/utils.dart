@@ -31,56 +31,116 @@ String extractSessionId(String rawSessionString) {
 }
 
 
-
-class LogoutDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
+LogoutDialog() {
+  return AlertDialog(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20.r),
+    ),
+    content: Container(
+      width: getWidth(getContext.navigatorKey.currentContext!),
       padding: EdgeInsets.all(20.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.r)
+      ),
       child: Consumer<AuthenticationProvider>(
-        builder: (context, provider, _) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text("Are you sure you want to Logout?"),
-              SizedBox(height: 20.h,),
-              provider.isLoading ? Center(
-                child: CircularProgressIndicator(color: ColorPellets.orange,),
-              ) : Row(
-                children: [
-                  Expanded(
-                    child:
-                    CustomButton(
-                      button_text: "Logout",
-                      onTap: () {
-                        getContext.navigatorKey.currentContext!.read<AuthenticationProvider>().doLogout();
-                      },
-                      isEnabled: true,
-                    ),
-                  ),
-                  SizedBox(width: 10.w,),
-                  Expanded(
-                    child:
-                    InkWell(
-                      onTap: (){
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        height: 35.h,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.r),
-                            border: Border.all(color: Colors.black)
-                        ),
-                        child: Center(child: Text("Cancel")),
+          builder: (context, provider, _) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("Are you sure you want to Logout?"),
+                SizedBox(height: 20.h,),
+                provider.isLoading ? Center(
+                  child: CircularProgressIndicator(color: ColorPellets.orange,),
+                ) : Row(
+                  children: [
+                    Expanded(
+                      child: CustomButton(
+                        button_text: "Logout",
+                        onTap: () {
+                          getContext.navigatorKey.currentContext!.read<AuthenticationProvider>().doLogout();
+                        },
+                        isEnabled: true,
                       ),
                     ),
-                  )
-                ],
-              )
-            ],
-          );
-        }
+                    SizedBox(width: 10.w,),
+
+                    Expanded(
+                      child: InkWell(
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          height: 35.h,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.r),
+                              border: Border.all(color: Colors.black)
+                          ),
+                          child: Center(child: Text("Cancel")),
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            );
+          }
       ),
-    );
-  }
+    ),
+  );
 }
+
+
+// class LogoutDialog extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: getWidth(context),
+//       padding: EdgeInsets.all(20.0),
+//       child: Consumer<AuthenticationProvider>(
+//         builder: (context, provider, _) {
+//           return Column(
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               Text("Are you sure you want to Logout?"),
+//               SizedBox(height: 20.h,),
+//               provider.isLoading ? Center(
+//                 child: CircularProgressIndicator(color: ColorPellets.orange,),
+//               ) : Row(
+//                 children: [
+//                   Expanded(
+//                     child:
+//                     CustomButton(
+//                       button_text: "Logout",
+//                       onTap: () {
+//                         getContext.navigatorKey.currentContext!.read<AuthenticationProvider>().doLogout();
+//                       },
+//                       isEnabled: true,
+//                     ),
+//                   ),
+//                   SizedBox(width: 10.w,),
+//                   Expanded(
+//                     child:
+//                     InkWell(
+//                       onTap: (){
+//                         Navigator.pop(context);
+//                       },
+//                       child: Container(
+//                         height: 35.h,
+//                         decoration: BoxDecoration(
+//                             borderRadius: BorderRadius.circular(10.r),
+//                             border: Border.all(color: Colors.black)
+//                         ),
+//                         child: Center(child: Text("Cancel")),
+//                       ),
+//                     ),
+//                   )
+//                 ],
+//               )
+//             ],
+//           );
+//         }
+//       ),
+//     );
+//   }
+// }

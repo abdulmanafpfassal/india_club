@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:india_club/Helpers/utils.dart';
 import 'package:india_club/HomePage/dashboard.dart';
 import 'package:india_club/Src/Repository/sports_repo.dart';
+import 'package:intl/intl.dart';
 
 import '../../Helpers/colors.dart';
 
@@ -13,7 +14,8 @@ class SportsBookingProvider with ChangeNotifier {
   SportsBookingRepo _bookingRepo = SportsBookingRepo();
 
   bool isLoading = false;
-  dynamic sportsList;
+  dynamic sportsList1;
+  dynamic sportsList2;
   dynamic courtList;
   dynamic slot_availability;
   dynamic courtBooking;
@@ -135,7 +137,7 @@ class SportsBookingProvider with ChangeNotifier {
 
   setSportsList() async {
     setIsLoading(true);
-    sportsList = {
+    sportsList1 = {
       "message": "All Games have been fetched successfully",
       "status": true,
       "status_code": 200,
@@ -170,6 +172,13 @@ class SportsBookingProvider with ChangeNotifier {
           "company_name": "India Club Dubai",
           "icon": "assets/images/cricket.png"
         },
+      ]
+    };
+    sportsList2 = {
+      "message": "All Games have been fetched successfully",
+      "status": true,
+      "status_code": 200,
+      "data": [
         {
           "id": 5,
           "sequence": "SP00005",
@@ -222,7 +231,7 @@ class SportsBookingProvider with ChangeNotifier {
     }
   }
 
-  clearSelectedList(String court){
+  clearSelectedList(){
     if(courtList != null){
       for (var data = 0; data < courtList["data"].length; data++) {
           for (var index = 0; index < courtList["data"][data]["slot_availability"].length; index++) {
@@ -245,9 +254,28 @@ class SportsBookingProvider with ChangeNotifier {
       var slotAvailability = await _bookingRepo.getCourtSlot(data["id"].toString());
       data["slot_availability"] = slotAvailability["data"]["available_slots"];
 
-      for (var newData in data["slot_availability"]) {
-        newData["isSelected"] = false; // Fix the assignment here
+      log("message" + date.toString());
+      log("message" + DateFormat('yyyy-MM-dd').format(DateTime.now()).toString());
+      if(date == DateFormat('yyyy-MM-dd').format(DateTime.now())) {
+        DateTime currentTime = DateTime.now();
+        double currentHour = currentTime.hour + currentTime.minute / 60.0;
+
+        data["slot_availability"].removeWhere((newData) {
+          double startTime = newData["start_time"];
+          return currentHour >=
+              startTime; // Remove if the slot has already started
+        });
+
+        for (var newData in data["slot_availability"]) {
+          newData["isSelected"] = false; // Fix the assignment here
+        }
+      }else{
+
+        for (var newData in data["slot_availability"]) {
+          newData["isSelected"] = false; // Fix the assignment here
+        }
       }
+
     }
 
     log(courtList.toString());
@@ -261,6 +289,7 @@ class SportsBookingProvider with ChangeNotifier {
     if(courtBooking.containsKey("result")){
       setBookingHistory();
       showDialog(
+        barrierDismissible: false,
         context: getContext.navigatorKey.currentContext!,
         builder: (BuildContext context) {
           return Dialog(
@@ -302,7 +331,7 @@ class SportsBookingProvider with ChangeNotifier {
                     onPressed: () {
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Dashboard()), (route) => false); // Close the dialog box
                     },
-                    child: Text('Go Back'),
+                    child: Text('Okay'),
                   ),
                 ],
               ),

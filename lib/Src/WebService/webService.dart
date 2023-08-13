@@ -22,17 +22,30 @@ class ApiService extends BaseService {
   Future getResponse(String url, headers) async {
     dynamic responseJson;
     try {
-      // responseJson =
-      //     await http.get(Uri.parse(Urls.BASE_URL + url), headers: headers);
-      final response = ReceivePort();
-      await Isolate.spawn(
-          isolate, [NetworkUrls.BASE_URL + url, headers, response.sendPort]);
-      return await response.first;
-      // log("get response" + Urls.BASE_URL + url);
-    } catch (e) {
-      throw e;
+      responseJson =
+      await http.get(Uri.parse(NetworkUrls.BASE_URL + url), headers: headers);
+      log("RESPONSE FROM " + url + "\n" + responseJson.body.toString());
+    } on Exception {
+      throw UnimplementedError();
     }
+    return responseJson;
   }
+
+  // @override
+  // Future getResponse(String url, headers) async {
+  //   dynamic responseJson;
+  //   try {
+  //     // responseJson =
+  //     //     await http.get(Uri.parse(Urls.BASE_URL + url), headers: headers);
+  //     final response = ReceivePort();
+  //     await Isolate.spawn(
+  //         isolate, [NetworkUrls.BASE_URL + url, headers, response.sendPort]);
+  //     return await response.first;
+  //     // log("get response" + Urls.BASE_URL + url);
+  //   } catch (e) {
+  //     throw e;
+  //   }
+  // }
 
   @override
   Future patchResponse(String url, body, headers) async {

@@ -94,7 +94,7 @@ class _CourtBookingState extends State<CourtBooking> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.h),
+        preferredSize: Size.fromHeight(110.h),
         child: Column(
           children: [
             AppBar(
@@ -132,7 +132,7 @@ class _CourtBookingState extends State<CourtBooking> {
                 ),
                 InkWell(
                   onTap: () {
-                    showModalBottomSheet(
+                    showDialog(
                         context: context, builder: (ctx) => LogoutDialog());
                   },
                   child: Icon(
@@ -146,29 +146,7 @@ class _CourtBookingState extends State<CourtBooking> {
               ],
             ),
             Container(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(child: buildDatePicker()),
-                  ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      _selectDate(context);
-                    },
-                    child: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 10.w, vertical: 10.h),
-                        decoration: BoxDecoration(
-                            // border: Border.all(
-                            //     color: ColorPellets.orange.withOpacity(0.6)),
-                            borderRadius: BorderRadius.circular(10.r)),
-                        child: Icon(IconlyLight.calendar)),
-                  )
-                ],
-              ),
+              child: Container(child: buildDatePicker()),
             ),
           ],
         ),
@@ -180,10 +158,27 @@ class _CourtBookingState extends State<CourtBooking> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Select Court",
-                style: GoogleFonts.poppins(
-                    color: Colors.black, fontWeight: FontWeight.w500),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Select Court",
+                    style: GoogleFonts.poppins(
+                        color: Colors.black, fontWeight: FontWeight.w500),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().clearSelectedList();
+                    },
+                    child: Text(
+                      "Clear",
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 10.sp,
+                          color: ColorPellets.orange),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 10.h,
@@ -205,30 +200,11 @@ class _CourtBookingState extends State<CourtBooking> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Court Name: ${provider.courtList["data"][index]["name"]}",
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 10.sp),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        provider.clearSelectedList(provider
-                                            .courtList["data"][index]["name"]);
-                                      },
-                                      child: Text(
-                                        "Clear",
-                                        style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 10.sp,
-                                            color: ColorPellets.orange),
-                                      ),
-                                    ),
-                                  ],
+                                Text(
+                                  "Court Name: ${provider.courtList["data"][index]["name"]}",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 10.sp),
                                 ),
                                 Divider(),
                                 provider.courtList["data"][index]
@@ -550,13 +526,18 @@ class _CourtBookingState extends State<CourtBooking> {
   }
 
   Widget buildDatePicker() {
-    return DatePicker(
-      DateTime.now(),
-      controller: dateController,
-      initialSelectedDate: selectedDate,
-      selectionColor: ColorPellets.orange.withOpacity(0.6),
-      selectedTextColor: Colors.white,
-      onDateChange: (date) => _updateSelectedDate(date),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 10.w
+      ),
+      child: DatePicker(
+        DateTime.now(),
+        controller: dateController,
+        initialSelectedDate: selectedDate,
+        selectionColor: ColorPellets.orange.withOpacity(0.6),
+        selectedTextColor: Colors.white,
+        onDateChange: (date) => _updateSelectedDate(date),
+        daysCount: 15,
+      ),
     );
   }
 }

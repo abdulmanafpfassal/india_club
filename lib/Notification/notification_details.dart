@@ -98,7 +98,7 @@ class _NotificationDetailState extends State<NotificationDetail> {
         actions: [
           InkWell(
             onTap: () {
-              showModalBottomSheet(
+              showDialog(
                   context: context, builder: (ctx) => LogoutDialog());
             },
             child: Icon(
