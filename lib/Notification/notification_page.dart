@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:india_club/Helpers/colors.dart';
 import 'package:india_club/Notification/notification_details.dart';
+import 'package:india_club/Src/Provider/notification_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../Helpers/utils.dart';
 
@@ -115,78 +117,82 @@ class _NotificationPageState extends State<NotificationPage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text("Mark all as read", style: GoogleFonts.poppins(
-                      fontSize: 11.sp,
-                      fontWeight: FontWeight.w500,
-                      color: ColorPellets.orange
-                    ),)
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: [
+                //     Text("Mark all as read", style: GoogleFonts.poppins(
+                //       fontSize: 11.sp,
+                //       fontWeight: FontWeight.w500,
+                //       color: ColorPellets.orange
+                //     ),)
+                //   ],
+                // ),
                 SizedBox(height: 10.h,),
-                ListView.separated(
-                  separatorBuilder: (context, ind) {
-                    return Divider(height: 30.h,color: Colors.grey,endIndent: 10.w,indent: 10.w,);
-                  },
-                    shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
-                  itemCount: notifications.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationDetail(index: index,)));
-                        },
-                        child: Container(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 50.w,
-                                height: 40.h,
-                                decoration: BoxDecoration(
-                                  color: ColorPellets.orange.withOpacity(0.3),
-                                  borderRadius: BorderRadius.circular(100.r),
-                                ),
-                                child: Icon(IconlyLight.notification, color: Colors.white,),
-                              ),
-                              SizedBox(width: 10.w,),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(notifications[index]["title"], style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 13.sp
-                                    ),),
-                                    Text(notifications[index]["message"], style: GoogleFonts.poppins(
-                                      fontSize: 11.sp,
-                                      color: Colors.black.withOpacity(0.7)
-                                    ),),
-                                    SizedBox(height: 10.h,),
-                                    Row(
+                Consumer<NotificationProvider>(
+                  builder: (context, notification,_) {
+                    return notification.notifications.isNotEmpty ? ListView.separated(
+                      separatorBuilder: (context, ind) {
+                        return Divider(height: 30.h,color: Colors.grey,endIndent: 10.w,indent: 10.w,);
+                      },
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                      itemCount: notification.notifications.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: (){
+                              //Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationDetail(index: index,)));
+                            },
+                            child: Container(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 50.w,
+                                    height: 40.h,
+                                    decoration: BoxDecoration(
+                                      color: ColorPellets.orange.withOpacity(0.3),
+                                      borderRadius: BorderRadius.circular(100.r),
+                                    ),
+                                    child: Icon(IconlyLight.notification, color: Colors.white,),
+                                  ),
+                                  SizedBox(width: 10.w,),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                      index % 2 == 0 ?  Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(6.r),
-                                            border: Border.all(color: Colors.greenAccent)
-                                          ),
-                                          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.h),
-                                          child: Text("Mark as Read"),
-                                        ) : SizedBox(),
-                                        index % 2 == 0 ? SizedBox(width: 10.w,) : SizedBox(),
+                                        Text(notification.notifications[index]["title"], style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 13.sp
+                                        ),),
+                                        Text(notification.notifications[index]["desc"], style: GoogleFonts.poppins(
+                                          fontSize: 11.sp,
+                                          color: Colors.black.withOpacity(0.7)
+                                        ),),
+                                        SizedBox(height: 10.h,),
+                                        // Row(
+                                        //   children: [
+                                        //   index % 2 == 0 ?  Container(
+                                        //       decoration: BoxDecoration(
+                                        //         borderRadius: BorderRadius.circular(6.r),
+                                        //         border: Border.all(color: Colors.greenAccent)
+                                        //       ),
+                                        //       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.h),
+                                        //       child: Text("Mark as Read"),
+                                        //     ) : SizedBox(),
+                                        //     index % 2 == 0 ? SizedBox(width: 10.w,) : SizedBox(),
+                                        //   ],
+                                        // )
                                       ],
-                                    )
-                                  ],
-                                ),
-                              ),
+                                    ),
+                                  ),
 
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
+                                ],
+                              ),
+                            ),
+                          );
+                        }) : Center(child: Text("No Notifications"),);
+                  }
+                ),
               ],
             ),
           )

@@ -122,6 +122,11 @@ class _BookingHistoryState extends State<BookingHistory> {
                                     fontSize: 11.sp,
                                     fontWeight: FontWeight.w500
                                 ),),
+                                Text(
+                                  "Booking Reference No: ${data["name"].toString().split("T")[0]}",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 11.sp),
+                                ),
                                 Text("Booking Time: ${data["booking_date"].toString().split("T")[0]}", style: GoogleFonts.poppins(
                                     fontSize: 11.sp
                                 ),),

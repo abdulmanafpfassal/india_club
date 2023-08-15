@@ -376,7 +376,7 @@ class _DashboardState extends State<Dashboard> {
                                           children: [
                                             Center(
                                               child: Container(
-                                                width: currentIndex == 2 ? 40.w : 50.w,
+                                                width: currentIndex == 2 ? 45.w : 55.w,
                                                 decoration: BoxDecoration(
                                                     borderRadius: BorderRadius
                                                         .only(
@@ -473,7 +473,7 @@ class _DashboardState extends State<Dashboard> {
                                         children: [
                                           Center(
                                             child: Container(
-                                              width: currentIndex == 0 ? 40.w : 50.w,
+                                              width: currentIndex == 0 ? 45.w : 55.w,
                                               decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.only(
@@ -613,6 +613,11 @@ class _DashboardState extends State<Dashboard> {
                                         style: GoogleFonts.poppins(
                                             fontSize: 11.sp,
                                             fontWeight: FontWeight.w500),
+                                      ),
+                                      Text(
+                                        "Booking Reference No: ${data["name"].toString().split("T")[0]}",
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 11.sp),
                                       ),
                                       Text(
                                         "Booking Time: ${data["booking_date"].toString().split("T")[0]}",

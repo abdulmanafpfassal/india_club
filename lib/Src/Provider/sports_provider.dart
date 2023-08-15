@@ -5,8 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:india_club/Helpers/utils.dart';
 import 'package:india_club/HomePage/dashboard.dart';
+import 'package:india_club/Src/Provider/notification_provider.dart';
 import 'package:india_club/Src/Repository/sports_repo.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../../Helpers/colors.dart';
 
@@ -288,6 +290,13 @@ class SportsBookingProvider with ChangeNotifier {
     courtBooking = await _bookingRepo.createBooking();
     if(courtBooking.containsKey("result")){
       setBookingHistory();
+      if(courtBooking["result"]["data"].isNotEmpty) {
+        getContext.navigatorKey.currentContext!
+            .read<NotificationProvider>()
+            .setNotification("Booking Confirmation",
+            "Congratulations! Your court booking is Successful and your Booking Reference Number is ${courtBooking["result"]["data"]["booking_reference"]
+                .toString()}");
+      }
       showDialog(
         barrierDismissible: false,
         context: getContext.navigatorKey.currentContext!,
@@ -314,13 +323,13 @@ class SportsBookingProvider with ChangeNotifier {
                     height: 10.h,
                   ),
                   Text(
-                    "Booking Successful!",
+                    "${courtBooking["result"]["message"].toString()}",
                     style: GoogleFonts.poppins(fontSize: 12.sp),
                   ),
-                  Text(
-                    "Booking Number: ${courtBooking["result"]["data"]["booking_id"].toString()}",
+                  courtBooking["result"]["data"].isNotEmpty ? Text(
+                    "Booking Number: ${courtBooking["result"]["data"]["booking_reference"].toString()}",
                     style: GoogleFonts.poppins(fontSize: 12.sp),
-                  ),
+                  ) : Text(""),
                   SizedBox(height: 10.h),
                   // Add spacing between the text and other content
                   ElevatedButton(

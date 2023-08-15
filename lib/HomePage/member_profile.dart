@@ -203,7 +203,7 @@ class _MemberProfileState extends State<MemberProfile> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Profile",
+                                    "Profile Info",
                                     style: GoogleFonts.poppins(
                                         fontSize: 14.sp, fontWeight: FontWeight.w500),
                                   ),
