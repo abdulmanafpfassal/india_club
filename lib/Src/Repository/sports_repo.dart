@@ -6,6 +6,7 @@ import 'package:india_club/Helpers/network.dart';
 import 'package:india_club/Helpers/utils.dart';
 import 'package:india_club/Src/Provider/sports_provider.dart';
 import 'package:india_club/Src/WebService/webService.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -111,6 +112,8 @@ class SportsBookingRepo {
 
       var sportData = getContext.navigatorKey.currentContext!.read<SportsBookingProvider>();
 
+      var date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
       var body = jsonEncode({
         "user_id": uid,
         "member_id": memberId,
@@ -121,7 +124,7 @@ class SportsBookingRepo {
         "gsm": "",
         "date_from": sportData.date,
         "slot_id": sportData.slotId,
-        "booking_date": sportData.date,
+        "booking_date": date,
         "membership_no": sportData.membershipId,
         "no_of_members": sportData.memberNumber,
         "no_guests": sportData.guestNumber,
@@ -172,4 +175,34 @@ class SportsBookingRepo {
     }
     return responseData;
   }
+
+  Future<String> getProfile() async {
+    try{
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      var session_id = preferences.getString("session");
+      var uid = preferences.getInt("uid");
+      var memberId = preferences.getInt("partnerId");
+
+
+      print("session"+session_id.toString());
+
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        "X-Openerp-Session-id": "$session_id"
+      };
+
+      final response = await _service.getResponse(NetworkUrls.profile + "${uid}&field=image_1920", headers);
+
+      if(response.statusCode == 200){
+        Map<String, dynamic> responseBody = jsonDecode(response.body);
+        print(responseBody.toString());
+
+      }
+
+    }catch (e){
+      log(e.toString());
+    }
+    return "";
+  }
+
 }

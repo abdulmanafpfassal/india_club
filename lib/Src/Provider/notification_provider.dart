@@ -10,4 +10,10 @@ class NotificationProvider with ChangeNotifier {
     });
     notifyListeners();
   }
+
+  clearNotification(){
+    if(notifications.isNotEmpty){
+      notifications.clear();
+    }
+  }
 }

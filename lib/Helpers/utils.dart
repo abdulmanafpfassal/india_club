@@ -4,8 +4,10 @@ import 'package:iconly/iconly.dart';
 import 'package:india_club/Helpers/colors.dart';
 import 'package:india_club/PreLogin/login_page.dart';
 import 'package:india_club/Src/Provider/authentication_provider.dart';
+import 'package:india_club/Src/Provider/notification_provider.dart';
 import 'package:india_club/Widget/custom_button.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 getWidth(BuildContext context) {
   return MediaQuery.of(context).size.width;
@@ -57,7 +59,8 @@ LogoutDialog() {
                     Expanded(
                       child: CustomButton(
                         button_text: "Logout",
-                        onTap: () {
+                        onTap: () async {
+                          getContext.navigatorKey.currentContext!.read<NotificationProvider>().clearNotification();
                           getContext.navigatorKey.currentContext!.read<AuthenticationProvider>().doLogout();
                         },
                         isEnabled: true,

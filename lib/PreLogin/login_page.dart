@@ -122,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                           errorBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           enabledBorder: InputBorder.none,
-                          hintText: "737778",
+                          hintText: "",
                           hintStyle: GoogleFonts.poppins(
                               color: Colors.grey.withOpacity(0.3),
                               fontSize: 11.sp),
@@ -155,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
                             errorBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
-                            hintText: "min 8 character",
+                            hintText: "",
                             hintStyle: GoogleFonts.poppins(
                                 color: Colors.grey.withOpacity(0.3),
                                 fontSize: 11.sp),

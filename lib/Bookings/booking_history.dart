@@ -127,6 +127,11 @@ class _BookingHistoryState extends State<BookingHistory> {
                                   style: GoogleFonts.poppins(
                                       fontSize: 11.sp),
                                 ),
+                                Text(
+                                  "Slot: ${data["slot_name"].toString().split("T")[0]}",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 11.sp),
+                                ),
                                 Text("Booking Time: ${data["booking_date"].toString().split("T")[0]}", style: GoogleFonts.poppins(
                                     fontSize: 11.sp
                                 ),),

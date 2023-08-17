@@ -32,6 +32,9 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     Future.delayed(Duration(seconds: 0), () {
       getContext.navigatorKey.currentContext!
+          .read<SportsBookingProvider>()
+          .setProfile();
+      getContext.navigatorKey.currentContext!
           .read<AuthenticationProvider>()
           .setMemberDetails();
       getContext.navigatorKey.currentContext!
@@ -616,6 +619,11 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                       Text(
                                         "Booking Reference No: ${data["name"].toString().split("T")[0]}",
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 11.sp),
+                                      ),
+                                      Text(
+                                        "Slot: ${data["slot_name"].toString().split("T")[0]}",
                                         style: GoogleFonts.poppins(
                                             fontSize: 11.sp),
                                       ),

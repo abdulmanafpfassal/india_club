@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:india_club/Helpers/utils.dart';
 import 'package:india_club/Src/Provider/authentication_provider.dart';
+import 'package:india_club/Src/Provider/sports_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -89,8 +90,8 @@ class _MemberProfileState extends State<MemberProfile> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(200.r),
-                          child: Image.asset(
-                            "assets/images/dummy.jpg",
+                          child: Image.network(
+                            getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().profileImage,
                             height: 60.h,
                           ),
                         ),
@@ -568,7 +569,7 @@ class _MemberProfileState extends State<MemberProfile> {
                     height: 3.h,
                   ),
                   Text(
-                    "Membership Expiry: ",
+                    "Membership Expiry: ${details.memberDetails["data"][0]["membership_validity"]}",
                     style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w500,
                         fontSize: 11.sp,

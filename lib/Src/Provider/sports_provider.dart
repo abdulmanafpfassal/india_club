@@ -9,6 +9,7 @@ import 'package:india_club/Src/Provider/notification_provider.dart';
 import 'package:india_club/Src/Repository/sports_repo.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Helpers/colors.dart';
 
@@ -213,25 +214,46 @@ class SportsBookingProvider with ChangeNotifier {
     }
   }
 
-  setIsSelectedToTrue(int id, String court) {
-    if(courtList != null){
+  // setIsSelectedToTrue(int id, String court) {
+  //   if(courtList != null){
+  //     for (var data = 0; data < courtList["data"].length; data++) {
+  //       if(courtList["data"][data]["name"] == court){
+  //         for (var index = 0; index < courtList["data"][data]["slot_availability"].length; index++) {
+  //           if(courtList["data"][data]["slot_availability"][index]["id"] == id){
+  //             courtList["data"][data]["slot_availability"][index]["isSelected"] = true;
+  //             notifyListeners();
+  //           }else{
+  //             for(var ind = 0; ind < courtList["data"].length; ind++){
+  //               courtList["data"][ind]["slot_availability"][index]["isSelected"] = false;
+  //               notifyListeners();
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+  void setIsSelectedToTrue(int id, String court) {
+    if (courtList != null) {
       for (var data = 0; data < courtList["data"].length; data++) {
-        if(courtList["data"][data]["name"] == court){
+        if (courtList["data"][data]["name"] == court) {
           for (var index = 0; index < courtList["data"][data]["slot_availability"].length; index++) {
-            if(courtList["data"][data]["slot_availability"][index]["id"] == id){
+            if (courtList["data"][data]["slot_availability"][index]["id"] == id) {
               courtList["data"][data]["slot_availability"][index]["isSelected"] = true;
-              notifyListeners();
-            }else{
-              for(var ind = 0; ind < courtList["data"].length; ind++){
-                courtList["data"][ind]["slot_availability"][index]["isSelected"] = false;
-                notifyListeners();
-              }
+            } else {
+              courtList["data"][data]["slot_availability"][index]["isSelected"] = false;
             }
+          }
+        } else {
+          for (var index = 0; index < courtList["data"][data]["slot_availability"].length; index++) {
+            courtList["data"][data]["slot_availability"][index]["isSelected"] = false;
           }
         }
       }
+      notifyListeners();
     }
   }
+
 
   clearSelectedList(){
     if(courtList != null){
@@ -405,6 +427,14 @@ class SportsBookingProvider with ChangeNotifier {
     log("message" + bookingHistory.toString());
     notifyListeners();
     setIsLoading(false);
+  }
+
+  String profileImage = "";
+
+  setProfile() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var uid = preferences.getInt("partnerId");
+    profileImage = "https://members.indiaclubdubai.com/web/image?model=res.partner&id=${uid}&field=image_1920";
   }
 
 }

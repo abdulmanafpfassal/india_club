@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../Helpers/colors.dart';
 import '../Helpers/utils.dart';
 import '../Src/Provider/authentication_provider.dart';
+import '../Src/Provider/sports_provider.dart';
 
 class DrawerPage extends StatefulWidget {
   const DrawerPage({super.key});
@@ -46,8 +47,8 @@ class _DrawerPageState extends State<DrawerPage> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(200.r),
-                          child: Image.asset(
-                            "assets/images/dummy.jpg",
+                          child: Image.network(
+                            getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().profileImage,
                             height: 60.h,
                           ),
                         ),
