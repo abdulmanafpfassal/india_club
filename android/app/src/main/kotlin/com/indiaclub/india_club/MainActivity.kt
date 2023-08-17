@@ -1,4 +1,4 @@
-package com.indiaclub.india_club
+package com.klystron.indiaclub
 
 import io.flutter.embedding.android.FlutterActivity
 
