@@ -146,7 +146,7 @@ class SportsBookingProvider with ChangeNotifier {
       "status_code": 200,
       "data": [
         {
-          "id": 1,
+          "id": 4,
           "sequence": "SP00001",
           "activity": "TENNIS",
           "activity_type": "games",
@@ -156,7 +156,7 @@ class SportsBookingProvider with ChangeNotifier {
           "icon": "assets/images/tennis.png"
         },
         {
-          "id": 2,
+          "id": 3,
           "sequence": "SP00002",
           "activity": "BADMINTON",
           "activity_type": "games",
@@ -166,7 +166,7 @@ class SportsBookingProvider with ChangeNotifier {
           "icon": "assets/images/badminton.png"
         },
         {
-          "id": 4,
+          "id": 1,
           "sequence": "SP00004",
           "activity": "CRICKET",
           "activity_type": "games",
@@ -183,7 +183,7 @@ class SportsBookingProvider with ChangeNotifier {
       "status_code": 200,
       "data": [
         {
-          "id": 5,
+          "id": 2,
           "sequence": "SP00005",
           "activity": "FOOTBALL",
           "activity_type": "games",
@@ -193,7 +193,7 @@ class SportsBookingProvider with ChangeNotifier {
           "icon": "assets/images/football.png"
         },
         {
-          "id": 6,
+          "id": 5,
           "sequence": "SP00006",
           "activity": "SQUASH",
           "activity_type": "games",
@@ -434,7 +434,7 @@ class SportsBookingProvider with ChangeNotifier {
   setProfile() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var uid = preferences.getInt("partnerId");
-    profileImage = "http://itron.klystron.global:9947/kg_mobile_api/static/profile_images/${uid}_start.jpg";
+    profileImage = "https://members.indiaclubdubai.com/kg_mobile_api/static/profile_images/${uid}_start.jpg";
   }
 
 }
