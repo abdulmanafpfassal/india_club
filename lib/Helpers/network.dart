@@ -1,7 +1,7 @@
 
 class NetworkUrls {
-  static String BASE_URL = "http://itron.klystron.global:9947/";
-  // static String BASE_URL = "https://members.indiaclubdubai.com/";
+  //static String BASE_URL = "http://itron.klystron.global:9947/";
+ static String BASE_URL = "https://members.indiaclubdubai.com/";
 
 
   static String LOGIN = "web/session/authenticate";

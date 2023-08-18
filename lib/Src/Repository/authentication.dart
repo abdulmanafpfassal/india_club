@@ -33,7 +33,8 @@ class AuthenticationRepo {
       final response =
           await _service.postResponse(NetworkUrls.LOGIN, body, headers);
       var cookies = response.headers['set-cookie'];
-      log(cookies.toString());
+      log("?????" + response.headers.toString());
+      log(">>>>>>>>>" + cookies.toString());
       if (cookies.contains('session_id')) {
         final sessionId = cookies.split(';')[0].split('=')[1];
         SharedPreferences preferences = await SharedPreferences.getInstance();
