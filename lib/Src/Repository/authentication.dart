@@ -20,7 +20,7 @@ class AuthenticationRepo {
       var body = jsonEncode({
         "jsonrpc": "2.0",
         "params": {
-          "db": "INDIACLUB",
+          "db": NetworkUrls.DB,
           "login": getContext.navigatorKey.currentContext!
               .read<AuthenticationProvider>()
               .userName,
@@ -69,7 +69,7 @@ class AuthenticationRepo {
       var body = jsonEncode({
         "jsonrpc": "2.0",
         "params": {
-          "db": "INDIACLUB",
+          "db": NetworkUrls.DB,
         }
       });
 

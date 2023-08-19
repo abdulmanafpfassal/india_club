@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:india_club/Helpers/colors.dart';
 import 'package:india_club/Helpers/utils.dart';
 import 'package:india_club/HomePage/dashboard.dart';
 import 'package:india_club/PreLogin/login_page.dart';
@@ -67,7 +68,7 @@ class AuthenticationProvider with ChangeNotifier {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Failed",
+                    "Access Denied",
                     style:
                         GoogleFonts.poppins(fontSize: 14.sp, color: Colors.red),
                   ),
@@ -75,7 +76,7 @@ class AuthenticationProvider with ChangeNotifier {
                     height: 10.h,
                   ),
                   Text(
-                    "Invalid Credentials",
+                    "Whoops! Your credentials are invalid",
                     style: GoogleFonts.poppins(fontSize: 12.sp),
                   ),
                   SizedBox(height: 10.h),
@@ -83,7 +84,7 @@ class AuthenticationProvider with ChangeNotifier {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      primary: Colors.teal, // Set the background color to teal
+                      primary: ColorPellets.orange, // Set the background color to teal
                     ),
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the dialog box

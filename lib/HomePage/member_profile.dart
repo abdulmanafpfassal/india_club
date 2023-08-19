@@ -568,7 +568,13 @@ class _MemberProfileState extends State<MemberProfile> {
                   SizedBox(
                     height: 3.h,
                   ),
-                  Text(
+                  details.memberDetails["data"][0]["membership_validity"] == false ? Text(
+                    "Membership Expiry: ",
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 11.sp,
+                        color: Colors.black.withOpacity(0.6)),
+                  ) : Text(
                     "Membership Expiry: ${details.memberDetails["data"][0]["membership_validity"]}",
                     style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w500,
@@ -578,7 +584,13 @@ class _MemberProfileState extends State<MemberProfile> {
                   SizedBox(
                     height: 3.h,
                   ),
-                  Text(
+                  details.memberDetails["data"][0]["address"] == false ?  Text(
+                    "Address: ",
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 11.sp,
+                        color: Colors.black.withOpacity(0.6)),
+                  ) : Text(
                     "Address: ${details.memberDetails["data"][0]["address"]}",
                     style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w500,
