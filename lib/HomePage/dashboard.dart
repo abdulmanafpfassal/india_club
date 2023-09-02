@@ -176,7 +176,7 @@ class _DashboardState extends State<Dashboard> {
                 ),
                 items: [
                   "assets/images/banner1.png",
-                  "assets/images/benner-2.jpg"
+                  "assets/images/onam.png"
                 ].map((i) {
                   return Builder(
                     builder: (BuildContext context) {
