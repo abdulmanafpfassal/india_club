@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:india_club/Helpers/utils.dart';
@@ -7,6 +6,7 @@ import 'package:india_club/Src/Provider/authentication_provider.dart';
 import 'package:india_club/Src/Provider/notification_provider.dart';
 import 'package:india_club/Src/Provider/sports_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:india_club/Src/Provider/home_provider.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -14,6 +14,7 @@ void main() {
       ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
       ChangeNotifierProvider(create: (context) => SportsBookingProvider()),
       ChangeNotifierProvider(create: (context) => NotificationProvider()),
+      ChangeNotifierProvider(create: (context) => HomeProvider()),
     ],
     child: MyApp(),
   ));

@@ -13,6 +13,7 @@ import '../Bookings/booking_history.dart';
 import '../Bookings/sports_list.dart';
 import '../Helpers/colors.dart';
 import '../Notification/notification_page.dart';
+import '../Src/Provider/home_provider.dart';
 import '../Src/Provider/sports_provider.dart';
 import 'drawer.dart';
 
@@ -25,24 +26,40 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   int _currentBannerIndex = 0;
+  int carouselIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int index1 = -1;
 
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 0), () {
-      getContext.navigatorKey.currentContext!
+    Future.delayed(Duration(seconds: 0), () async {
+       getContext.navigatorKey.currentContext!
           .read<SportsBookingProvider>()
           .setProfile();
-      getContext.navigatorKey.currentContext!
+       getContext.navigatorKey.currentContext!
           .read<AuthenticationProvider>()
           .setMemberDetails();
-      getContext.navigatorKey.currentContext!
+       getContext.navigatorKey.currentContext!
           .read<SportsBookingProvider>()
           .setSportsList();
-      getContext.navigatorKey.currentContext!
+       getContext.navigatorKey.currentContext!
           .read<SportsBookingProvider>()
           .setBookingHistory();
+      await getContext.navigatorKey.currentContext!
+          .read<HomeProvider>()
+          .setBannerImage();
+
+      for (int i = 1; i <= 4; i++) {
+        String bannerImageKey = "banner_image_$i";
+        if (getContext.navigatorKey.currentContext!
+                .read<HomeProvider>()
+                .banner_images["data"][0][bannerImageKey] !=
+            "") {
+          setState(() {
+            carouselIndex++;
+          });
+        }
+      }
     });
     super.initState();
   }
@@ -111,8 +128,7 @@ class _DashboardState extends State<Dashboard> {
           ),
           InkWell(
             onTap: () {
-              showDialog(
-                  context: context, builder: (ctx) => LogoutDialog());
+              showDialog(context: context, builder: (ctx) => LogoutDialog());
             },
             child: Icon(
               IconlyLight.logout,
@@ -163,43 +179,50 @@ class _DashboardState extends State<Dashboard> {
               SizedBox(
                 height: 10.h,
               ),
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: 140.h,
-                  viewportFraction: 1,
-                  autoPlay: true,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _currentBannerIndex = index;
-                    });
-                  },
-                ),
-                items: [
-                  "assets/images/banner1.png",
-                  "assets/images/onam.png"
-                ].map((i) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10.r),
-                            image: DecorationImage(
-                                image: AssetImage(i), fit: BoxFit.cover)),
-                      );
-                    },
-                  );
-                }).toList(),
-              ),
+              Consumer<HomeProvider>(builder: (context, provider, _) {
+                return provider.banner_images != null
+                    ? CarouselSlider(
+                        options: CarouselOptions(
+                          height: 140.h,
+                          viewportFraction: 1,
+                          autoPlay: true,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _currentBannerIndex = index;
+                            });
+                          },
+                        ),
+                        items: [
+                          provider.banner_images["data"][0]["banner_image_url_1"],
+                          provider.banner_images["data"][0]["banner_image_url_2"],
+                          provider.banner_images["data"][0]["banner_image_url_3"],
+                          provider.banner_images["data"][0]["banner_image_url_4"]
+                        ].map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    image: DecorationImage(
+                                        image: NetworkImage(i),
+                                        fit: BoxFit.cover)),
+                              );
+                            },
+                          );
+                        }).toList(),
+                      )
+                    : Container();
+              }),
               SizedBox(
                 height: 5.h,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  for (int i = 0; i < 2; i++)
+                  for (int i = 0; i < carouselIndex; i++)
                     Container(
                       width: 6,
                       height: 6,
@@ -368,8 +391,8 @@ class _DashboardState extends State<Dashboard> {
                                         width: 100.w,
                                         decoration: BoxDecoration(
                                           border: Border.all(
-                                              color: Colors.grey
-                                                      .withOpacity(0.3)),
+                                              color:
+                                                  Colors.grey.withOpacity(0.3)),
                                           borderRadius:
                                               BorderRadius.circular(10.r),
                                         ),
@@ -379,7 +402,9 @@ class _DashboardState extends State<Dashboard> {
                                           children: [
                                             Center(
                                               child: Container(
-                                                width: currentIndex == 2 ? 45.w : 55.w,
+                                                width: currentIndex == 2
+                                                    ? 45.w
+                                                    : 55.w,
                                                 decoration: BoxDecoration(
                                                     borderRadius: BorderRadius
                                                         .only(
@@ -422,95 +447,101 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             );
                     }),
-                    SizedBox(height: 10.h,),
+                    SizedBox(
+                      height: 10.h,
+                    ),
                     Consumer<SportsBookingProvider>(
                         builder: (context, sports, _) {
                       return sports.sportsList2 != null ||
                               sports.isLoading != true
                           ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: sports.sportsList2["data"]
                                   .asMap()
                                   .entries
                                   .map<Widget>((entry) {
-                              int currentIndex = entry.key;
-                              dynamic data = entry.value;
+                                int currentIndex = entry.key;
+                                dynamic data = entry.value;
 
-                              return InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    index1 = currentIndex;
-                                    sports.setActivityId(data["id"].toString());
-                                    sports.setSportsName(data["activity"]);
-                                    Future.delayed(Duration(seconds: 0),
-                                        () async {
-                                      await Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CourtBooking()));
-                                      index1 = -1;
+                                return InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      index1 = currentIndex;
+                                      sports
+                                          .setActivityId(data["id"].toString());
+                                      sports.setSportsName(data["activity"]);
+                                      Future.delayed(Duration(seconds: 0),
+                                          () async {
+                                        await Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CourtBooking()));
+                                        index1 = -1;
+                                      });
                                     });
-                                  });
-                                },
-                                child: Container(
-                                  margin:
-                                      EdgeInsets.only(right: 20.w, top: 10.h),
-                                  child: Material(
-                                    borderRadius: BorderRadius.circular(10.r),
-                                    color: Colors.white,
-                                    elevation: 4,
-                                    child: Container(
-                                      // margin:
-                                      //     EdgeInsets.only(right: 13.w, top: 10.h),
-                                      height: 100.h,
-                                      width: 100.w,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.grey.withOpacity(0.3)),
-                                        borderRadius:
-                                            BorderRadius.circular(10.r),
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Center(
-                                            child: Container(
-                                              width: currentIndex == 0 ? 45.w : 55.w,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  10.r),
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  10.r))),
-                                              child: Center(
-                                                child: Image.asset(
-                                                  data["icon"],
+                                  },
+                                  child: Container(
+                                    margin:
+                                        EdgeInsets.only(right: 20.w, top: 10.h),
+                                    child: Material(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      color: Colors.white,
+                                      elevation: 4,
+                                      child: Container(
+                                        // margin:
+                                        //     EdgeInsets.only(right: 13.w, top: 10.h),
+                                        height: 100.h,
+                                        width: 100.w,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color:
+                                                  Colors.grey.withOpacity(0.3)),
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Center(
+                                              child: Container(
+                                                width: currentIndex == 0
+                                                    ? 45.w
+                                                    : 55.w,
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius
+                                                        .only(
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    10.r),
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    10.r))),
+                                                child: Center(
+                                                  child: Image.asset(
+                                                    data["icon"],
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 6.h,
-                                          ),
-                                          Text(
-                                            data["activity"],
-                                            // Assuming "name" is the key for the sport's name
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 11.sp,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          SizedBox()
-                                        ],
+                                            SizedBox(
+                                              height: 6.h,
+                                            ),
+                                            Text(
+                                              data["activity"],
+                                              // Assuming "name" is the key for the sport's name
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: 11.sp,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            SizedBox()
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
-                            }).toList())
+                                );
+                              }).toList())
                           : Container(
                               child: Center(
                                 child: CircularProgressIndicator(
