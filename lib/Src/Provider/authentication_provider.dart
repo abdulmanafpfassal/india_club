@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:india_club/Helpers/colors.dart';
 import 'package:india_club/Helpers/utils.dart';
@@ -24,6 +25,7 @@ class AuthenticationProvider with ChangeNotifier {
   String userName = "";
   String password = "";
   dynamic memberDetails;
+  dynamic resetPasswordData;
 
   setUserAndPassword(String text1, String text2) {
     userName = text1;
@@ -126,6 +128,34 @@ class AuthenticationProvider with ChangeNotifier {
       getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().setEmail(memberDetails["data"][0]["email"].toString());
       getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().setGender(memberDetails["data"][0]["gender"]);
     }
+    notifyListeners();
+  }
+
+  doResetPassword(String email) async {
+    setIsLoading(true);
+    resetPasswordData = await _authenticationRepo.resetPassword(email);
+    setIsLoading(false);
+    log("message" + resetPasswordData.toString());
+    if(resetPasswordData.containsKey("result")){
+      Fluttertoast.showToast(
+        msg: resetPasswordData["result"]["message"].toString(),
+        toastLength: Toast.LENGTH_LONG, // You can change this to Toast.LENGTH_LONG if you want a longer duration
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1, // iOS only
+        backgroundColor: Colors.greenAccent,
+        textColor: Colors.black,
+        fontSize: 12.0,
+      );
+    }else{
+      Fluttertoast.showToast(
+        msg: "User Doesn't Exist",
+        toastLength: Toast.LENGTH_LONG, // You can change this to Toast.LENGTH_LONG if you want a longer duration
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1, // iOS only
+        backgroundColor: Colors.redAccent,
+        textColor: Colors.black,
+        fontSize: 12.0,
+      );    }
     notifyListeners();
   }
 
