@@ -88,12 +88,12 @@ class _MemberProfileState extends State<MemberProfile> {
                         BoxDecoration(color: ColorPellets.orange.withOpacity(0.07)),
                     child: Column(
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(200.r),
-                          child: Image.network(
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(
                             getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().profileImage,
-                            height: 60.h,
+                            // height: 60.h,
                           ),
+                          radius: 30.r,
                         ),
                         SizedBox(
                           height: 10.h,

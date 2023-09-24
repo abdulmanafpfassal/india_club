@@ -45,12 +45,12 @@ class _DrawerPageState extends State<DrawerPage> {
                   children: [
                     Row(
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(200.r),
-                          child: Image.network(
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(
                             getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().profileImage,
-                            height: 60.h,
+                            // height: 60.h,
                           ),
+                          radius: 30.r,
                         ),
                         SizedBox(
                           width: 10.w,
