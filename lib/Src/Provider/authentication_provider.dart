@@ -129,4 +129,32 @@ class AuthenticationProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  doResetPassword(String email) async {
+    setIsLoading(true);
+    resetPasswordData = await _authenticationRepo.resetPassword(email);
+    setIsLoading(false);
+    log("message" + resetPasswordData.toString());
+    if(resetPasswordData.containsKey("result")){
+      Fluttertoast.showToast(
+        msg: resetPasswordData["result"]["message"].toString(),
+        toastLength: Toast.LENGTH_LONG, // You can change this to Toast.LENGTH_LONG if you want a longer duration
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1, // iOS only
+        backgroundColor: Colors.greenAccent,
+        textColor: Colors.black,
+        fontSize: 12.0,
+      );
+    }else{
+      Fluttertoast.showToast(
+        msg: "User Doesn't Exist",
+        toastLength: Toast.LENGTH_LONG, // You can change this to Toast.LENGTH_LONG if you want a longer duration
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1, // iOS only
+        backgroundColor: Colors.redAccent,
+        textColor: Colors.black,
+        fontSize: 12.0,
+      );    }
+    notifyListeners();
+  }
+
 }
