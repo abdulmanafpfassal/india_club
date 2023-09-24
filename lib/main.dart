@@ -8,12 +8,15 @@ import 'package:india_club/Src/Provider/notification_provider.dart';
 import 'package:india_club/Src/Provider/sports_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'Src/Provider/home_provider.dart';
+
 void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
       ChangeNotifierProvider(create: (context) => SportsBookingProvider()),
       ChangeNotifierProvider(create: (context) => NotificationProvider()),
+      ChangeNotifierProvider(create: (context) => HomeProvider()),
     ],
     child: MyApp(),
   ));

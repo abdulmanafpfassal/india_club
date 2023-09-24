@@ -115,4 +115,30 @@ class AuthenticationRepo {
     return responseData;
   }
 
+  Future<Map<String, dynamic>> resetPassword(String email) async {
+    Map<String, dynamic> responseData = {};
+    try{
+      Map<String, String> headers = {
+        'Content-Type': 'application/json'
+      };
+
+      var body = jsonEncode({
+        "login": email
+      });
+
+      log("message" + body.toString());
+
+      final response = await _service.postResponse(NetworkUrls.reset_password, body, headers);
+      log("message " + response.statusCode.toString());
+      if(response.statusCode == 200){
+        Map<String, dynamic> responseBody = jsonDecode(response.body);
+        responseData = responseBody;
+      }
+
+    }catch (e) {
+      log("the error caused is " + e.toString());
+    }
+    return responseData;
+  }
+
 }

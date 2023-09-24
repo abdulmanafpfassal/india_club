@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:india_club/Helpers/colors.dart';
 import 'package:india_club/Helpers/utils.dart';
@@ -17,10 +18,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   AuthenticationRepo _authenticationRepo = AuthenticationRepo();
-  ShowMToast _mToast = ShowMToast();
+  ShowMToast _mToast = ShowMToast(getContext.navigatorKey.currentContext!);
   dynamic loginResponse;
   dynamic logoutResponse;
   bool isLoading = false;
+  dynamic resetPasswordData;
   String userName = "";
   String password = "";
   dynamic memberDetails;
@@ -105,7 +107,7 @@ class AuthenticationProvider with ChangeNotifier {
     logoutResponse = await _authenticationRepo.doLogout();
     if (logoutResponse.containsKey("error")) {
       Future.delayed(Duration(seconds: 1), () {
-        _mToast.errorToast(getContext.navigatorKey.currentContext!,
+        _mToast.errorToast(
             message: "Server Error", alignment: Alignment.bottomCenter);
       });
       isLoading = false;
