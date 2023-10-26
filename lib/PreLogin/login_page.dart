@@ -23,7 +23,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-  ShowMToast _mToast = ShowMToast();
+  ShowMToast _mToast = ShowMToast(getContext.navigatorKey.currentContext!);
   bool obscure = true;
 
   @override
@@ -207,7 +207,6 @@ class _LoginPageState extends State<LoginPage> {
                                   login.doLogin();
                                 } else {
                                   _mToast.errorToast(
-                                      getContext.navigatorKey.currentContext!,
                                       message:
                                           "Please fill all the required fields",
                                       alignment: Alignment.bottomCenter);

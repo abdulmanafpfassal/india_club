@@ -18,7 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   AuthenticationRepo _authenticationRepo = AuthenticationRepo();
-  ShowMToast _mToast = ShowMToast();
+  ShowMToast _mToast = ShowMToast(getContext.navigatorKey.currentContext!);
   dynamic loginResponse;
   dynamic logoutResponse;
   bool isLoading = false;
@@ -107,7 +107,7 @@ class AuthenticationProvider with ChangeNotifier {
     logoutResponse = await _authenticationRepo.doLogout();
     if (logoutResponse.containsKey("error")) {
       Future.delayed(Duration(seconds: 1), () {
-        _mToast.errorToast(getContext.navigatorKey.currentContext!,
+        _mToast.errorToast(
             message: "Server Error", alignment: Alignment.bottomCenter);
       });
       isLoading = false;

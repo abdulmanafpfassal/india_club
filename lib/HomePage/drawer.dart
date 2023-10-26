@@ -246,7 +246,7 @@ class _DrawerPageState extends State<DrawerPage> {
         height: 30.h,
         child: Center(
           child: Text(
-            "Version 1.0.6",
+            "Version 1.0.7",
             style: GoogleFonts.poppins(color: Colors.grey),
           ),
         ),
