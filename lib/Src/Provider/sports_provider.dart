@@ -8,6 +8,7 @@ import 'package:india_club/HomePage/dashboard.dart';
 import 'package:india_club/Src/Provider/notification_provider.dart';
 import 'package:india_club/Src/Repository/sports_repo.dart';
 import 'package:intl/intl.dart';
+import 'package:m_toast/m_toast.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +16,7 @@ import '../../Helpers/colors.dart';
 
 class SportsBookingProvider with ChangeNotifier {
   SportsBookingRepo _bookingRepo = SportsBookingRepo();
+  ShowMToast mToast = ShowMToast(getContext.navigatorKey.currentContext!);
 
   bool isLoading = false;
   dynamic sportsList1;
@@ -336,11 +338,13 @@ class SportsBookingProvider with ChangeNotifier {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Thank You!",
-                    style: GoogleFonts.poppins(
-                      fontSize: 14.sp,
-                    ),
+                    "${courtBooking["result"]["message"].toString()}",
+                    style: GoogleFonts.poppins(fontSize: 12.sp),
                   ),
+                  courtBooking["result"]["data"].isNotEmpty && courtBooking["result"]["data"].containsKey("booking_reference") ? Text(
+                    "Booking Number: ${courtBooking["result"]["data"]["booking_reference"].toString()}",
+                    style: GoogleFonts.poppins(fontSize: 12.sp),
+                  ) : Text(""),
                   SizedBox(
                     height: 10.h,
                   ),
@@ -435,6 +439,12 @@ class SportsBookingProvider with ChangeNotifier {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var uid = preferences.getInt("partnerId");
     profileImage = "https://members.indiaclubdubai.com/kg_mobile_api/static/profile_images/${uid}_start.jpg";
+  }
+
+  doCancelBooking(String bookingId) async {
+    await _bookingRepo.cancelBooking(bookingId);
+    mToast.successToast(message: "Booking Cancelled Successfully", alignment: Alignment.bottomCenter);
+    setBookingHistory();
   }
 
 }

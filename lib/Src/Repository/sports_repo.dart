@@ -205,4 +205,38 @@ class SportsBookingRepo {
     return "";
   }
 
+  Future<String> cancelBooking(String bookingID) async {
+    try{
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      var session_id = preferences.getString("session");
+      var uid = preferences.getInt("uid");
+      var memberId = preferences.getInt("partnerId");
+
+
+      print("session"+session_id.toString());
+
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        "X-Openerp-Session-id": "$session_id"
+      };
+
+      var body = jsonEncode({
+        "user_id": uid,
+        "booking_ref": bookingID,
+        "member_id": memberId
+      });
+
+      final response = await _service.postResponse(NetworkUrls.cancel_booking,body, headers);
+
+      if(response.statusCode == 200){
+        Map<String, dynamic> responseBody = jsonDecode(response.body);
+        print(responseBody.toString());
+      }
+
+    }catch (e){
+      log(e.toString());
+    }
+    return "";
+  }
+
 }

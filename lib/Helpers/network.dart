@@ -1,7 +1,7 @@
 class NetworkUrls {
   static String DB = "INDIACLUB";
 
-  //static String DB = "indiaclub1";
+  // static String DB = "indiaclub1";
 
   // static String BASE_URL = "http://itron.klystron.global:9947/";
   static String BASE_URL = "https://members.indiaclubdubai.com/";
@@ -17,4 +17,6 @@ class NetworkUrls {
   static String profile = "web/image?model=res.users&id=";
   static String banner_images = "api/get_banner_images?user_id=";
   static String reset_password = "api/reset_password";
+  static String cancel_booking = "api/booking_cancel";
+
 }
