@@ -636,11 +636,40 @@ class _DashboardState extends State<Dashboard> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        data["activity"],
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 11.sp,
-                                            fontWeight: FontWeight.w500),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            data["activity"],
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 11.sp,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          data["state_name"]
+                                              .toString()
+                                              .contains("Cancelled") ||
+                                              data["state_name"]
+                                                  .toString()
+                                                  .contains("Approve")
+                                              ? SizedBox()
+                                              : PopupMenuButton<String>(
+                                            iconSize: 15.sp,
+                                            onSelected: (String choice) {
+                                              booking.doCancelBooking(data["name"]);
+                                            },
+                                            itemBuilder:
+                                                (BuildContext context) {
+                                              return {
+                                                'Cancel',
+                                              }.map((String choice) {
+                                                return PopupMenuItem<String>(
+                                                  value: choice,
+                                                  child: Text(choice),
+                                                );
+                                              }).toList();
+                                            },
+                                          ),
+                                        ],
                                       ),
                                       Text(
                                         "Court Name: ${data["court_name"]}",
@@ -660,6 +689,11 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                       Text(
                                         "Booking Time: ${data["booking_date"].toString().split("T")[0]}",
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 11.sp),
+                                      ),
+                                      Text(
+                                        "Booking Status: ${data["state_name"]}",
                                         style: GoogleFonts.poppins(
                                             fontSize: 11.sp),
                                       ),

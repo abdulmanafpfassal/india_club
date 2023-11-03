@@ -39,8 +39,8 @@ class _BookingHistoryState extends State<BookingHistory> {
         actions: [
           InkWell(
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => NotificationPage()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => NotificationPage()));
             },
             child: Icon(
               IconlyLight.notification,
@@ -52,8 +52,7 @@ class _BookingHistoryState extends State<BookingHistory> {
           ),
           InkWell(
             onTap: () {
-              showDialog(
-                  context: context, builder: (ctx) => LogoutDialog());
+              showDialog(context: context, builder: (ctx) => LogoutDialog());
             },
             child: Icon(
               IconlyLight.logout,
@@ -65,87 +64,130 @@ class _BookingHistoryState extends State<BookingHistory> {
           ),
         ],
       ),
-      body:  RefreshIndicator(
+      body: RefreshIndicator(
         color: ColorPellets.orange,
         onRefresh: () async {
-          getContext.navigatorKey.currentContext!.read<SportsBookingProvider>().setBookingHistory();
+          getContext.navigatorKey.currentContext!
+              .read<SportsBookingProvider>()
+              .setBookingHistory();
         },
         child: Container(
           margin: EdgeInsets.all(10.0),
-          child: Consumer<SportsBookingProvider>(
-            builder: (context, booking, _) {
-              return booking.bookingHistory != null || booking.bookingHistory["data"] != [] ? ListView.separated(
-                  separatorBuilder: (context, ind) {
-                    return SizedBox(
-                      height: 12.sp,
-                    );
-                  },
-                  shrinkWrap: true,
-                  itemCount: booking.bookingHistory["data"].length,
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    var data = booking.bookingHistory["data"][index];
-                    return Container(
-                      width: getWidth(context),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.r),
-                          border: Border.all(
-                              color: ColorPellets.orange.withOpacity(0.15))),
-                      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 40.h,
-                            width: 50.w,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100.r),
-                                color: ColorPellets.orange.withOpacity(0.15)),
-                            child: Center(
-                              child: Image.asset(
-                                "assets/images/sports_icon.png",
-                                width: 25.w,
-                                color: ColorPellets.orange,
+          child:
+              Consumer<SportsBookingProvider>(builder: (context, booking, _) {
+            return booking.bookingHistory != null ||
+                    booking.bookingHistory["data"] != []
+                ? ListView.separated(
+                    separatorBuilder: (context, ind) {
+                      return SizedBox(
+                        height: 12.sp,
+                      );
+                    },
+                    shrinkWrap: true,
+                    itemCount: booking.bookingHistory["data"].length,
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      var data = booking.bookingHistory["data"][index];
+                      return Container(
+                        width: getWidth(context),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.r),
+                            border: Border.all(
+                                color: ColorPellets.orange.withOpacity(0.15))),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 10.h),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 40.h,
+                              width: 50.w,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100.r),
+                                  color: ColorPellets.orange.withOpacity(0.15)),
+                              child: Center(
+                                child: Image.asset(
+                                  "assets/images/sports_icon.png",
+                                  width: 25.w,
+                                  color: ColorPellets.orange,
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(width: 10.w
-                            ,),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(data["activity"], style: GoogleFonts.poppins(
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.w500
-                                ),),
-                                Text("Court Name: ${data["court_name"]}", style: GoogleFonts.poppins(
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.w500
-                                ),),
-                                Text(
-                                  "Booking Reference No: ${data["name"].toString().split("T")[0]}",
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 11.sp),
-                                ),
-                                Text(
-                                  "Slot: ${data["slot_name"].toString().split("T")[0]}",
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 11.sp),
-                                ),
-                                Text("Booking Time: ${data["booking_date"].toString().split("T")[0]}", style: GoogleFonts.poppins(
-                                    fontSize: 11.sp
-                                ),),
-                              ],
+                            SizedBox(
+                              width: 10.w,
                             ),
-                          )
-                        ],
-                      ),
-                    );
-                  }): Center(
-                child: Text("No Bookings Found"),
-              );
-            }
-          ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        data["activity"],
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 11.sp,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      data["state_name"]
+                                                  .toString()
+                                                  .contains("Cancelled") ||
+                                              data["state_name"]
+                                                  .toString()
+                                                  .contains("Approve")
+                                          ? SizedBox()
+                                          : PopupMenuButton<String>(
+                                              iconSize: 15.sp,
+                                              onSelected: (String choice) {
+                                                booking.doCancelBooking(data["name"]);
+                                              },
+                                              itemBuilder:
+                                                  (BuildContext context) {
+                                                return {
+                                                  'Cancel',
+                                                }.map((String choice) {
+                                                  return PopupMenuItem<String>(
+                                                    value: choice,
+                                                    child: Text(choice),
+                                                  );
+                                                }).toList();
+                                              },
+                                            ),
+                                    ],
+                                  ),
+                                  Text(
+                                    "Court Name: ${data["court_name"]}",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Text(
+                                    "Booking Reference No: ${data["name"].toString().split("T")[0]}",
+                                    style: GoogleFonts.poppins(fontSize: 11.sp),
+                                  ),
+                                  Text(
+                                    "Slot: ${data["slot_name"].toString().split("T")[0]}",
+                                    style: GoogleFonts.poppins(fontSize: 11.sp),
+                                  ),
+                                  Text(
+                                    "Booking Time: ${data["booking_date"].toString().split("T")[0]}",
+                                    style: GoogleFonts.poppins(fontSize: 11.sp),
+                                  ),
+                                  Text(
+                                    "Booking Status: ${data["state_name"]}",
+                                    style: GoogleFonts.poppins(fontSize: 11.sp),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    })
+                : Center(
+                    child: Text("No Bookings Found"),
+                  );
+          }),
         ),
       ),
     );

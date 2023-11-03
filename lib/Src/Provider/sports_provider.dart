@@ -3,11 +3,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:india_club/Helpers/network.dart';
 import 'package:india_club/Helpers/utils.dart';
 import 'package:india_club/HomePage/dashboard.dart';
 import 'package:india_club/Src/Provider/notification_provider.dart';
 import 'package:india_club/Src/Repository/sports_repo.dart';
 import 'package:intl/intl.dart';
+import 'package:m_toast/m_toast.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +17,8 @@ import '../../Helpers/colors.dart';
 
 class SportsBookingProvider with ChangeNotifier {
   SportsBookingRepo _bookingRepo = SportsBookingRepo();
+
+  ShowMToast mToast = ShowMToast(getContext.navigatorKey.currentContext!);
 
   bool isLoading = false;
   dynamic sportsList1;
@@ -140,77 +144,13 @@ class SportsBookingProvider with ChangeNotifier {
 
   setSportsList() async {
     setIsLoading(true);
-    // sportsList1 = {
-    //   "message": "All Games have been fetched successfully",
-    //   "status": true,
-    //   "status_code": 200,
-    //   "data": [
-    //     {
-    //       "id": 4,
-    //       "sequence": "SP00001",
-    //       "activity": "TENNIS",
-    //       "activity_type": "games",
-    //       "court_ids": null,
-    //       "company_id": 1,
-    //       "company_name": "India Club Dubai",
-    //       "icon": "assets/images/tennis.png"
-    //     },
-    //     {
-    //       "id": 3,
-    //       "sequence": "SP00002",
-    //       "activity": "BADMINTON",
-    //       "activity_type": "games",
-    //       "court_ids": null,
-    //       "company_id": 1,
-    //       "company_name": "India Club Dubai",
-    //       "icon": "assets/images/badminton.png"
-    //     },
-    //     {
-    //       "id": 1,
-    //       "sequence": "SP00004",
-    //       "activity": "CRICKET",
-    //       "activity_type": "games",
-    //       "court_ids": null,
-    //       "company_id": 1,
-    //       "company_name": "India Club Dubai",
-    //       "icon": "assets/images/cricket.png"
-    //     },
-    //   ]
-    // };
-    // sportsList2 = {
-    //   "message": "All Games have been fetched successfully",
-    //   "status": true,
-    //   "status_code": 200,
-    //   "data": [
-    //     {
-    //       "id": 2,
-    //       "sequence": "SP00005",
-    //       "activity": "FOOTBALL",
-    //       "activity_type": "games",
-    //       "court_ids": null,
-    //       "company_id": 1,
-    //       "company_name": "India Club Dubai",
-    //       "icon": "assets/images/football.png"
-    //     },
-    //     {
-    //       "id": 5,
-    //       "sequence": "SP00006",
-    //       "activity": "SQUASH",
-    //       "activity_type": "games",
-    //       "court_ids": null,
-    //       "company_id": 1,
-    //       "company_name": "India Club Dubai",
-    //       "icon": "assets/images/squash.png"
-    //     }
-    //   ]
-    // };
     sportsList1 = {
       "message": "All Games have been fetched successfully",
       "status": true,
       "status_code": 200,
       "data": [
         {
-          "id": 1,
+          "id": 4,
           "sequence": "SP00001",
           "activity": "TENNIS",
           "activity_type": "games",
@@ -220,7 +160,7 @@ class SportsBookingProvider with ChangeNotifier {
           "icon": "assets/images/tennis.png"
         },
         {
-          "id": 2,
+          "id": 3,
           "sequence": "SP00002",
           "activity": "BADMINTON",
           "activity_type": "games",
@@ -230,7 +170,7 @@ class SportsBookingProvider with ChangeNotifier {
           "icon": "assets/images/badminton.png"
         },
         {
-          "id": 4,
+          "id": 1,
           "sequence": "SP00004",
           "activity": "CRICKET",
           "activity_type": "games",
@@ -247,7 +187,7 @@ class SportsBookingProvider with ChangeNotifier {
       "status_code": 200,
       "data": [
         {
-          "id": 5,
+          "id": 2,
           "sequence": "SP00005",
           "activity": "FOOTBALL",
           "activity_type": "games",
@@ -257,7 +197,7 @@ class SportsBookingProvider with ChangeNotifier {
           "icon": "assets/images/football.png"
         },
         {
-          "id": 6,
+          "id": 5,
           "sequence": "SP00006",
           "activity": "SQUASH",
           "activity_type": "games",
@@ -268,6 +208,70 @@ class SportsBookingProvider with ChangeNotifier {
         }
       ]
     };
+    // sportsList1 = {
+    //   "message": "All Games have been fetched successfully",
+    //   "status": true,
+    //   "status_code": 200,
+    //   "data": [
+    //     {
+    //       "id": 1,
+    //       "sequence": "SP00001",
+    //       "activity": "TENNIS",
+    //       "activity_type": "games",
+    //       "court_ids": null,
+    //       "company_id": 1,
+    //       "company_name": "India Club Dubai",
+    //       "icon": "assets/images/tennis.png"
+    //     },
+    //     {
+    //       "id": 2,
+    //       "sequence": "SP00002",
+    //       "activity": "BADMINTON",
+    //       "activity_type": "games",
+    //       "court_ids": null,
+    //       "company_id": 1,
+    //       "company_name": "India Club Dubai",
+    //       "icon": "assets/images/badminton.png"
+    //     },
+    //     {
+    //       "id": 4,
+    //       "sequence": "SP00004",
+    //       "activity": "CRICKET",
+    //       "activity_type": "games",
+    //       "court_ids": null,
+    //       "company_id": 1,
+    //       "company_name": "India Club Dubai",
+    //       "icon": "assets/images/cricket.png"
+    //     },
+    //   ]
+    // };
+    // sportsList2 = {
+    //   "message": "All Games have been fetched successfully",
+    //   "status": true,
+    //   "status_code": 200,
+    //   "data": [
+    //     {
+    //       "id": 5,
+    //       "sequence": "SP00005",
+    //       "activity": "FOOTBALL",
+    //       "activity_type": "games",
+    //       "court_ids": null,
+    //       "company_id": 1,
+    //       "company_name": "India Club Dubai",
+    //       "icon": "assets/images/football.png"
+    //     },
+    //     {
+    //       "id": 6,
+    //       "sequence": "SP00006",
+    //       "activity": "SQUASH",
+    //       "activity_type": "games",
+    //       "court_ids": null,
+    //       "company_id": 1,
+    //       "company_name": "India Club Dubai",
+    //       "icon": "assets/images/squash.png"
+    //     }
+    //   ]
+    // };
     setIsLoading(false);
     notifyListeners();
   }
@@ -340,7 +344,7 @@ class SportsBookingProvider with ChangeNotifier {
 
     for (var data in courtList["data"]) {
       var slotAvailability = await _bookingRepo.getCourtSlot(data["id"].toString());
-      data["slot_availability"] = slotAvailability["data"][0]["available_slots"];
+      data["slot_availability"] = slotAvailability["data"]["available_slots"];
 
       log("message" + date.toString());
       log("message" + DateFormat('yyyy-MM-dd').format(DateTime.now()).toString());
@@ -399,7 +403,13 @@ class SportsBookingProvider with ChangeNotifier {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
+                  courtBooking["result"]["data"]["outstanding"] ? Text(
+                    "Warning",
+                    style: GoogleFonts.poppins(
+                      fontSize: 14.sp,
+                      color: Colors.red
+                    ),
+                  ) : Text(
                     "Thank You!",
                     style: GoogleFonts.poppins(
                       fontSize: 14.sp,
@@ -412,7 +422,7 @@ class SportsBookingProvider with ChangeNotifier {
                     "${courtBooking["result"]["message"].toString()}",
                     style: GoogleFonts.poppins(fontSize: 12.sp),
                   ),
-                  courtBooking["result"]["data"].isNotEmpty ? Text(
+                  courtBooking["result"]["data"].isNotEmpty && courtBooking["result"]["data"].containsKey("booking_reference") ? Text(
                     "Booking Number: ${courtBooking["result"]["data"]["booking_reference"].toString()}",
                     style: GoogleFonts.poppins(fontSize: 12.sp),
                   ) : Text(""),
@@ -488,7 +498,7 @@ class SportsBookingProvider with ChangeNotifier {
   setBookingHistory() async {
     setIsLoading(true);
     bookingHistory = await _bookingRepo.getBookingDetails();
-    log("message" + bookingHistory.toString());
+    log("the booking histories are" + bookingHistory.toString());
     notifyListeners();
     setIsLoading(false);
   }
@@ -498,8 +508,13 @@ class SportsBookingProvider with ChangeNotifier {
   setProfile() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var uid = preferences.getInt("partnerId");
-    // profileImage = "https://members.indiaclubdubai.com/kg_mobile_api/static/profile_images/${uid}_start.jpg";
-    profileImage = "http://itron.klystron.global:9947/kg_mobile_api/static/profile_images/${uid}_start.jpg";
+    profileImage = "${NetworkUrls.BASE_URL}/kg_mobile_api/static/profile_images/${uid}_start.jpg";
+  }
+
+  doCancelBooking(String bookingId) async {
+    await _bookingRepo.cancelBooking(bookingId);
+    mToast.successToast(message: "Booking Cancelled Successfully", alignment: Alignment.bottomCenter);
+    setBookingHistory();
   }
 
 }
