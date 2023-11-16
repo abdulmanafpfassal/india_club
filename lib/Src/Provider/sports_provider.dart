@@ -170,7 +170,7 @@ class SportsBookingProvider with ChangeNotifier {
           "icon": "assets/images/badminton.png"
         },
         {
-          "id": 1,
+          "id": 2,
           "sequence": "SP00004",
           "activity": "CRICKET",
           "activity_type": "games",
@@ -251,7 +251,7 @@ class SportsBookingProvider with ChangeNotifier {
     //   "status_code": 200,
     //   "data": [
     //     {
-    //       "id": 5,
+    //       "id": 4,
     //       "sequence": "SP00005",
     //       "activity": "FOOTBALL",
     //       "activity_type": "games",

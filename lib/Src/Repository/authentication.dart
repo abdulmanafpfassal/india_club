@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
-
+import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:india_club/Helpers/network.dart';
 import 'package:india_club/Helpers/utils.dart';
@@ -8,6 +8,8 @@ import 'package:india_club/Src/Provider/authentication_provider.dart';
 import 'package:india_club/Src/WebService/webService.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../PreLogin/login_page.dart';
 
 class AuthenticationRepo {
   ApiService _service = ApiService();
@@ -107,6 +109,11 @@ class AuthenticationRepo {
       if (response.statusCode == 200) {
         Map<String, dynamic> responseBody = jsonDecode(response.body);
         responseData = responseBody;
+      }else {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.of(getContext.navigatorKey.currentContext!).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (ctx) => LoginPage()), (route) => false);
       }
     } catch (e) {
       log(e.toString());
