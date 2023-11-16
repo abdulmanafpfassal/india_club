@@ -168,7 +168,7 @@ class SportsBookingProvider with ChangeNotifier {
           "icon": "assets/images/badminton.png"
         },
         {
-          "id": 1,
+          "id": 2,
           "sequence": "SP00004",
           "activity": "CRICKET",
           "activity_type": "games",
